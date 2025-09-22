@@ -1,0 +1,114 @@
+/* General Styles */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #121212;
+  color: #f0f0f0;
+}
+
+/* Centered Wrapper */
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #1e1e1e, #121212);
+}
+
+/* Login / Register / Contact Box */
+.login-box {
+  background: #1c1c1c;
+  padding: 40px;
+  border-radius: 12px;
+  width: 360px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+  text-align: center;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.login-header .logo {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 10px;
+  background: #007BFF;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.login-header h2 {
+  margin-bottom: 5px;
+  color: #fff;
+}
+
+.login-header p {
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #aaa;
+}
+
+/* Form Fields */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: #2a2a2a;
+  color: #f0f0f0;
+  font-size: 14px;
+  outline: none;
+  transition: 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #007BFF;
+  background: #333;
+}
+
+/* Button */
+.login-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #007BFF;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.login-btn:hover {
+  background: #0056b3;
+}
+
+/* Register / Contact link */
+.register-link {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.register-link a {
+  color: #007BFF;
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

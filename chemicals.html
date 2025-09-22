@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chemicals - Lab Equipment Store</title>
+  <link rel="stylesheet" href="chemicals.css">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <h1>Chemicals</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="products.html">Products</a>
+      <a href="chemicals.html">Chemicals</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+      <a href="cart.html">Cart🛒</a>
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
+
+  <!-- Chemicals Sections -->
+  <main class="products-container">
+
+    <!-- Organic Chemicals -->
+    <h2>Organic Chemicals</h2>
+    <div class="products-grid">
+      <div class="product-box">
+        <img src="assets/ethanol.webp" alt="Ethanol chemical bottle">
+        <h3>Ethanol (C2H5OH)</h3>
+        <p>Common solvent and disinfectant used in labs.</p>
+        <p>₹200</p>
+        <div class="qty-controls">
+          <button onclick="decreaseQty(this)">-</button>
+          <span>0</span>
+          <button onclick="increaseQty(this)">+</button>
+        </div>
+        <button onclick="addToCart('Ethanol chemical bottle',200,'assets/ethanol.webp',this)">Add to Cart</button>
+      </div>
+      </div>
+      <div class="product-box"><img src="assets/benezene.jpg" alt="benezene chemical bottle"> <h3>Benzene (C6H6)</h3><p>Hydrocarbon used in organic synthesis experiments.</p></div>
+      <div class="product-box"><img src="assets/acetone.jpg" alt="acetone chemical bottle"><h3>Acetone(C3H6O)</h3><p>Organic solvent for cleaning and extraction.</p></div>
+    </div>
+    <br>
+    <hr>
+
+    <!-- Inorganic Chemicals -->
+    <h2>Inorganic Chemicals</h2>
+    <div class="products-grid">
+      <div class="product-box"><img src="assets/sodium chloride.jpg"> <h3>Sodium Chloride (NaCl)</h3><p>Common salt used in reactions and solutions.</p></div>
+      <div class="product-box"><img src="assets/hcl.webp"> <h3>Hydrochloric Acid (HCl)</h3><p>Strong acid for lab experiments and titrations.</p></div>
+      <div class="product-box"><img src="assets/koh.png"><h3>Potassium Hydroxide (KOH)</h3><p>Strong base used in chemical synthesis.</p></div>
+    </div>
+    <br>
+    <hr>
+
+    <!-- Analytical Reagents -->
+    <h2>Analytical Reagents</h2>
+    <div class="products-grid">
+      <div class="product-box"><img src="assets/phenop.jpg"><h3>Phenolphthalein</h3><p>pH indicator commonly used in titrations.</p></div>
+      <div class="product-box"><img src="assets/SodiumCarbonateAnhy.webp"><h3>Sodium Carbonate (Na2CO3)</h3><p>Standard solution for quantitative analysis.</p></div>
+      <div class="product-box"><img src="assets/potassium permagnate.webp"><h3>Potassium Permanganate (KMnO4)</h3><p>Oxidizing agent for analytical procedures.</p></div>
+    </div>
+    <br>
+    <hr>
+
+    <!-- Laboratory Reagents -->
+    <h2>Laboratory Reagents</h2>
+    <div class="products-grid">
+      <div class="product-box"><img src="assets/buffer solution.jpg"><h3>Buffer Solution</h3><p>Maintains stable pH in experiments.</p></div>
+      <div class="product-box"><img src="assets/methylene blue.webp"><h3>Methylene Blue</h3><p>Staining reagent for biological samples.</p></div>
+      <div class="product-box"><img src="assets/choroform.jpg"><h3>Chloroform (CHCl3)</h3><p>Organic solvent used in extraction processes.</p></div>
+    </div>
+    <br>
+    <hr>
+
+    <!-- Industrial Chemicals -->
+    <h2>Industrial Chemicals</h2>
+    <div class="products-grid">
+      <div class="product-box"><img src="assets/urea.jpg"><h3>Urea (CO(NH2)2)</h3><p>Fertilizer and raw material for chemical industry.</p></div>
+      <div class="product-box"><img src="assets/sulphuric acid.avif"><h3>Sulfuric Acid (H2SO4)</h3><p>Strong acid for industrial manufacturing.</p></div>
+      <div class="product-box"><img src="assets/toulene.webp"><h3>Toluene (C7H8)</h3><p>Organic solvent used in paint and chemical processes.</p></div>
+    </div>
+    <br>
+    <hr>
+
+    <!-- Biochemicals -->
+    <h2>Biochemicals</h2>
+    <div class="products-grid">
+      <div class="product-box"><img src="assets/glucose.jpg"><h3>Glucose (C6H12O6)</h3><p>Used in cell culture and biochemical experiments.</p></div>
+      <div class="product-box"><img src="assets/glycine.jpg"><h3>Glycine (C2H5NO2)</h3><p>Essential amino acid for biochemical studies.</p></div>
+      <div class="product-box"><img src="assets/enzyme solution.jpg"><h3>Enzyme Solution</h3><p>Used in molecular biology and research experiments.</p></div>
+    </div>
+    <br>
+    <hr>
+
+  </main>
+
+  <script src="script.js"></script>
+
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Lab Equipment Store | Precision. Reliability. Innovation.</p>
+  </footer>
+</body>
+</html>

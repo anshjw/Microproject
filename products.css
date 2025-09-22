@@ -1,0 +1,271 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #121212;
+  color: #f0f0f0;
+}
+
+/* ===================== */
+/* Header / Navigation */
+/* ===================== */
+header {
+  background: #1c1c1c;
+  padding: 15px 20px;
+  text-align: center;
+  border-bottom: 2px solid #007BFF;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 26px;
+  color: #007BFF;
+}
+
+header nav {
+  margin-top: 10px;
+}
+
+header nav a {
+  color: #f0f0f0;
+  text-decoration: none;
+  margin: 0 12px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+header nav a:hover {
+  color: #007BFF;
+}
+
+/* ===================== */
+/* Services Page */
+/* ===================== */
+.services-container {
+  width: 100%;
+  padding: 120px 50px 50px 50px; /* top padding for fixed header */
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.services-container h2 {
+  color: #007BFF;
+  font-size: 28px;
+  margin-bottom: 40px;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.service-box {
+  background: #1c1c1c;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-box h3 {
+  color: #1fb6ff;
+  margin-bottom: 12px;
+  font-size: 20px;
+}
+
+.service-box p {
+  font-size: 15px;
+  color: #ddd;
+  line-height: 1.5;
+}
+
+.service-box:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 25px rgba(31,182,255,0.6);
+}
+
+/* ===================== */
+/* Products Page */
+/* ===================== */
+.products-container {
+  width: 100%;
+  padding: 120px 50px 50px 50px; /* top padding for fixed header */
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.products-container h2 {
+  color: #1fb6ff;
+  font-size: 28px;
+  margin: 40px 0 20px 0;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+.product-box {
+  background: #1c1c1c;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.product-box img {
+  width: 100%;
+  max-width: 220px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.product-box h3 {
+  color: #1fb6ff;
+  margin-bottom: 12px;
+  font-size: 20px;
+}
+
+.product-box p {
+  font-size: 15px;
+  color: #ddd;
+  line-height: 1.5;
+}
+
+.product-box:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 25px rgba(31,182,255,0.6);
+}
+
+/* ===================== */
+/* Contact & Login Box */
+/* ===================== */
+.login-wrapper, .contact-wrapper {
+  width: 100%;
+  max-width: 420px;
+  margin: 120px auto 50px auto; /* space for fixed header */
+  padding: 20px;
+}
+
+.login-box, .contact-box {
+  background: #1e1e1e;
+  padding: 35px;
+  border-radius: 16px;
+  box-shadow: 0px 6px 20px rgba(0,0,0,0.7);
+  text-align: center;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.login-box h2, .contact-box h2 {
+  color: #1fb6ff;
+  margin-bottom: 20px;
+}
+
+.form-group input, .form-group textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #333;
+  border-radius: 8px;
+  font-size: 14px;
+  background: #2a2a2a;
+  color: #f0f0f0;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+  border: 1px solid #1fb6ff;
+  outline: none;
+  box-shadow: 0 0 6px rgba(31,182,255,0.5);
+}
+
+.login-btn, .contact-btn {
+  width: 100%;
+  padding: 12px;
+  background: #1fb6ff;
+  border: none;
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 8px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.login-btn:hover, .contact-btn:hover {
+  background: #148fcc;
+  transform: scale(1.02);
+  box-shadow: 0 0 12px rgba(31,182,255,0.6);
+}
+
+/* Extra Links */
+.extra-links a, .register-link a {
+  font-size: 14px;
+  color: #1fb6ff;
+  text-decoration: none;
+}
+
+.extra-links a:hover, .register-link a:hover {
+  text-decoration: underline;
+}
+
+/* ===================== */
+/* Footer */
+/* ===================== */
+footer {
+  background: #1c1c1c;
+  text-align: center;
+  padding: 15px;
+  border-top: 2px solid #007BFF;
+}
+
+footer p {
+  margin: 0;
+  font-size: 14px;
+  color: #aaa;
+}
+
+/* ===================== */
+/* Animations */
+/* ===================== */
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+/* ===================== */
+/* Responsive Design */
+/* ===================== */
+@media (max-width: 768px) {
+  .services-container, .products-container {
+    padding: 120px 20px 50px 20px;
+  }
+  .service-box, .product-box {
+    padding: 20px;
+  }
+  .login-wrapper, .contact-wrapper {
+    padding: 15px;
+  }
+  .product-box img {
+    max-width: 100%;
+    height: 160px;
+  }
+}

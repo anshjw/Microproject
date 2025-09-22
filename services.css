@@ -1,0 +1,130 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #121212;
+  color: #f0f0f0;
+}
+
+/* Fixed Header */
+header {
+  background: #1c1c1c;
+  padding: 15px 20px;
+  text-align: center;
+  border-bottom: 2px solid #007BFF;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 26px;
+  color: #007BFF;
+}
+
+header nav {
+  margin-top: 10px;
+}
+
+header nav a {
+  color: #f0f0f0;
+  text-decoration: none;
+  margin: 0 12px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+header nav a:hover {
+  color: #007BFF;
+}
+
+/* ===================== */
+/* Services Page Styling */
+/* ===================== */
+.services-container {
+  max-width: 1100px;
+  margin: 100%; /* offset for fixed header */
+  padding: 20px;
+  text-align: center;
+}
+
+.services-container h2 {
+  color: #007BFF;
+  font-size: 28px;
+  margin-bottom: 40px;
+}
+
+/* Grid Layout for Service Boxes */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+/* Individual Service Box */
+.service-box {
+  background: #1c1c1c;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-box h3 {
+  color: #1fb6ff;
+  margin-bottom: 12px;
+  font-size: 20px;
+}
+
+.service-box p {
+  font-size: 15px;
+  color: #ddd;
+  line-height: 1.5;
+}
+
+/* Hover Effect */
+.service-box:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 25px rgba(31,182,255,0.6);
+}
+
+/* ===================== */
+/* Footer */
+/* ===================== */
+footer {
+  background: #1c1c1c;
+  text-align: center;
+  padding: 20px;
+  border-top: 2px solid #007BFF;
+}
+
+footer p {
+  margin: 0;
+  font-size: 14px;
+  color: #aaa;
+}
+
+/* ===================== */
+/* Animation */
+/* ===================== */
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+/* ===================== */
+/* Responsive */
+/* ===================== */
+@media (max-width: 768px) {
+  .services-container {
+    padding: 15px;
+  }
+}
