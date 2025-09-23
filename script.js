@@ -9,44 +9,45 @@ function updateCartCount() {
 }
 updateCartCount();
 
-// Increase/Decrease qty before adding
-function increaseQty(btn) {
-  let span = btn.previousElementSibling;
-  span.innerText = parseInt(span.innerText) + 1;
-}
-function decreaseQty(btn) {
-  let span = btn.nextElementSibling;
-  let value = parseInt(span.innerText);
-  if (value > 0) span.innerText = value - 1;
-}
 
-// Add item to cart with chosen quantity
 function addToCart(name, price, image, btn) {
-  let card = btn.closest(".product-card");
-  let qtySpan = card.querySelector(".qty-controls span");
-  let qty = parseInt(qtySpan.innerText);
+let card = btn.closest(".product-card, .product-box");
 
-  if (qty <= 0) {
-    alert("Please select at least 1 quantity!");
-    return;
-  }
 
-  let item = cart.find(p => p.name === name);
-  if (item) {
-    item.quantity += qty;
-  } else {
-    cart.push({ name, price, image, quantity: qty });
-  }
+let existing = cart.find(item => item.name === name);
+if (existing) {
+existing.quantity += 1; // default to +1 every click
+} else {
+cart.push({ name, price, image, quantity: 1 });
+}
 
-  localStorage.setItem("cart", JSON.stringify(cart));
-  updateCartCount();
 
-  // Show "Go to Cart" link
-  let gotoCart = document.querySelector(".goto-cart");
-  if (gotoCart) gotoCart.style.display = "block";
+localStorage.setItem("cart", JSON.stringify(cart));
+updateCartCount();
 
-  // reset qty to 0
-  qtySpan.innerText = "0";
+
+let gotoCart = card.querySelector(".goto-cart");
+if (gotoCart) gotoCart.style.display = "block";
+ 
+  // ✅ Show confirmation message
+  let msg = document.createElement("span");
+  msg.innerText = "✔ Added to Cart";
+  msg.style.color = "green";
+  msg.style.fontSize = "14px";
+  msg.style.marginLeft = "10px";
+
+  // If already exists, remove old message
+  let oldMsg = card.querySelector(".added-msg");
+  if (oldMsg) oldMsg.remove();
+
+  msg.classList.add("added-msg");
+  btn.insertAdjacentElement("afterend", msg);
+
+  // Auto-hide after 2 seconds
+  setTimeout(() => {
+    if (msg) msg.remove();
+  }, 2000);
+
 }
 
 // Render cart page
