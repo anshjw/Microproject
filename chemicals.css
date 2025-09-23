@@ -239,3 +239,22 @@ footer p {
     grid-template-columns: 1fr;
   }
 }
+p {
+  color: #0f98d3;
+  margin: 0.5rem 0; 
+  font-size: xx-large;
+  border: none; 
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+h3 { color: #121212; font-size: larger;}
+
+button {
+  background-color: #1fb6ff; 
+  color: rgb(3, 3, 3); 
+  transition: background-color 0.3s, color 0.3s;
+  border: none; 
+  padding: 10px 20px;
+  border-radius: 5px;
+}
