@@ -16,9 +16,26 @@
       <a href="chemicals.html">Chemicals</a>
       <a href="services.html">Services</a>
       <a href="contact.html">Contact</a>
-      <a href="cart.html">Cart🛒</a>
       <a href="login.html">Login</a>
+      <a href="cart.html" id="cart-icon">🛒 Cart (<span id="cart-count">0</span>)</a>
     </nav>
+    <script>
+    let loggedUser = JSON.parse(localStorage.getItem("loggedInUser"));
+    if (loggedUser) {
+      // Replace navbar content with "Welcome" + Logout
+      const nav = document.querySelector("nav");
+      nav.innerHTML = `
+      <a href="index.html">Home</a>
+      <a href="flowers.html">Flowers</a>
+      <a href="seeds.html">Seeds</a>
+      <a href="fertilizers.html">Fertilizers</a>
+      <a href="artificial.html">Artificial Plants</a>
+      <span class="welcome-user">Welcome, ${loggedUser.fname}!</span>
+      <a href="cart.html" id="cart-icon">🛒 Cart (<span id="cart-count">0</span>)</a>
+      <a href="logout.html">Logout</a>
+    `;
+    }
+    </script>
   </header>
 
   <!-- Chemicals Sections -->
@@ -32,16 +49,22 @@
         <h3>Ethanol (C2H5OH)</h3>
         <p>Common solvent and disinfectant used in labs.</p>
         <p>₹200</p>
-        <div class="qty-controls">
-          <button onclick="decreaseQty(this)">-</button>
-          <span>0</span>
-          <button onclick="increaseQty(this)">+</button>
-        </div>
         <button onclick="addToCart('Ethanol chemical bottle',200,'assets/ethanol.webp',this)">Add to Cart</button>
       </div>
+      <div class="product-box">
+        <img src="assets/benezene.jpg" alt="benezene chemical bottle"> 
+        <h3>Benzene (C6H6)</h3>
+        <p>Hydrocarbon used in organic synthesis experiments.</p>
+        <p>₹250</p>
+        <button onclick="addToCart('benezene chemical bottle',250,'assets/benezene.jpg',this)">Add to Cart</button>
       </div>
-      <div class="product-box"><img src="assets/benezene.jpg" alt="benezene chemical bottle"> <h3>Benzene (C6H6)</h3><p>Hydrocarbon used in organic synthesis experiments.</p></div>
-      <div class="product-box"><img src="assets/acetone.jpg" alt="acetone chemical bottle"><h3>Acetone(C3H6O)</h3><p>Organic solvent for cleaning and extraction.</p></div>
+      <div class="product-box">
+        <img src="assets/acetone.jpg" alt="acetone chemical bottle">
+        <h3>Acetone(C3H6O)</h3>
+        <p>Organic solvent for cleaning and extraction.</p>
+        <p>₹150</p>
+        <button onclick="addToCart('acetone chemical bottle',150,'assets/acetone.jpg',this)">Add to Cart</button>
+      </div>
     </div>
     <br>
     <hr>
@@ -49,9 +72,27 @@
     <!-- Inorganic Chemicals -->
     <h2>Inorganic Chemicals</h2>
     <div class="products-grid">
-      <div class="product-box"><img src="assets/sodium chloride.jpg"> <h3>Sodium Chloride (NaCl)</h3><p>Common salt used in reactions and solutions.</p></div>
-      <div class="product-box"><img src="assets/hcl.webp"> <h3>Hydrochloric Acid (HCl)</h3><p>Strong acid for lab experiments and titrations.</p></div>
-      <div class="product-box"><img src="assets/koh.png"><h3>Potassium Hydroxide (KOH)</h3><p>Strong base used in chemical synthesis.</p></div>
+      <div class="product-box">
+        <img src="assets/sodium chloride.jpg" alt="Sodium chloride"> 
+        <h3>Sodium Chloride (NaCl)</h3>
+        <p>Common salt used in reactions and solutions.</p>
+        <p>₹150</p>
+        <button onclick="addToCart('Sodium chloride',150,'assets/sodium chloride.jpg',this)">Add to Cart</button>
+      </div>
+      <div class="product-box">
+        <img src="assets/hcl.webp" alt="Hydrochloric Acid"> 
+        <h3>Hydrochloric Acid (HCl)</h3>
+        <p>Strong acid for lab experiments and titrations.</p>
+        <p>₹250</p>
+        <button onclick="addToCart('Hydrochloric Acid',250,'assets/hcl.webp',this)">Add to Cart</button>
+      </div>
+      <div class="product-box">
+        <img src="assets/koh.png" alt="Potassium Hydroxide">
+        <h3>Potassium Hydroxide (KOH)</h3>
+        <p>Strong base used in chemical synthesis.</p>
+        <p>₹250</p>
+        <button onclick="addToCart('Potassium Hydroxide',200,'assets/koh.png',this)">Add to Cart</button>
+      </div>
     </div>
     <br>
     <hr>
@@ -59,9 +100,27 @@
     <!-- Analytical Reagents -->
     <h2>Analytical Reagents</h2>
     <div class="products-grid">
-      <div class="product-box"><img src="assets/phenop.jpg"><h3>Phenolphthalein</h3><p>pH indicator commonly used in titrations.</p></div>
-      <div class="product-box"><img src="assets/SodiumCarbonateAnhy.webp"><h3>Sodium Carbonate (Na2CO3)</h3><p>Standard solution for quantitative analysis.</p></div>
-      <div class="product-box"><img src="assets/potassium permagnate.webp"><h3>Potassium Permanganate (KMnO4)</h3><p>Oxidizing agent for analytical procedures.</p></div>
+      <div class="product-box">
+        <img src="assets/phenop.jpg" alt="Phenolphthalein">
+        <h3>Phenolphthalein</h3>
+        <p>pH indicator commonly used in titrations.</p>
+        <p>₹250</p>
+        <button onclick="addToCart('Phenolphthalein',250,'assets/phenop.jpg',this)">Add to Cart</button>
+      </div>
+      <div class="product-box">
+        <img src="assets/SodiumCarbonateAnhy.webp" alt="Sodium Carbonate">
+        <h3>Sodium Carbonate (Na2CO3)</h3>
+        <p>Standard solution for quantitative analysis.</p>
+        <p>₹200</p>
+        <button onclick="addToCart('Sodium Carbonate',200,'assets/SodiumCarbonateAnhy.webp',this)">Add to Cart</button>
+      </div>
+      <div class="product-box">
+        <img src="assets/potassium permagnate.webp" alt="Potassium Permanganate">
+        <h3>Potassium Permanganate (KMnO4)</h3>
+        <p>Oxidizing agent for analytical procedures.</p>
+        <p>₹300</p>
+        <button onclick="addToCart('Potassium Permanganate',300,'assets/potassium permagnate.webp',this)">Add to Cart</button>
+      </div>
     </div>
     <br>
     <hr>
@@ -69,9 +128,27 @@
     <!-- Laboratory Reagents -->
     <h2>Laboratory Reagents</h2>
     <div class="products-grid">
-      <div class="product-box"><img src="assets/buffer solution.jpg"><h3>Buffer Solution</h3><p>Maintains stable pH in experiments.</p></div>
-      <div class="product-box"><img src="assets/methylene blue.webp"><h3>Methylene Blue</h3><p>Staining reagent for biological samples.</p></div>
-      <div class="product-box"><img src="assets/choroform.jpg"><h3>Chloroform (CHCl3)</h3><p>Organic solvent used in extraction processes.</p></div>
+      <div class="product-box">
+        <img src="assets/buffer solution.jpg" alt="Buffer Solution">
+        <h3>Buffer Solution</h3>
+        <p>Maintains stable pH in experiments.</p>
+        <p>₹300</p>
+        <button onclick="addToCart('Buffer Solution',300,'assets/buffer solution.jpg',this)">Add to Cart</button>
+      </div>
+      <div class="product-box">
+        <img src="assets/methylene blue.webp" alt="Methylene Blue">
+        <h3>Methylene Blue</h3>
+        <p>Staining reagent for biological samples.</p>
+        <p>₹200</p>
+        <button onclick="addToCart('Methylene Blue',200,'assets/methylene blue.webp',this)">Add to Cart</button>
+      </div>
+      <div class="product-box" >
+        <img src="assets/choroform.jpg" alt="Chloroform">
+        <h3>Chloroform (CHCl3)</h3>
+        <p>Organic solvent used in extraction processes.</p>
+        <p>₹250</p>
+        <button onclick="addToCart('Chloroform',250,'assets/choroform.jpg',this)">Add to Cart</button>
+      </div>
     </div>
     <br>
     <hr>
@@ -79,9 +156,27 @@
     <!-- Industrial Chemicals -->
     <h2>Industrial Chemicals</h2>
     <div class="products-grid">
-      <div class="product-box"><img src="assets/urea.jpg"><h3>Urea (CO(NH2)2)</h3><p>Fertilizer and raw material for chemical industry.</p></div>
-      <div class="product-box"><img src="assets/sulphuric acid.avif"><h3>Sulfuric Acid (H2SO4)</h3><p>Strong acid for industrial manufacturing.</p></div>
-      <div class="product-box"><img src="assets/toulene.webp"><h3>Toluene (C7H8)</h3><p>Organic solvent used in paint and chemical processes.</p></div>
+      <div class="product-box">
+        <img src="assets/urea.jpg" alt="Urea">
+        <h3>Urea (CO(NH2)2)</h3>
+        <p>Fertilizer and raw material for chemical industry.</p>
+        <p>₹300</p>
+        <button onclick="addToCart('Urea',300,'assets/urea.jpg',this)">Add to Cart</button>
+      </div>
+      <div class="product-box">
+        <img src="assets/sulphuric acid.avif" alt="Sulfuric Acid">
+        <h3>Sulfuric Acid (H2SO4)</h3>
+        <p>Strong acid for industrial manufacturing.</p>
+        <p>₹350</p>
+        <button onclick="addToCart('Sulfuric Acid',350,'assets/sulphuric acid.avif',this)">Add to Cart</button>
+      </div>
+      <div class="product-box">
+        <img src="assets/toulene.webp" alt="Toluene">
+        <h3>Toluene (C7H8)</h3>
+        <p>Organic solvent used in paint and chemical processes.</p>
+        <p>₹250</p>
+        <button onclick="addToCart('Toluene',250,'assets/toulene.webp',this)">Add to Cart</button>
+      </div>
     </div>
     <br>
     <hr>
@@ -89,9 +184,27 @@
     <!-- Biochemicals -->
     <h2>Biochemicals</h2>
     <div class="products-grid">
-      <div class="product-box"><img src="assets/glucose.jpg"><h3>Glucose (C6H12O6)</h3><p>Used in cell culture and biochemical experiments.</p></div>
-      <div class="product-box"><img src="assets/glycine.jpg"><h3>Glycine (C2H5NO2)</h3><p>Essential amino acid for biochemical studies.</p></div>
-      <div class="product-box"><img src="assets/enzyme solution.jpg"><h3>Enzyme Solution</h3><p>Used in molecular biology and research experiments.</p></div>
+      <div class="product-box">
+        <img src="assets/glucose.jpg" alt="Glucose">
+        <h3>Glucose (C6H12O6)</h3>
+        <p>Used in cell culture and biochemical experiments.</p>
+        <p>₹200</p>
+        <button onclick="addToCart('Glucose',200,'assets/glucose.jpg',this)">Add to Cart</button>
+      </div>
+      <div class="product-box">
+        <img src="assets/glycine.jpg" alt="Glycine">
+        <h3>Glycine (C2H5NO2)</h3>
+        <p>Amino acid used in protein synthesis studies.</p>
+        <p>₹250</p>
+        <button onclick="addToCart('Glycine',250,'assets/glycine.jpg',this)">Add to Cart</button>
+      </div>
+      <div class="product-box">
+        <img src="assets/enzyme solution.jpg" alt="Enzyme Solution">
+        <h3>Enzyme Solution</h3>
+        <p>Used in molecular biology and research experiments.</p>
+        <p>₹300</p>
+        <button onclick="addToCart('Enzyme Solution',300,'assets/enzyme solution.jpg',this)">Add to Cart</button>
+      </div>
     </div>
     <br>
     <hr>
