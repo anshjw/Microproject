@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders - LabEquip</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='order.css') }}">
+  <script src="{{ url_for('static', filename='order.js') }}" defer></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo-container">
+      <div class="logo-placeholder">LE</div>
+      <span class="store-name">LabEquip</span>
+    </div>
+    <nav class="nav">
+      <ul>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('products') }}">Products</a></li>
+        <li><a href="{{ url_for('orders') }}" class="active">Orders</a></li>
+        <li><a href="{{ url_for('profile') }}">Profile</a></li>
+        {% if username %}
+        <li><a class="auth-btn" href="{{ url_for('logout') }}">Logout</a></li>
+        {% else %}
+        <li><a class="auth-btn" href="{{ url_for('login') }}">Login</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Orders Section -->
+  <section class="orders-section">
+    <h2>My Orders</h2>
+    <p>Track and manage all your orders here.</p>
+
+    <div class="orders-table-wrapper">
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+          <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.product_name }}</td>
+            <td>{{ order.quantity }}</td>
+            <td>₹{{ order.price }}</td>
+            <td>{{ order.date }}</td>
+            <td>
+              <span class="status {{ order.status|lower }}">{{ order.status }}</span>
+              {% if order.status == 'Pending' %}
+              <button class="cancel-btn">Cancel</button>
+              {% endif %}
+            </td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="6" style="text-align:center;">No orders found.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Lab Equipment Store</p>
+  </footer>
+</body>
+</html>

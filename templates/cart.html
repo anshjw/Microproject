@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🛒 My Cart - GreenLeaf Nursery</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='cart.css') }}">
+  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+
+<body onload="renderCart()">
+
+  <header>
+    <h1>🛒 My Cart</h1>
+    <nav>
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('products') }}">Products</a>
+      <a href="{{ url_for('chemicals') }}">Chemicals</a>
+      <a href="{{ url_for('services') }}">Services</a>
+      <a href="{{ url_for('contacts') }}">Contact</a>
+      <a href="{{ url_for('login') }}">Login</a>
+      <a href="{{ url_for('cart') }}">Cart (<span id="cart-count">0</span>)</a>
+    </nav>
+  </header>
+
+  <div class="cart-container">
+    <div id="cart-items"></div>
+
+    <div class="summary">
+      <h2>Total: <span id="total-price">₹0</span></h2>
+      <button class="clear-cart" onclick="clearCart()">Clear Cart</button>
+      <button class="buy-now" onclick="buyNow()">Buy Now</button>
+    </div>
+  </div>
+
+  <script>
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    function renderCart() {
+      const container = document.getElementById("cart-items");
+      const totalElement = document.getElementById("total-price");
+      container.innerHTML = "";
+
+      if (cart.length === 0) {
+        container.innerHTML = "<p class='empty'>Your cart is empty 🛍️</p>";
+        totalElement.textContent = "₹0";
+        return;
+      }
+
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        total += item.price * item.quantity;
+
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = `
+          <img src="${item.image}" alt="${item.name}">
+          <div class="info">
+            <h3>${item.name}</h3>
+            <p>Price: ₹${item.price}</p>
+            <div class="qty">
+              <button onclick="changeQty(${index}, -1)">−</button>
+              <span>${item.quantity}</span>
+              <button onclick="changeQty(${index}, 1)">+</button>
+            </div>
+          </div>
+          <button class="remove" onclick="removeItem(${index})">Remove</button>
+        `;
+        container.appendChild(div);
+      });
+
+      totalElement.textContent = `₹${total}`;
+      localStorage.setItem("cart", JSON.stringify(cart));
+      updateCartCount();
+    }
+
+    function updateCartCount() {
+      document.getElementById("cart-count").textContent = cart.reduce((sum, i) => sum + i.quantity, 0);
+    }
+
+    function changeQty(index, delta) {
+      cart[index].quantity += delta;
+      if (cart[index].quantity <= 0) cart.splice(index, 1);
+      renderCart();
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      renderCart();
+    }
+
+    function clearCart() {
+      cart = [];
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
+    }
+
+    function buyNow() {
+      if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+      }
+      alert("✅ Thank you for your purchase! Your order has been placed successfully.");
+      window.location.href = "{{ url_for('orders') }}";
+    }
+
+    renderCart();
+  </script>
+
+</body>
+</html>

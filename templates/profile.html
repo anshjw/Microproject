@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile - Lab Instrument</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}" />
+  <script src="{{ url_for('static', filename='profile.js') }}" defer></script>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">LabEquip</div>
+    <ul>
+      <li><a href="{{ url_for('home') }}">Home</a></li>
+      <li><a href="{{ url_for('products') }}">Products</a></li>
+      <li><a href="{{ url_for('services') }}">Services</a></li>
+      <li><a href="{{ url_for('chemicals') }}">Chemicals</a></li>
+      <li><a href="{{ url_for('contacts') }}">Contact</a></li>
+      <li><a href="{{ url_for('profile') }}" class="active">Profile</a></li>
+    </ul>
+  </nav>
+
+  <section class="profile-container">
+    <!-- Profile Card -->
+    <div class="profile-card">
+      <img src="static/profilelogo.png" alt="Profile Picture" id="profilePic" class="profile-pic">
+
+      <h2 id="name">{{ Fullname }}</h2> 
+      
+      <p><strong>Email:</strong> <span id="email">{{ email }}</span></p> 
+      <p><strong>Phone:</strong> <span id="phone">{{ phone }}</span></p>
+      <p><strong>Organization:</strong> <span id="organization">{{ organization }}</span></p>
+
+      <button id="editBtn" class="edit-btn">Edit Profile</button>
+    </div>
+
+    <!-- Edit Profile Form -->
+    <div id="editForm" class="edit-form">
+      <h3>Edit Profile</h3>
+      <label for="editName">Full Name</label>
+      <input type="text" id="editName" value="{{ Fullname }}">
+
+      <label for="editEmail">Email</label>
+      <input type="email" id="editEmail" value="{{ email }}">
+
+      <label for="editPhone">Phone</label>
+      <input type="text" id="editPhone" value="{{ phone }}">
+
+      <label for="editOrg">Organization</label>
+      <input type="text" id="editOrg" value="{{ organization }}">
+
+      <div class="form-buttons">
+        <button id="saveBtn" class="save-btn">Save</button>
+        <button id="cancelBtn" class="cancel-btn">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Booking / Orders History -->
+    <div class="booking-history">
+      <h3>My Orders</h3>
+      {% if orders %}
+      <table>
+        <thead>
+          <tr>
+            <th>Instrument Name</th>
+            <th>Order Date</th>
+            <th>Quantity</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for o in orders %}
+          <tr>
+            <td>{{ o[1] }}</td> <!-- Instrument Name -->
+            <td>{{ o[2] }}</td> <!-- Order Date -->
+            <td>{{ o[3] }}</td> <!-- Quantity -->
+            <td>{{ o[4] }}</td> <!-- Status (Pending/Delivered) -->
+
+            <td>
+              <form method="POST" action="{{ url_for('cancel_order') }}">
+                <input type="hidden" name="order_id" value="{{ o[0] }}">
+                <button type="submit">Cancel</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p id="noBookingMsg">No orders yet.</p>
+      {% endif %}
+    </div>
+
+  </section>
+
+  <footer>
+    <p>&copy; 2025 LabInstrument. All Rights Reserved.</p>
+  </footer>
+</body>
+
+</html>

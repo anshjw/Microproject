@@ -1,0 +1,180 @@
+/* General Body */
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #0e0e0e;
+  color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+}
+
+/* Header */
+header {
+  background: #1f1f1f;
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 26px;
+}
+
+nav {
+  margin-top: 10px;
+}
+
+nav a {
+  color: white;
+  margin: 0 12px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+nav a:hover {
+  color: #70bee6;
+  transform: scale(1.05);
+}
+
+/* Cart Container */
+.cart-container {
+  max-width: 900px;
+  margin: 40px auto;
+  background: #181818;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Cart Items */
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #333;
+  padding: 15px 0;
+  transition: background 0.3s ease;
+}
+
+.cart-item:hover {
+  background: #222;
+}
+
+.cart-item img {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  border: 2px solid #444;
+  object-fit: cover;
+}
+
+.info {
+  flex: 1;
+  margin-left: 20px;
+}
+
+.info h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #fff;
+}
+
+.info p {
+  margin: 5px 0;
+  color: #aaa;
+}
+
+/* Quantity Controls */
+.qty {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.qty button {
+  background: #2874f0;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.qty button:hover {
+  background: #0052cc;
+  transform: scale(1.1);
+}
+
+/* Remove Button */
+.remove {
+  background: #ff5252;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.remove:hover {
+  background: #e60000;
+  transform: scale(1.05);
+}
+
+/* Summary Section */
+.summary {
+  text-align: right;
+  margin-top: 25px;
+}
+
+.summary h2 {
+  margin: 0;
+  font-size: 22px;
+  color: #fff;
+}
+
+/* Buttons */
+.clear-cart,
+.buy-now {
+  border: none;
+  padding: 12px 18px;
+  margin-top: 15px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.clear-cart {
+  background: #ff9800;
+  color: white;
+  margin-right: 10px;
+}
+
+.clear-cart:hover {
+  background: #e68a00;
+  transform: scale(1.05);
+}
+
+.buy-now {
+  background: #4caf50;
+  color: white;
+}
+
+.buy-now:hover {
+  background: #388e3c;
+  transform: scale(1.05);
+}
+
+/* Empty Cart Message */
+.empty {
+  text-align: center;
+  font-size: 18px;
+  color: #ccc;
+  padding: 30px 0;
+}

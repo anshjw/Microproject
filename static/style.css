@@ -1,0 +1,141 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #121212;
+  color: #f0f0f0;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Header */
+header {
+  background: #1e1e1e;
+  padding: 1rem 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-placeholder {
+  background: white;
+  color: #1e1e1e;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.store-name {
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.nav ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav ul li {
+  display: flex;
+  align-items: center;
+}
+
+.nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav ul li a:hover {
+  color: #ffd54f;
+}
+
+/* Profile Image */
+.profile-item img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #1fb6ff;
+  transition: transform 0.2s ease;
+}
+
+.profile-item img:hover {
+  transform: scale(1.1);
+}
+
+/* Login / Logout Buttons */
+.auth-btn {
+  padding: 6px 12px;
+  background: #1fb6ff;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: background 0.3s ease;
+}
+
+.auth-btn:hover {
+  background: #148fcc;
+}
+
+/* Hero Section */
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(rgba(18,18,18,0.7), rgba(18,18,18,0.7)),
+              url('{{ url_for("static", filename="lab-bg.jpg") }}') center/cover no-repeat;
+  text-align: center;
+  padding: 2rem;
+}
+
+.hero h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #1fb6ff;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  max-width: 600px;
+}
+
+.hero button {
+  padding: 0.8rem 1.5rem;
+  background: #1fb6ff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.hero button:hover {
+  background: #148fcc;
+}
+
+/* Footer */
+footer {
+  background: #1e1e1e;
+  text-align: center;
+  padding: 1rem;
+  margin-top: 2rem;
+  width: 100%;
+}

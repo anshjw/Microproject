@@ -1,0 +1,162 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #121212;
+  color: #f0f0f0;
+  min-height: 100vh;
+}
+
+/* Header */
+header {
+  background: #1e1e1e;
+  padding: 1rem 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-placeholder {
+  background: white;
+  color: #1e1e1e;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.store-name {
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav ul li a:hover, .nav ul li a.active {
+  color: #1fb6ff;
+}
+
+.auth-btn {
+  padding: 6px 12px;
+  background: #1fb6ff;
+  border-radius: 6px;
+}
+
+.auth-btn:hover {
+  background: #148fcc;
+}
+
+/* Orders Section */
+.orders-section {
+  padding: 2rem 5%;
+}
+
+.orders-section h2 {
+  color: #1fb6ff;
+  margin-bottom: 0.5rem;
+}
+
+.orders-section p {
+  color: #ccc;
+  margin-bottom: 1.5rem;
+}
+
+/* Table */
+.orders-table-wrapper {
+  overflow-x: auto;
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.orders-table th,
+.orders-table td {
+  padding: 12px 15px;
+  border: 1px solid #2a2a2a;
+  text-align: center;
+}
+
+.orders-table th {
+  background: #1fb6ff;
+  color: #121212;
+}
+
+.orders-table td {
+  background: #1e1e1e;
+}
+
+.orders-table tr:hover td {
+  background: #2a2a2a;
+}
+
+/* Status Badges */
+.status {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #fff;
+}
+
+.status.pending {
+  background: #ff9800;
+}
+
+.status.shipped {
+  background: #2196f3;
+}
+
+.status.delivered {
+  background: #4caf50;
+}
+
+.status.cancelled {
+  background: #f44336;
+}
+
+/* Cancel Button */
+.cancel-btn {
+  margin-left: 8px;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  border: none;
+  border-radius: 6px;
+  background: #ff5722;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.cancel-btn:hover {
+  background: #e64a19;
+}
+
+/* Footer */
+footer {
+  background: #1e1e1e;
+  text-align: center;
+  padding: 1rem;
+  margin-top: 2rem;
+}
