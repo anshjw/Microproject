@@ -157,6 +157,10 @@ header {
 footer {
   background: #1e1e1e;
   text-align: center;
-  padding: 1rem;
-  margin-top: 2rem;
+  padding: 1rem 5%;
+  margin-top: auto; /* ensures footer is pushed to bottom */
+  border-top: 1px solid #2a2a2a;
+  color: #aaa;
+  font-size: 0.9rem;
 }
+

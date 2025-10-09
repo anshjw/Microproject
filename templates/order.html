@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='order.css') }}">
   <script src="{{ url_for('static', filename='order.js') }}" defer></script>
 </head>
+
 <body>
   <!-- Header -->
   <header class="header">
@@ -20,11 +22,6 @@
         <li><a href="{{ url_for('products') }}">Products</a></li>
         <li><a href="{{ url_for('orders') }}" class="active">Orders</a></li>
         <li><a href="{{ url_for('profile') }}">Profile</a></li>
-        {% if username %}
-        <li><a class="auth-btn" href="{{ url_for('logout') }}">Logout</a></li>
-        {% else %}
-        <li><a class="auth-btn" href="{{ url_for('login') }}">Login</a></li>
-        {% endif %}
       </ul>
     </nav>
   </header>
@@ -57,7 +54,7 @@
             <td>
               <span class="status {{ order.status|lower }}">{{ order.status }}</span>
               {% if order.status == 'Pending' %}
-              <button class="cancel-btn">Cancel</button>
+              <a href="{{ url_for('cancel_order', order_id=order.id) }}" class="cancel-btn">Cancel</a>
               {% endif %}
             </td>
           </tr>
@@ -75,4 +72,5 @@
     <p>© 2025 Lab Equipment Store</p>
   </footer>
 </body>
+
 </html>

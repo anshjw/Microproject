@@ -18,7 +18,6 @@
       <a href="{{ url_for('chemicals') }}">Chemicals</a>
       <a href="{{ url_for('services') }}">Services</a>
       <a href="{{ url_for('contacts') }}">Contact</a>
-      <a href="{{ url_for('login') }}">Login</a>
       <a href="{{ url_for('cart') }}">Cart (<span id="cart-count">0</span>)</a>
     </nav>
   </header>
@@ -101,11 +100,30 @@
         alert("Your cart is empty!");
         return;
       }
-      alert("✅ Thank you for your purchase! Your order has been placed successfully.");
-      window.location.href = "{{ url_for('orders') }}";
-    }
+      let orders = JSON.parse(localStorage.getItem("orders")) || [];
 
-    renderCart();
+  // Create a new order
+  const newOrder = {
+    id: Date.now(), // unique order ID
+    date: new Date().toLocaleString(),
+    items: cart,
+    total: cart.reduce((sum, i) => sum + i.price * i.quantity, 0)
+  };
+
+  // Save it
+  orders.push(newOrder);
+  localStorage.setItem("orders", JSON.stringify(orders));
+
+  // Clear cart after placing order
+  localStorage.removeItem("cart");
+
+  alert("✅ Thank you for your purchase! Your order has been placed successfully.");
+
+  // Redirect to My Orders page
+  window.location.href = "{{ url_for('orders') }}";
+}
+    
+
   </script>
 
 </body>

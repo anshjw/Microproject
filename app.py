@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session,jsonify
 import sqlite3
 
 app = Flask(__name__)
@@ -23,6 +23,7 @@ def init_db():
                 Password TEXT NOT NULL
             )
         ''')
+        
     
     
         conn = sqlite3.connect('DB_NAME', timeout=10, check_same_thread=False)
@@ -34,6 +35,22 @@ def init_db():
                 message TEXT NOT NULL
             )
         """)
+        conn = sqlite3.connect(DB_NAME, timeout=10, check_same_thread=False)
+        cursor = conn.cursor()
+        cursor.execute('''
+            CREATE TABLE orders (
+                       order_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                       Email TEXT NOT NULL,
+                       Instrument_Name TEXT NOT NULL,
+                       Quantity INTEGER NOT NULL,
+                       Price REAL NOT NULL,
+                       Order_Date TEXT NOT NULL,
+                       Status TEXT NOT NULL
+            )
+        ''')
+
+
+
 
         conn.commit()
         conn.close()
@@ -171,12 +188,36 @@ def logout():
 
 @app.route('/orders')
 def orders():
-    orders = [
-        {'id': 101, 'product_name': 'Beaker Set', 'quantity': 2, 'price': 499, 'date': '2025-10-08', 'status': 'Pending'},
-        {'id': 102, 'product_name': 'Microscope', 'quantity': 1, 'price': 2500, 'date': '2025-10-05', 'status': 'Shipped'},
-        {'id': 103, 'product_name': 'Test Tubes', 'quantity': 12, 'price': 299, 'date': '2025-10-02', 'status': 'Delivered'},
-    ]
-    return render_template('order.html', orders=orders, username=session.get('username'))
+    username = session.get('username')
+    if not username:
+        return redirect(url_for('login'))
+
+    conn = sqlite3.connect(DB_NAME)
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT Email FROM register WHERE Username=?", (username,))
+    row = cursor.fetchone()
+    if not row:
+        conn.close()
+        return redirect(url_for('login'))
+
+    user_email = row['Email']
+
+    cursor.execute("""
+        SELECT order_id AS id, Instrument_Name AS product_name, Quantity AS quantity,
+               Order_Date AS date, Status AS status
+        FROM orders
+        WHERE Email=?
+    """, (user_email,))
+    user_orders = cursor.fetchall()
+    conn.close()
+
+    return render_template("order.html", order=user_orders, username=username)
+
+
+
+
 
 # ---------------- Contact Pages ----------------
 @app.route('/contact', methods=['GET', 'POST'])
@@ -198,6 +239,39 @@ def contact():
         return redirect(url_for('contact'))  # You can show a success message here
 
     return render_template('contact.html')
+
+
+
+@app.route('/place_order', methods=['POST'])
+def place_order():
+    if "username" not in session:
+        return jsonify({"success": False, "message": "Not logged in"})
+    user_email = session.get("user_email")
+    data = request.get_json()
+    cart_items = data.get("cart", [])
+    if not cart_items:
+        return jsonify({"success": False, "message": "Cart is empty"})
+    try:
+        conn = sqlite3.connect(DB_NAME)
+        cursor = conn.cursor()
+        for item in cart_items:
+            cursor.execute("""
+                INSERT INTO orders (Email, Instrument_Name, Quantity, Price, Order_Date, Status)
+                VALUES (?, ?, ?, ?, DATE('now'), ?)
+            """, (
+                user_email,
+                item.get("name"),
+                item.get("quantity"),
+                item.get("price"),
+                "Pending"
+            ))
+        conn.commit()
+        conn.close()
+        return jsonify({"success": True})
+    except Exception as e:
+        print("Error placing order:", e)
+        return jsonify({"success": False})
+
 
 
 
@@ -225,6 +299,13 @@ def services():
 @app.route('/cart')
 def cart():
     return render_template("cart.html", username=session.get('username'))
+
+@app.route('/cancel/<int:order_id>')
+def cancel_order(order_id):
+    """Render the cancel reason form"""
+    return render_template('cancel.html', order_id=order_id)
+
+
 
 
 
