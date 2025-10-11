@@ -1,148 +1,171 @@
-/* Reset */
+/* =========================
+   Global Reset
+========================= */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Body */
+/* =========================
+   Body
+========================= */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #121212;
   color: #f0f0f0;
+  line-height: 1.6;
+  min-height: 100vh;
 }
 
-/* Fixed Header */
-header {
+/* =========================
+   Navbar
+========================= */
+nav {
   background: #1c1c1c;
-  padding: 15px 20px;
-  text-align: center;
-  border-bottom: 2px solid #007BFF;
-  position: fixed;
+  padding: 15px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
   top: 0;
-  width: 100%;
   z-index: 1000;
+  border-bottom: 2px solid #1fb6ff;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 26px;
-  color: #007BFF;
+nav .logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1fb6ff;
 }
 
-header nav {
-  margin-top: 10px;
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
 }
 
-header nav a {
+nav ul li a {
   color: #f0f0f0;
   text-decoration: none;
-  margin: 0 12px;
   font-weight: 500;
+  position: relative;
   transition: color 0.3s ease;
 }
 
-header nav a:hover {
-  color: #007BFF;
+nav ul li a:hover,
+nav ul li a.active {
+  color: #1fb6ff;
 }
 
-/* ===================== */
-/* Services Page Styling */
-/* ===================== */
+nav ul li a::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: #1fb6ff;
+  transition: width 0.3s;
+}
+
+nav ul li a:hover::after,
+nav ul li a.active::after {
+  width: 100%;
+}
+
+/* =========================
+   Services Container
+========================= */
 .services-container {
-  max-width: 1100px;
-  margin: 120px auto 60px auto; /* Offset for fixed header */
-  padding: 20px;
+  max-width: 1200px;
+  margin: 80px auto 50px auto;
+  padding: 0 20px;
   text-align: center;
-  animation: fadeIn 1s ease-in-out;
 }
 
 .services-container h2 {
-  color: #007BFF;
-  font-size: 28px;
+  color: #1fb6ff;
+  font-size: 32px;
   margin-bottom: 40px;
 }
 
-/* Grid Layout for Service Boxes */
+/* =========================
+   Services Grid
+========================= */
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 25px;
-  animation: fadeIn 1.2s ease-in-out;
 }
 
-/* Individual Service Box */
+/* =========================
+   Service Box
+========================= */
 .service-box {
   background: #1c1c1c;
-  padding: 25px;
+  padding: 25px 20px;
   border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  box-shadow: 0 0 15px rgba(31,182,255,0.15);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-box:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 25px rgba(31,182,255,0.25);
 }
 
 .service-box h3 {
   color: #1fb6ff;
-  margin-bottom: 12px;
   font-size: 20px;
+  margin-bottom: 12px;
 }
 
 .service-box p {
-  font-size: 15px;
   color: #ddd;
+  font-size: 15px;
   line-height: 1.5;
 }
 
-/* Hover Effect */
-.service-box:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 0 25px rgba(31,182,255,0.6);
-}
-
-/* ===================== */
-/* Footer */
-/* ===================== */
+/* =========================
+   Footer
+========================= */
 footer {
-  background: #1c1c1c;
   text-align: center;
-  padding: 20px;
-  border-top: 2px solid #007BFF;
-}
-
-footer p {
-  margin: 0;
-  font-size: 14px;
+  padding: 25px 0;
+  background: #1c1c1c;
   color: #aaa;
+  border-top: 2px solid #1fb6ff;
+  margin-top: 50px;
+  font-size: 0.95rem;
 }
 
-/* ===================== */
-/* Animation */
-/* ===================== */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+/* =========================
+   Responsive Design
+========================= */
+@media (max-width: 992px) {
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* ===================== */
-/* Responsive */
-/* ===================== */
 @media (max-width: 768px) {
-  .services-container {
-    padding: 15px;
-    margin: 100px auto;
+  .services-grid {
+    grid-template-columns: 1fr;
   }
 
-  header h1 {
-    font-size: 22px;
+  nav ul {
+    flex-direction: column;
+    background: #1c1c1c;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 100%;
+    padding: 15px 0;
+    display: none;
   }
 
-  header nav a {
-    margin: 0 8px;
-    font-size: 14px;
+  nav.active ul {
+    display: flex;
   }
 }

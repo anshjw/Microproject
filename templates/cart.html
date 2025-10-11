@@ -11,15 +11,17 @@
 <body onload="renderCart()">
 
   <header>
-    <h1>🛒 My Cart</h1>
     <nav>
-      <a href="{{ url_for('home') }}">Home</a>
-      <a href="{{ url_for('products') }}">Products</a>
-      <a href="{{ url_for('chemicals') }}">Chemicals</a>
-      <a href="{{ url_for('services') }}">Services</a>
-      <a href="{{ url_for('contacts') }}">Contact</a>
-      <a href="{{ url_for('cart') }}">Cart (<span id="cart-count">0</span>)</a>
-    </nav>
+    <div class="logo">LabEquip</div>
+    <ul>
+      <li><a href="{{ url_for('home') }}">Home</a></li>
+      <li><a href="{{ url_for('products') }}">Products</a></li>
+      <li><a href="{{ url_for('chemicals') }}">Chemicals</a></li>
+      <li><a href="{{ url_for('services') }}">Services</a></li>
+      <li><a href="{{ url_for('contacts') }}">Contact</a></li>
+      <li><a href="{{ url_for('profile') }}" class="active">Profile</a></li>
+    </ul>
+  </nav>
   </header>
 
   <div class="cart-container">

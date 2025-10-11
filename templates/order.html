@@ -10,23 +10,24 @@
 </head>
 
 <body>
-  <!-- Header -->
   <header class="header">
     <div class="logo-container">
-      <div class="logo-placeholder">LE</div>
+      <img src="{{ url_for('static', filename='LE LOGO3.png') }}" alt="LabEquip Logo" class="logo-img">
       <span class="store-name">LabEquip</span>
     </div>
+    
     <nav class="nav">
       <ul>
         <li><a href="{{ url_for('home') }}">Home</a></li>
         <li><a href="{{ url_for('products') }}">Products</a></li>
-        <li><a href="{{ url_for('orders') }}" class="active">Orders</a></li>
+        <li><a href="{{ url_for('chemicals') }}">Chemicals</a></li>
+        <li><a href="{{ url_for('services') }}">Services</a></li>
+        <li><a href="{{ url_for('contacts') }}">Contact</a></li>
         <li><a href="{{ url_for('profile') }}">Profile</a></li>
       </ul>
     </nav>
   </header>
 
-  <!-- Orders Section -->
   <section class="orders-section">
     <h2>My Orders</h2>
     <p>Track and manage all your orders here.</p>
@@ -38,7 +39,6 @@
             <th>Order ID</th>
             <th>Product</th>
             <th>Quantity</th>
-            <th>Price</th>
             <th>Date</th>
             <th>Status</th>
           </tr>
@@ -49,7 +49,6 @@
             <td>{{ order.id }}</td>
             <td>{{ order.product_name }}</td>
             <td>{{ order.quantity }}</td>
-            <td>₹{{ order.price }}</td>
             <td>{{ order.date }}</td>
             <td>
               <span class="status {{ order.status|lower }}">{{ order.status }}</span>
@@ -60,7 +59,7 @@
           </tr>
           {% else %}
           <tr>
-            <td colspan="6" style="text-align:center;">No orders found.</td>
+            <td colspan="5" style="text-align:center;">No orders found.</td>
           </tr>
           {% endfor %}
         </tbody>

@@ -29,7 +29,7 @@ def init_db():
         conn = sqlite3.connect('DB_NAME', timeout=10, check_same_thread=False)
         cursor = conn.cursor()
         cursor.execute("""
-            CREATE TABLE contact_messages (
+            CREATE TABLE IF NOT EXISTS contact_messages (
                 Usename TEXT NOT NULL,
                 Email TEXT NOT NULL,
                 message TEXT NOT NULL
@@ -38,15 +38,15 @@ def init_db():
         conn = sqlite3.connect(DB_NAME, timeout=10, check_same_thread=False)
         cursor = conn.cursor()
         cursor.execute('''
-            CREATE TABLE orders (
-                       order_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                       Email TEXT NOT NULL,
-                       Instrument_Name TEXT NOT NULL,
-                       Quantity INTEGER NOT NULL,
-                       Price REAL NOT NULL,
-                       Order_Date TEXT NOT NULL,
-                       Status TEXT NOT NULL
-            )
+          CREATE TABLE   IF NOT EXISTS orders (
+          order_id INTEGER PRIMARY KEY AUTOINCREMENT,
+          Email TEXT NOT NULL,
+          Instrument_Name TEXT NOT NULL,
+          Quantity INTEGER NOT NULL,
+          Price REAL NOT NULL,
+          Order_Date TEXT NOT NULL,
+          Status TEXT NOT NULL
+);
         ''')
 
 
@@ -186,6 +186,38 @@ def logout():
 
 # ---------------- Order Page  ----------------
 
+# ---------------- Order Placement (Corrected for your Database) ----------------
+@app.route('/place_order', methods=['POST'])
+def place_order():
+    if "username" not in session:
+        return jsonify({"success": False, "message": "Not logged in"})
+    user_email = session.get("user_email")
+    data = request.get_json()
+    cart_items = data.get("cart", [])
+    if not cart_items:
+        return jsonify({"success": False, "message": "Cart is empty"})
+    try:
+        conn = sqlite3.connect(DB_NAME)
+        cursor = conn.cursor()
+        for item in cart_items:
+            # Removed 'Price' from the INSERT statement to match your table
+            cursor.execute("""
+                INSERT INTO orders (Email, Instrument_Name, Quantity, Order_Date, Status)
+                VALUES (?, ?, ?, DATE('now'), ?)
+            """, (
+                user_email,
+                item.get("name"),
+                item.get("quantity"),
+                "Pending"
+            ))
+        conn.commit()
+        conn.close()
+        return jsonify({"success": True})
+    except Exception as e:
+        print("Error placing order:", e)
+        return jsonify({"success": False, "error": str(e)})
+
+# ---------------- View Orders Page (Corrected for your Database) ----------------
 @app.route('/orders')
 def orders():
     username = session.get('username')
@@ -204,6 +236,7 @@ def orders():
 
     user_email = row['Email']
 
+    # Removed 'Price' from the SELECT statement
     cursor.execute("""
         SELECT order_id AS id, Instrument_Name AS product_name, Quantity AS quantity,
                Order_Date AS date, Status AS status
@@ -213,7 +246,9 @@ def orders():
     user_orders = cursor.fetchall()
     conn.close()
 
-    return render_template("order.html", order=user_orders, username=username)
+    # Make sure to pass 'orders' to the template, not 'order'
+    return render_template("order.html", orders=user_orders, username=username)
+
 
 
 
@@ -242,35 +277,7 @@ def contact():
 
 
 
-@app.route('/place_order', methods=['POST'])
-def place_order():
-    if "username" not in session:
-        return jsonify({"success": False, "message": "Not logged in"})
-    user_email = session.get("user_email")
-    data = request.get_json()
-    cart_items = data.get("cart", [])
-    if not cart_items:
-        return jsonify({"success": False, "message": "Cart is empty"})
-    try:
-        conn = sqlite3.connect(DB_NAME)
-        cursor = conn.cursor()
-        for item in cart_items:
-            cursor.execute("""
-                INSERT INTO orders (Email, Instrument_Name, Quantity, Price, Order_Date, Status)
-                VALUES (?, ?, ?, ?, DATE('now'), ?)
-            """, (
-                user_email,
-                item.get("name"),
-                item.get("quantity"),
-                item.get("price"),
-                "Pending"
-            ))
-        conn.commit()
-        conn.close()
-        return jsonify({"success": True})
-    except Exception as e:
-        print("Error placing order:", e)
-        return jsonify({"success": False})
+
 
 
 
