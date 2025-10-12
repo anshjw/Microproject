@@ -184,8 +184,6 @@ def logout():
     return redirect(url_for('home'))
 
 
-# ---------------- Order Page  ----------------
-
 # ---------------- Order Placement (Corrected for your Database) ----------------
 @app.route('/place_order', methods=['POST'])
 def place_order():
@@ -200,19 +198,23 @@ def place_order():
         conn = sqlite3.connect(DB_NAME)
         cursor = conn.cursor()
         for item in cart_items:
-            # Removed 'Price' from the INSERT statement to match your table
+            # --- CORRECTION ---
+            # The INSERT statement now includes the 'Price' column,
+            # and the tuple of values includes 'item.get("price")'.
             cursor.execute("""
-                INSERT INTO orders (Email, Instrument_Name, Quantity, Order_Date, Status)
-                VALUES (?, ?, ?, DATE('now'), ?)
+                INSERT INTO orders (Email, Instrument_Name, Quantity, Price, Order_Date, Status)
+                VALUES (?, ?, ?, ?, DATE('now'), ?)
             """, (
                 user_email,
                 item.get("name"),
                 item.get("quantity"),
+                item.get("price"),  # This line adds the price value
                 "Pending"
             ))
         conn.commit()
         conn.close()
-        return jsonify({"success": True})
+        # It is good practice to return a success message in the JSON response.
+        return jsonify({"success": True, "message": "Order placed successfully."}) 
     except Exception as e:
         print("Error placing order:", e)
         return jsonify({"success": False, "error": str(e)})

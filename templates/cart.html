@@ -73,12 +73,15 @@
 
       totalElement.textContent = `₹${total}`;
       localStorage.setItem("cart", JSON.stringify(cart));
-      updateCartCount();
+      // You might need to add an element with id="cart-count" to your nav bar for this to work
+      // updateCartCount(); 
     }
 
+    /* You can remove updateCartCount if you don't have a cart count element
     function updateCartCount() {
       document.getElementById("cart-count").textContent = cart.reduce((sum, i) => sum + i.quantity, 0);
     }
+    */
 
     function changeQty(index, delta) {
       cart[index].quantity += delta;
@@ -97,34 +100,43 @@
       renderCart();
     }
 
+    // ==========================================================
+    // == THIS IS THE CORRECTED FUNCTION THAT SENDS DATA TO FLASK ==
+    // ==========================================================
     function buyNow() {
       if (cart.length === 0) {
         alert("Your cart is empty!");
         return;
       }
-      let orders = JSON.parse(localStorage.getItem("orders")) || [];
 
-  // Create a new order
-  const newOrder = {
-    id: Date.now(), // unique order ID
-    date: new Date().toLocaleString(),
-    items: cart,
-    total: cart.reduce((sum, i) => sum + i.price * i.quantity, 0)
-  };
-
-  // Save it
-  orders.push(newOrder);
-  localStorage.setItem("orders", JSON.stringify(orders));
-
-  // Clear cart after placing order
-  localStorage.removeItem("cart");
-
-  alert("✅ Thank you for your purchase! Your order has been placed successfully.");
-
-  // Redirect to My Orders page
-  window.location.href = "{{ url_for('orders') }}";
-}
-    
+      // Use fetch to send cart data to the Flask server
+      fetch("{{ url_for('place_order') }}", {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          // The key 'cart' must match what your Python code expects: data.get("cart")
+          body: JSON.stringify({ cart: cart })
+      })
+      .then(response => response.json()) // Parse the JSON response from Flask
+      .then(data => {
+          if (data.success) {
+              // If the server confirms the order was placed, clear the local cart
+              clearCart(); 
+              alert("✅ Thank you! Your order has been placed successfully.");
+              // Redirect to the orders page to see the new order from the database
+              window.location.href = "{{ url_for('orders') }}";
+          } else {
+              // Show any error message from the server
+              alert(`❌ Error: ${data.message || data.error}`);
+          }
+      })
+      .catch(error => {
+          // Handle network errors
+          console.error('Error placing order:', error);
+          alert('❌ A network error occurred. Please check your connection and try again.');
+      });
+    }
 
   </script>
 
