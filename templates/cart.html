@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🛒 My Cart - GreenLeaf Nursery</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='cart.css') }}">
+  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+
+<body onload="renderCart()">
+
+  <header>
+    <nav>
+    <div class="logo">LabEquip</div>
+    <ul>
+      <li><a href="{{ url_for('home') }}">Home</a></li>
+      <li><a href="{{ url_for('products') }}">Products</a></li>
+      <li><a href="{{ url_for('chemicals') }}">Chemicals</a></li>
+      <li><a href="{{ url_for('services') }}">Services</a></li>
+      <li><a href="{{ url_for('contacts') }}">Contact</a></li>
+      <li><a href="{{ url_for('profile') }}" class="active">Profile</a></li>
+    </ul>
+  </nav>
+  </header>
+
+  <div class="cart-container">
+    <div id="cart-items"></div>
+
+    <div class="summary">
+      <h2>Total: <span id="total-price">₹0</span></h2>
+      <button class="clear-cart" onclick="clearCart()">Clear Cart</button>
+      <button class="buy-now" onclick="buyNow()">Buy Now</button>
+    </div>
+  </div>
+
+  <script>
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    function renderCart() {
+      const container = document.getElementById("cart-items");
+      const totalElement = document.getElementById("total-price");
+      container.innerHTML = "";
+
+      if (cart.length === 0) {
+        container.innerHTML = "<p class='empty'>Your cart is empty 🛍️</p>";
+        totalElement.textContent = "₹0";
+        return;
+      }
+
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        total += item.price * item.quantity;
+
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = `
+          <img src="${item.image}" alt="${item.name}">
+          <div class="info">
+            <h3>${item.name}</h3>
+            <p>Price: ₹${item.price}</p>
+            <div class="qty">
+              <button onclick="changeQty(${index}, -1)">−</button>
+              <span>${item.quantity}</span>
+              <button onclick="changeQty(${index}, 1)">+</button>
+            </div>
+          </div>
+          <button class="remove" onclick="removeItem(${index})">Remove</button>
+        `;
+        container.appendChild(div);
+      });
+
+      totalElement.textContent = `₹${total}`;
+      localStorage.setItem("cart", JSON.stringify(cart));
+      // You might need to add an element with id="cart-count" to your nav bar for this to work
+      // updateCartCount(); 
+    }
+
+    /* You can remove updateCartCount if you don't have a cart count element
+    function updateCartCount() {
+      document.getElementById("cart-count").textContent = cart.reduce((sum, i) => sum + i.quantity, 0);
+    }
+    */
+
+    function changeQty(index, delta) {
+      cart[index].quantity += delta;
+      if (cart[index].quantity <= 0) cart.splice(index, 1);
+      renderCart();
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      renderCart();
+    }
+
+    function clearCart() {
+      cart = [];
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
+    }
+
+    // ==========================================================
+    // == THIS IS THE CORRECTED FUNCTION THAT SENDS DATA TO FLASK ==
+    // ==========================================================
+    function buyNow() {
+      if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+      }
+
+      // Use fetch to send cart data to the Flask server
+      fetch("{{ url_for('place_order') }}", {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          // The key 'cart' must match what your Python code expects: data.get("cart")
+          body: JSON.stringify({ cart: cart })
+      })
+      .then(response => response.json()) // Parse the JSON response from Flask
+      .then(data => {
+          if (data.success) {
+              // If the server confirms the order was placed, clear the local cart
+              clearCart(); 
+              alert("✅ Thank you! Your order has been placed successfully.");
+              // Redirect to the orders page to see the new order from the database
+              window.location.href = "{{ url_for('orders') }}";
+          } else {
+              // Show any error message from the server
+              alert(`❌ Error: ${data.message || data.error}`);
+          }
+      })
+      .catch(error => {
+          // Handle network errors
+          console.error('Error placing order:', error);
+          alert('❌ A network error occurred. Please check your connection and try again.');
+      });
+    }
+
+  </script>
+
+</body>
+</html>

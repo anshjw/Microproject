@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google" content="notranslate">
+  <title>Lab Equipment Store - Home</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo-container">
+      <img src="{{ url_for('static', filename='LE LOGO3.png') }}" alt="LabEquip Logo" class="logo-img">
+      <span class="store-name">LabEquip</span>
+    </div>
+
+    <nav class="nav">
+      <ul>
+        <li><a href="{{ url_for('home') }}" class="active">Home</a></li>
+        <li><a href="{{ url_for('products') }}">Products</a></li>
+        <li><a href="{{ url_for('chemicals') }}">Chemicals</a></li>
+        <li><a href="{{ url_for('services') }}">Services</a></li>
+        <li><a href="{{ url_for('orders') }}">Orders</a></li>
+        <li><a href="{{ url_for('contacts') }}">Contact</a></li>
+
+        <!-- Profile / Login / Logout -->
+        <li class="profile-item">
+          <a id="profileLink" href="{{ url_for('profile') }}">
+            <img src="{{ url_for('static', filename='profilelogo.png') }}" alt="Profile" />
+          </a>
+        </li>
+
+        {% if username %}
+          <li><a class="auth-btn" href="{{ url_for('logout') }}">Logout</a></li>
+        {% else %}
+          <li><a class="auth-btn" id="loginLink" href="{{ url_for('login') }}">Login</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero Section with Background Video -->
+  <section class="hero">
+    <video autoplay muted loop playsinline class="hero-video">
+      <source src="{{ url_for('static', filename='lab eqipment.mp4') }}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <div class="hero-content">
+      <h2>Welcome to LabEquip</h2>
+      <p>Your trusted partner for lab instruments, glassware, and certified chemicals.</p>
+      <a href="{{ url_for('products') }}"><button>Shop Now</button></a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Lab Equipment Store | All Rights Reserved</p>
+  </footer>
+</body>
+</html>

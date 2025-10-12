@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cancel Orders - LabEquip</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='cancel.css') }}">
+  <script src="{{ url_for('static', filename='cancel.js') }}" defer></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">LabEquip</div>
+    <nav>
+       <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('products') }}">Products</a></li>
+        <li><a href="{{ url_for('orders') }}" class="active">Orders</a></li>
+        <li><a href="{{ url_for('profile') }}">Profile</a></li>
+        {% if username %}
+        <li><a class="auth-btn" href="{{ url_for('logout') }}">Logout</a></li>
+        {% else %}
+        <li><a class="auth-btn" href="{{ url_for('login') }}">Login</a></li>
+        {% endif %}
+    </nav>
+  </header>
+
+  <!-- Orders Section -->
+  <section class="orders-section">
+    <h2>My Orders</h2>
+    <p>Click cancel if you want to cancel an order and provide a reason.</p>
+
+    <div class="orders-table-wrapper">
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Date</th>
+            <th>Status & Reason</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Orders populated by JS -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Cancel Modal -->
+  <div id="cancelModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3>Cancel Order</h3>
+      <p>Please provide a reason for cancelling your order:</p>
+      <textarea id="cancelReason" placeholder="Enter reason..."></textarea>
+      <button id="confirmCancelBtn">Confirm Cancel</button>
+    </div>
+  </div>
+
+
+</body>
+</html>

@@ -1,0 +1,171 @@
+/* =========================
+   Global Reset
+========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* =========================
+   Body
+========================= */
+body {
+  background: #121212;
+  color: #f0f0f0;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* =========================
+   Navbar
+========================= */
+nav {
+  background: #1c1c1c;
+  padding: 15px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 2px solid #1fb6ff;
+}
+
+nav .logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1fb6ff;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+nav ul li a {
+  color: #f0f0f0;
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  color: #1fb6ff;
+}
+
+nav ul li a::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: #1fb6ff;
+  transition: width 0.3s;
+}
+
+nav ul li a:hover::after,
+nav ul li a.active::after {
+  width: 100%;
+}
+
+/* =========================
+   Services Container
+========================= */
+.services-container {
+  max-width: 1200px;
+  margin: 80px auto 50px auto;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.services-container h2 {
+  color: #1fb6ff;
+  font-size: 32px;
+  margin-bottom: 40px;
+}
+
+/* =========================
+   Services Grid
+========================= */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+/* =========================
+   Service Box
+========================= */
+.service-box {
+  background: #1c1c1c;
+  padding: 25px 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(31,182,255,0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-box:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 25px rgba(31,182,255,0.25);
+}
+
+.service-box h3 {
+  color: #1fb6ff;
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.service-box p {
+  color: #ddd;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* =========================
+   Footer
+========================= */
+footer {
+  text-align: center;
+  padding: 25px 0;
+  background: #1c1c1c;
+  color: #aaa;
+  border-top: 2px solid #1fb6ff;
+  margin-top: 50px;
+  font-size: 0.95rem;
+}
+
+/* =========================
+   Responsive Design
+========================= */
+@media (max-width: 992px) {
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  nav ul {
+    flex-direction: column;
+    background: #1c1c1c;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 100%;
+    padding: 15px 0;
+    display: none;
+  }
+
+  nav.active ul {
+    display: flex;
+  }
+}

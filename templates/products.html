@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products - Lab Equipment Store</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='products.css') }}">
+  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+   <nav>
+  <div class="logo">LabEquip</div>
+  <ul>
+    <li><a href="{{ url_for('home') }}">Home</a></li>
+    <li><a href="{{ url_for('products') }}" class="active">Products</a></li>
+    <li><a href="{{ url_for('chemicals') }}">Chemicals</a></li>
+    <li><a href="{{ url_for('services') }}">Services</a></li>
+    <li><a href="{{ url_for('contacts') }}">Contact</a></li>
+    <li><a href="{{ url_for('cart') }}">🛒 Cart (<span id="cart-count">0</span>)</a></li>
+  </ul>
+</nav>
+
+  </header>
+
+  <!-- Products Section -->
+  <main class="products-container">
+    <h2>Physical Lab Instruments</h2>
+    <div class="products-grid">
+      <div class="product-box"><img src="assets.pro/oscilloscope-on.jpg">
+        <h3>Oscilloscope</h3>
+        <p>High precision digital oscilloscope for voltage and signal analysis.</p>
+        <p>₹200</p>
+        <button onclick="addToCart('Oscilloscope',200,'assets/buffer solution.jpg',this)">Add to Cart</button>
+      </div>
+      <div class="product-box"><img src="assets.pro/micro.jpg">
+        <h3>Micrometer</h3>
+        <p>Accurate micrometer for measuring small distances and dimensions.</p>
+         <p>₹300</p>
+        <button onclick="addToCart('Micrometer',300,'assets/buffer solution.jpg',this)">Add to Cart</button>
+      </div>
+      <div class="product-box"><img src="assets.pro/digital-balance.jpg">
+        <h3>Digital Balance</h3>
+        <p>High-precision digital balance for measuring mass.</p>
+         <p>₹250</p>
+        <button onclick="addToCart('Digital Balance',250,'assets/buffer solution.jpg',this)">Add to Cart</button>
+      </div>
+      <div class="product-box"><img src="assets.pro/volt.jpg">
+        <h3>Voltmeter</h3>
+        <p>Reliable voltmeter for electrical measurements in experiments.</p>
+         <p>₹200</p>
+        <button onclick="addToCart('Voltmeter',200,'assets/buffer solution.jpg',this)">Add to Cart</button>
+      </div>
+      <div class="product-box"><img src="assets.pro/Ammeter.jpg">
+        <h3>Ammeter</h3>
+        <p>Precise ammeter for measuring current in physical experiments.</p>
+         <p>₹200</p>
+        <button onclick="addToCart('Ammeter',200,'assets/buffer solution.jpg',this)">Add to Cart</button>
+      </div>
+      <div class="product-box"><img src="assets.pro/fun gene.jpg">
+        <h3>Function Generator</h3>
+        <p>Generates electrical waveforms for testing circuits and devices.</p>
+         <p>₹300</p>
+        <button onclick="addToCart('Function  Generator',300,'assets/buffer solution.jpg',this)">Add to Cart</button>
+      </div>
+    </div>
+
+    <h2>Chemical Lab Instruments</h2>
+    <div class="products-grid">
+      <div class="product-box"><img src="assets.pro/burette.webp">
+        <h3>Burette</h3>
+        <p>Glass burette for accurate titration and solution delivery.</p>
+         <p>₹150</p>
+        <button onclick="addToCart('Burette',150,'assets/buffer solution.jpg',this)">Add to Cart</button>
+      </div>
+      <div class="product-box"><img src="assets.pro/beaker.jpg">
+        <h3>Beaker Set</h3>
+        <p>Durable glass beakers for general chemical experiments.</p>
+         <p>₹1800</p>
+        <button onclick="addToCart('Beaker Set',1800,'assets/buffer solution.jpg',this)">Add to Cart</button>
+      </div>
+      <div class="product-box"><img src="assets.pro/pH-Tester.webp">
+        <h3>pH Meter</h3>
+        <p>Digital pH meter for precise acidity and alkalinity measurement.</p>
+         <p>₹2000</p>
+        <button onclick="addToCart('PH Meter',2000,'assets/buffer solution.jpg',this)">Add to Cart</button>
+      </div>
+      <div class="product-box"><img src="assets.pro/glass-conical-flask.jpg">
+        <h3>Conical Flask</h3>
+        <p>Erlenmeyer flask for chemical reactions and mixing solutions.</p>
+         <p>₹4000</p>
+        <button onclick="addToCart('Conical Flask',4000,'assets/buffer solution.jpg',this)">Add to Cart</button>
+      </div>
+      <div class="product-box"><img src="assets.pro/test tube.webp">
+        <h3>Test Tube Set</h3>
+        <p>Set of test tubes for experiments and sample storage.</p>
+         <p>₹700</p>
+        <button onclick="addToCart('Test Tube Set ',700,'assets/buffer solution.jpg',this)">Add to Cart</button>
+      </div>
+      <div class="product-box"><img src="assets.pro/reagent.webp">
+        <h3>Reagent Bottles</h3>
+        <p>High-quality bottles for storing chemicals and solutions.</p>
+         <p>₹100</p>
+        <button onclick="addToCart('Reagent Bottles',100,'assets/buffer solution.jpg',this)">Add to Cart</button>
+      </div>
+    </div>
+
+    <h2>Medical Lab Instruments</h2>
+    <div class="products-grid">
+      <div class="product-box"><img src="assets.pro/microscope.jpg">
+        <h3>Microscope</h3>
+        <p>High-resolution optical microscope for cellular and tissue analysis.</p>
+         <p>₹780</p>
+        <button onclick="addToCart('Microscope',780,'assets/buffer solution.jpg',this)">Add to Cart</button>
+      </div>
+      <div class="product-box"><img src="assets.pro/autoclave.jpg">
+        <h3>Autoclave</h3>
+        <p>Sterilization equipment for safe medical lab procedures.</p>
+         <p>₹150</p>
+        <button onclick="addToCart('Autoclave',150,'assets/buffer solution.jpg',this)">Add to Cart</button>
+      </div>
+      <div class="product-box"><img src="assets.pro/centrifuge.jpg">
+        <h3>Centrifuge</h3>
+        <p>High-speed centrifuge for blood, serum, and sample separation.</p>
+         <p>₹500</p>
+        <button onclick="addToCart('Centrifuge',500,'assets/buffer solution.jpg',this)">Add to Cart</button>
+      </div>
+      <div class="product-box"><img src="assets.pro/spec.jpg">
+        <h3>Spectrophotometer</h3>
+        <p>Measures absorbance and concentration of biological samples.</p>
+         <p>₹100</p>
+        <button onclick="addToCart('Spectrophotometer',100,'assets/buffer solution.jpg',this)">Add to Cart</button>
+      </div>
+      <div class="product-box"><img src="assets.pro/incubator.jpg">
+        <h3>Incubator</h3>
+        <p>Controlled temperature incubator for cell culture and microbiology.</p>
+         <p>₹140</p>
+        <button onclick="addToCart('Incubator',140,'assets/buffer solution.jpg',this)">Add to Cart</button>
+      </div>
+      <div class="product-box"><img src="assets.pro/analyzer.jpg">
+        <h3>Blood Analyzer</h3>
+        <p>Automated blood analyzer for hematology and diagnostics.</p>
+         <p>₹800</p>
+        <button onclick="addToCart('Blood Analyzer',800,'assets/buffer solution.jpg',this)">Add to Cart</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Lab Equipment Store | Precision. Reliability. Innovation.</p>
+  </footer>
+</body>
+
+</html>

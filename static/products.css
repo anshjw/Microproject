@@ -1,0 +1,227 @@
+/* =========================
+   Global Reset
+========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* =========================
+   Body
+========================= */
+body {
+  background: #121212;
+  color: #f0f0f0;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* =========================
+   Navbar (Unified with Profile Page)
+========================= */
+nav {
+  background: #1c1c1c;
+  padding: 15px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 2px solid #1fb6ff;
+}
+
+nav .logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1fb6ff;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+nav ul li a {
+  color: #f0f0f0;
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  color: #1fb6ff;
+}
+
+nav ul li a::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: #1fb6ff;
+  transition: width 0.3s;
+}
+
+nav ul li a:hover::after,
+nav ul li a.active::after {
+  width: 100%;
+}
+
+/* =========================
+   Products Container
+========================= */
+.products-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  padding: 100px 50px 50px 50px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.products-container h2 {
+  color: #1fb6ff;
+  font-size: 28px;
+  margin: 40px 0 20px 0;
+}
+
+/* =========================
+   Grid Layout
+========================= */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+/* =========================
+   Product Box
+========================= */
+.product-box {
+  background: #1c1c1c;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(31, 182, 255, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.product-box:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 25px rgba(31,182,255,0.25);
+}
+
+.product-box img {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  background: #fff;
+  padding: 10px;
+  transition: transform 0.3s ease;
+}
+
+.product-box:hover img {
+  transform: scale(1.05);
+}
+
+.product-box h3 {
+  color: #1fb6ff;
+  margin-bottom: 12px;
+  font-size: 20px;
+}
+
+.product-box p {
+  font-size: 15px;
+  color: #ddd;
+  line-height: 1.5;
+}
+
+/* =========================
+   Buttons
+========================= */
+.product-box button {
+  background-color: #1fb6ff;
+  color: #000;
+  font-weight: bold;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 12px;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.product-box button:hover {
+  background-color: #0f98d3;
+  color: #fff;
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(31,182,255,0.6);
+}
+
+.product-box button:active {
+  transform: scale(0.96);
+  background-color: #0e75a8;
+}
+
+/* =========================
+   Footer
+========================= */
+footer {
+  text-align: center;
+  padding: 25px 0;
+  background: #1c1c1c;
+  color: #aaa;
+  border-top: 2px solid #1fb6ff;
+  margin-top: 50px;
+  font-size: 0.95rem;
+}
+
+/* =========================
+   Responsive Design
+========================= */
+@media (max-width: 992px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .products-container {
+    padding: 100px 20px 50px 20px;
+  }
+  .product-box {
+    padding: 20px;
+  }
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+
+  nav ul {
+    flex-direction: column;
+    background: #1c1c1c;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 100%;
+    padding: 15px 0;
+    display: none;
+  }
+
+  nav.active ul {
+    display: flex;
+  }
+}

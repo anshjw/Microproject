@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - SciLab Store</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+  <script src="{{ url_for('static', filename='login.js') }}" defer></script>
+</head>
+<body>
+  <div class="login-wrapper">
+    <div class="login-box">
+      <div class="login-header">
+        <div class="logo">LE</div>
+        <h2>Welcome Back</h2>
+        <p>Login to continue</p>
+      </div>
+
+      <form action="{{ url_for('login') }}" method="POST">
+        <!-- Username -->
+        <div class="form-group">
+          <input type="text" name="Username" placeholder="Username" required>
+        </div>
+
+        <!-- Password with eye -->
+        <div class="form-group password-group">
+          <input type="password" id="Password" name="Password" placeholder="Password" required>
+        </div>
+
+        <button type="submit" class="login-btn">Login</button>
+      </form>
+
+      <div class="extra-links">
+        <a href="#">Forgot Password?</a>
+      </div>
+
+      <div class="register-link">
+        <p>Don't have an account? <a href="{{ url_for('main_page') }}">Register</a></p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

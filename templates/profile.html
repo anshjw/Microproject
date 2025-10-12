@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile - Lab Instrument</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}">
+  <script src="{{ url_for('static', filename='profile.js') }}" defer></script>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">LabEquip</div>
+    <ul>
+      <li><a href="{{ url_for('home') }}">Home</a></li>
+      <li><a href="{{ url_for('products') }}">Products</a></li>
+      <li><a href="{{ url_for('services') }}">Services</a></li>
+      <li><a href="{{ url_for('chemicals') }}">Chemicals</a></li>
+      <li><a href="{{ url_for('contacts') }}">Contact</a></li>
+      <li><a href="{{ url_for('profile') }}" class="active">Profile</a></li>
+    </ul>
+  </nav>
+
+  <section class="profile-container">
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <a class="tab-btn" href="{{ url_for('profile') }}">Profile</a>
+      <a class="tab-btn" href="{{ url_for('orders') }}">My Orders</a>
+      
+
+    </div>
+
+    <!-- Profile Tab -->
+    <div class="tab-content active" id="profileTab">
+      <div class="profile-card">
+        <div class="profile-pic-wrapper">
+          <img src="static/profilelogo.png" alt="Profile Picture" id="profilePic" class="profile-pic">
+          <input type="file" id="profileUpload" accept="image/*">
+        </div>
+
+        <h2 id="name">{{ Fullname }}</h2>
+        <p><strong>Email:</strong> <span id="email">{{ email }}</span></p>
+        <p><strong>Phone:</strong> <span id="phone">{{ phone }}</span></p>
+        <p><strong>Organization:</strong> <span id="organization">{{ organization }}</span></p>
+
+        <button id="editBtn" class="edit-btn">Edit Profile</button>
+      </div>
+
+      <!-- Edit Profile Form -->
+      <div id="editForm" class="edit-form">
+        <h3>Edit Profile</h3>
+        <label for="editName">Full Name</label>
+        <input type="text" id="editName" value="{{ Fullname }}">
+
+        <label for="editEmail">Email</label>
+        <input type="email" id="editEmail" value="{{ email }}">
+
+        <label for="editPhone">Phone</label>
+        <input type="text" id="editPhone" value="{{ phone }}">
+
+        <label for="editOrg">Organization</label>
+        <input type="text" id="editOrg" value="{{ organization }}">
+
+        <div class="form-buttons">
+          <button id="saveBtn" class="save-btn">Save</button>
+          <button id="cancelBtn" class="cancel-btn">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+
+  </section>
+
+  <footer>
+    <p>&copy; 2025 LabInstrument. All Rights Reserved.</p>
+  </footer>
+</body>
+
+</html>
