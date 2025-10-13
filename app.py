@@ -296,64 +296,71 @@ def contact():
     return render_template('contact.html')
 
 # ✅ NEW & IMPROVED: Unified route for cancelling an order
-@app.route('/cancel_order/<int:order_id>', methods=['GET', 'POST'])
+@app.route('/cancel_order/<int:order_id>', methods=['POST'])
 def cancel_order(order_id):
-    """
-    Handles both displaying the cancellation form (GET) and processing the
-    cancellation request (POST).
-    """
     if "username" not in session:
-        flash("You must be logged in to cancel an order.", "warning")
-        return redirect(url_for("login"))
+        return jsonify({"success": False, "message": "You must be logged in."}), 401
 
-    # --- HANDLE THE FORM SUBMISSION ---
-    if request.method == 'POST':
-        reason = request.form.get('reason', 'No reason provided.')
+    conn = None # Initialize conn to None
+    try:
+        data = request.get_json()
+        reason = data.get('reason', 'No reason provided.')
+        if not reason:
+            return jsonify({"success": False, "message": "Cancellation reason is required!"}), 400
+
         user_email = session.get('user_email')
-
         conn = sqlite3.connect(DB_NAME)
-        # We need dictionary access to the row data, so we use Row factory
         conn.row_factory = sqlite3.Row 
         cursor = conn.cursor()
 
-        # Step 1: Find the order and verify it belongs to the logged-in user for security
-        cursor.execute("SELECT * FROM orders WHERE order_id = ? AND Email = ?", (order_id, user_email))
+        # 1. SAFER DATE CHECK: Let SQLite compare the dates.
+        # This query finds the order AND checks if it's within 10 days.
+        # It's much more reliable than parsing strings in Python.
+        cursor.execute("""
+            SELECT * FROM orders 
+            WHERE order_id = ? 
+              AND Email = ? 
+              AND Order_Date >= DATE('now', '-10 days')
+        """, (order_id, user_email))
+        
         order_to_cancel = cursor.fetchone()
 
         if order_to_cancel:
-            # Step 2: If found, copy the order to the 'cancelled_orders' table
+            # 2. If found, move the order to the 'cancelled_orders' table
             cursor.execute("""
                 INSERT INTO cancelled_orders (
                     order_id, Email, Instrument_Name, Quantity, Price, 
                     Order_Date, Status, Cancellation_Reason, Cancellation_Date
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, DATE('now'))
             """, (
-                order_to_cancel['order_id'],
-                order_to_cancel['Email'],
-                order_to_cancel['Instrument_Name'],
-                order_to_cancel['Quantity'],
-                order_to_cancel['Price'],
-                order_to_cancel['Order_Date'],
-                'Cancelled', # Update status
-                reason
+                order_to_cancel['order_id'], order_to_cancel['Email'],
+                order_to_cancel['Instrument_Name'], order_to_cancel['Quantity'],
+                order_to_cancel['Price'], order_to_cancel['Order_Date'],
+                'Cancelled', reason
             ))
             
-            # Step 3: Delete the order from the active 'orders' table
+            # 3. Delete the order from the active 'orders' table
             cursor.execute("DELETE FROM orders WHERE order_id = ?", (order_id,))
             
             conn.commit()
-            conn.close()
-            
-            flash(f"Order #{order_id} has been successfully cancelled.", "success")
-            return redirect(url_for('profile'))
+            return jsonify({"success": True, "message": f"Order #{order_id} has been cancelled."})
         else:
-            # If order doesn't exist or doesn't belong to the user
+            # This 'else' block now handles both "order not found" and "order is too old to cancel"
+            return jsonify({
+                "success": False, 
+                "message": "Order not found or it is past the 10-day cancellation period."
+            }), 404
+            
+    except Exception as e:
+        # 4. BETTER ERROR LOGGING: Print the full traceback to your console
+        print("--- AN UNEXPECTED ERROR OCCURRED ---")
+        traceback.print_exc()
+        print("------------------------------------")
+        return jsonify({"success": False, "message": "An unexpected error occurred."}), 500
+    finally:
+        # 5. Ensure the database connection is always closed
+        if conn:
             conn.close()
-            flash("Order not found or you do not have permission to cancel it.", "danger")
-            return redirect(url_for('profile'))
-
-    # --- SHOW THE CANCELLATION PAGE (if request method is GET) ---
-    return render_template('cancel.html', order_id=order_id)
 
 
 

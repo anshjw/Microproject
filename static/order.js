@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Select all cancel buttons
     const cancelButtons = document.querySelectorAll(".cancel-btn");
 
     cancelButtons.forEach(button => {
@@ -10,54 +9,40 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!row) return;
 
             const orderId = row.querySelector("td").textContent.trim();
-
-            // Ask user for confirmation
-            const confirmCancel = confirm(`Are you sure you want to cancel Order #${orderId}?`);
-            if (!confirmCancel) return;
-
-            // Ask user for reason
+            
+            // Ask for a reason using the prompt dialog
             const reason = prompt("Please enter the reason for cancelling this order:");
             
-            if (!reason) return alert("Cancellation reason is required!");
-
-            // Update status visually in table
-            const statusCell = row.querySelector(".status");
-            statusCell.textContent = "Cancelled";
-            statusCell.classList.remove("pending", "shipped", "delivered");
-            statusCell.classList.add("cancelled");
-
-            // Disable the cancel button
-            button.disabled = true;
-            button.classList.add("disabled-btn");
+            // Stop if the user clicks "Cancel" or leaves the reason empty
+            if (reason === null || reason.trim() === "") {
+                if (reason !== null) { // Only show alert if they entered empty space
+                   alert("Cancellation reason is required!");
+                }
+                return; 
+            }
 
             // Send cancellation request to server
             try {
                 const response = await fetch(`/cancel_order/${orderId}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ reason: reason })
+                    // Send the reason in the request body
+                    body: JSON.stringify({ reason: reason }) 
                 });
-                const data = await response.json();
 
-                if (data.success) {
-                    alert(`Order #${orderId} cancelled successfully!`);
-                    // Redirect to cancel page if needed
-                    window.location.href = `/cancel/${orderId}`;
+                const data = await response.json(); // Always expect a JSON response
+
+                if (response.ok) { // Check if the HTTP status is 2xx (e.g., 200 OK)
+                    alert(data.message); // Show success message from server
+                    location.reload();   // Reload the page to see the changes
                 } else {
-                    alert("Failed to cancel order. Please try again.");
-                    // Revert button status if failed
-                    button.disabled = false;
-                    statusCell.textContent = "Pending";
-                
-                    statusCell.classList.remove("cancelled");
+                    // Show the error message from the server (e.g., "Cannot cancel after 10 days")
+                    alert(`Error: ${data.message}`);
                 }
-            }
-             catch (error) {
-                // console.error("Error cancelling order:", error);
-                // alert("Server error. Please try again later.");
-                button.disabled = false;
-                statusCell.classList.remove("cancelled");
-                
+
+            } catch (error) {
+                console.error("Error cancelling order:", error);
+                alert("A server error occurred. Please try again later.");
             }
         });
     });
