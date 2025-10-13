@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session,jsonify
+from flask import Flask, render_template, request, redirect, url_for, session,jsonify,flash
 import sqlite3
 
 app = Flask(__name__)
@@ -48,6 +48,24 @@ def init_db():
           Status TEXT NOT NULL
 );
         ''')
+
+        conn = sqlite3.connect(DB_NAME, timeout=10, check_same_thread=False)
+        cursor = conn.cursor()
+         # ✅ NEW: Table to store cancelled orders
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS cancelled_orders (
+                order_id INTEGER PRIMARY KEY,
+                Email TEXT NOT NULL,
+                Instrument_Name TEXT NOT NULL,
+                Quantity INTEGER NOT NULL,
+                Price REAL NOT NULL,
+                Order_Date TEXT NOT NULL,
+                Status TEXT,
+                Cancellation_Reason TEXT,
+                Cancellation_Date TEXT NOT NULL
+            )
+        ''')
+
 
 
 
@@ -277,6 +295,65 @@ def contact():
 
     return render_template('contact.html')
 
+# ✅ NEW & IMPROVED: Unified route for cancelling an order
+@app.route('/cancel_order/<int:order_id>', methods=['GET', 'POST'])
+def cancel_order(order_id):
+    """
+    Handles both displaying the cancellation form (GET) and processing the
+    cancellation request (POST).
+    """
+    if "username" not in session:
+        flash("You must be logged in to cancel an order.", "warning")
+        return redirect(url_for("login"))
+
+    # --- HANDLE THE FORM SUBMISSION ---
+    if request.method == 'POST':
+        reason = request.form.get('reason', 'No reason provided.')
+        user_email = session.get('user_email')
+
+        conn = sqlite3.connect(DB_NAME)
+        # We need dictionary access to the row data, so we use Row factory
+        conn.row_factory = sqlite3.Row 
+        cursor = conn.cursor()
+
+        # Step 1: Find the order and verify it belongs to the logged-in user for security
+        cursor.execute("SELECT * FROM orders WHERE order_id = ? AND Email = ?", (order_id, user_email))
+        order_to_cancel = cursor.fetchone()
+
+        if order_to_cancel:
+            # Step 2: If found, copy the order to the 'cancelled_orders' table
+            cursor.execute("""
+                INSERT INTO cancelled_orders (
+                    order_id, Email, Instrument_Name, Quantity, Price, 
+                    Order_Date, Status, Cancellation_Reason, Cancellation_Date
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, DATE('now'))
+            """, (
+                order_to_cancel['order_id'],
+                order_to_cancel['Email'],
+                order_to_cancel['Instrument_Name'],
+                order_to_cancel['Quantity'],
+                order_to_cancel['Price'],
+                order_to_cancel['Order_Date'],
+                'Cancelled', # Update status
+                reason
+            ))
+            
+            # Step 3: Delete the order from the active 'orders' table
+            cursor.execute("DELETE FROM orders WHERE order_id = ?", (order_id,))
+            
+            conn.commit()
+            conn.close()
+            
+            flash(f"Order #{order_id} has been successfully cancelled.", "success")
+            return redirect(url_for('profile'))
+        else:
+            # If order doesn't exist or doesn't belong to the user
+            conn.close()
+            flash("Order not found or you do not have permission to cancel it.", "danger")
+            return redirect(url_for('profile'))
+
+    # --- SHOW THE CANCELLATION PAGE (if request method is GET) ---
+    return render_template('cancel.html', order_id=order_id)
 
 
 
@@ -309,15 +386,10 @@ def services():
 def cart():
     return render_template("cart.html", username=session.get('username'))
 
-@app.route('/cancel/<int:order_id>')
-def cancel_order(order_id):
-    """Render the cancel reason form"""
-    return render_template('cancel.html', order_id=order_id)
-
-
 
 
 
 # ---------------- Run App ----------------
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=8080)
+

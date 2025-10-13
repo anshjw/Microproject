@@ -199,21 +199,21 @@ nav ul li a.active::after {
 }
 
 .summary .clear-cart {
-  background: #ff4c4c;
+  background: red;
   color: #fff;
 }
 
 .summary .clear-cart:hover {
-  background: #e03a3a;
+  background:  red;
 }
 
 .summary .buy-now {
-  background: #1fb6ff;
+  background: green;
   color: #000;
 }
 
 .summary .buy-now:hover {
-  background: #0f98d3;
+  background: green;
   color: #fff;
 }
 

@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Ask user for reason
             const reason = prompt("Please enter the reason for cancelling this order:");
+            
             if (!reason) return alert("Cancellation reason is required!");
 
             // Update status visually in table
@@ -47,14 +48,16 @@ document.addEventListener("DOMContentLoaded", () => {
                     // Revert button status if failed
                     button.disabled = false;
                     statusCell.textContent = "Pending";
+                
                     statusCell.classList.remove("cancelled");
                 }
-            } catch (error) {
-                console.error("Error cancelling order:", error);
-                alert("Server error. Please try again later.");
+            }
+             catch (error) {
+                // console.error("Error cancelling order:", error);
+                // alert("Server error. Please try again later.");
                 button.disabled = false;
-                statusCell.textContent = "Pending";
                 statusCell.classList.remove("cancelled");
+                
             }
         });
     });

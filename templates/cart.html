@@ -129,6 +129,8 @@
           } else {
               // Show any error message from the server
               alert(`❌ Error: ${data.message || data.error}`);
+              window.location.href = "{{ url_for('login') }}";
+
           }
       })
       .catch(error => {
