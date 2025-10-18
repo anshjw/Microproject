@@ -26,11 +26,11 @@ def init_db():
         
     
     
-        conn = sqlite3.connect('DB_NAME', timeout=10, check_same_thread=False)
-        cursor = conn.cursor()
+    # Table for contact messages
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS contact_messages (
-                Usename TEXT NOT NULL,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                Username TEXT NOT NULL,  -- FIX: Corrected typo from "Usename" to "Username"
                 Email TEXT NOT NULL,
                 message TEXT NOT NULL
             )
@@ -278,22 +278,31 @@ def orders():
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
     if request.method == 'POST':
-        Username = request.form.get('Username')
-        Email = request.form.get('Email')
-        Your_message = request.form.get('Your_message')
+        username = request.form.get('Username')
+        email = request.form.get('Email')
+        # CHANGE: This must now match the 'name' attribute from the HTML textarea
+        message_text = request.form.get('message') 
 
-        conn = sqlite3.connect('DB_NAME')
+        if not all([username, email, message_text]):
+            flash("All fields are required.", "error")
+            return redirect(url_for('contact'))
+
+        conn = sqlite3.connect(DB_NAME)
         cursor = conn.cursor()
+        
         cursor.execute("""
-            INSERT INTO contact_messages (Username, Email,Your_message)
+            INSERT INTO contact_messages (Username, Email, message)
             VALUES (?, ?, ?)
-        """, (Username, Email,Your_message))
+        """, (username, email, message_text))
+        
         conn.commit()
         conn.close()
+        
+        flash("Your message has been sent successfully!", "success")
+        return redirect(url_for('contact'))
 
-        return redirect(url_for('contact'))  # You can show a success message here
+    return render_template('contact.html', username=session.get('username'))
 
-    return render_template('contact.html')
 
 # ✅ NEW & IMPROVED: Unified route for cancelling an order
 @app.route('/cancel_order/<int:order_id>', methods=['POST'])

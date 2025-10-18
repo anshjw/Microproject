@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,9 +8,12 @@
   <title>Lab Equipment Store - Home</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='animation.js') }}" defer></script>
 </head>
 
 <body>
+  <canvas id="atomCanvas"></canvas>
+
   <!-- Header -->
   <header class="header">
     <div class="logo-container">
@@ -34,31 +38,74 @@
         </li>
 
         {% if username %}
-          <li><a class="auth-btn" href="{{ url_for('logout') }}">Logout</a></li>
+        <li><a class="auth-btn" href="{{ url_for('logout') }}">Logout</a></li>
         {% else %}
-          <li><a class="auth-btn" id="loginLink" href="{{ url_for('login') }}">Login</a></li>
+        <li><a class="auth-btn" id="loginLink" href="{{ url_for('login') }}">Login</a></li>
         {% endif %}
       </ul>
     </nav>
   </header>
 
-  <!-- Hero Section with Background Video -->
-  <section class="hero">
-    <video autoplay muted loop playsinline class="hero-video">
-      <source src="{{ url_for('static', filename='https://www.pexels.com/video/person-experimenting-in-laboratory-8852740/') }}" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
+  <main>
+    <section class="hero" id="home">
+      <video autoplay muted loop playsinline class="hero-video">
+        <source src="static/lab.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <div class="hero-content">
+        <h1 id="typing-heading"></h1>
+        <p>Providing high-quality instruments, glassware, and certified chemicals to labs worldwide.</p>
+        <a href="{{ url_for('products') }}"><button>Shop Now</button></a>
+      </div>
+    </section>
 
-    <div class="hero-content">
-      <h2>Welcome to LabEquip</h2>
-      <p>Your trusted partner for lab instruments, glassware, and certified chemicals.</p>
-      <a href="{{ url_for('products') }}"><button>Shop Now</button></a>
-    </div>
-  </section>
 
-  <!-- Footer -->
-  <footer>
-    <p>© 2025 Lab Equipment Store | All Rights Reserved</p>
-  </footer>
+            <section class="products-container content-section">
+            <h2>Featured Products</h2>
+            <div class="products-grid">
+                <div class="product-box">
+                    <img src="https://via.placeholder.com/220x180.png?text=Microscope" alt="Digital Microscope">
+                    <h3>Digital Microscope</h3>
+                    <p>High-resolution imaging for detailed cellular analysis.</p>
+                  </div>
+                <div class="product-box">
+                    <img src="https://via.placeholder.com/220x180.png?text=Beakers" alt="Glassware Set">
+                    <h3>Borosilicate Beakers</h3>
+                    <p>Durable, heat-resistant glass beakers in various sizes.</p>
+                  </div>
+                <div class="product-box">
+                    <img src="https://via.placeholder.com/220x180.png?text=Centrifuge" alt="Centrifuge Machine">
+                    <h3>Mini Centrifuge</h3>
+                    <p>Compact and efficient for quick sample separation.</p>
+                  </div>
+              </div>
+            <a href="{{ url_for('products') }}" class="btn-secondary">View All Products</a>
+          </section>
+
+            <section class="features-container content-section">
+            <div class="feature-box">
+                <div class="feature-icon">🔬</div>
+                <h3>Precision Instruments</h3>
+                <p>Calibrated for accuracy to ensure reliable results every time.</p>
+              </div>
+            <div class="feature-box">
+                <div class="feature-icon">📦</div>
+                <h3>Fast & Secure Shipping</h3>
+                <p>Carefully packaged and promptly delivered to your facility.</p>
+              </div>
+            <div class="feature-box">
+                <div class="feature-icon">✅</div>
+                <h3>Quality Certified</h3>
+                <p>All products meet rigorous industry standards for safety and quality.</p>
+              </div>
+          </section>
+
+
+    <!-- Footer -->
+    <footer>
+      <p>© 2025 Lab Equipment Store | Precision. Reliability. Innovation.</p>
+    </footer>
+
 </body>
+
 </html>

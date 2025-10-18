@@ -1,5 +1,5 @@
 /* =========================
-   RESET
+   RESET
 ========================= */
 * {
   margin: 0;
@@ -7,8 +7,12 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* =========================
-   BODY
+   BODY
 ========================= */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -20,13 +24,24 @@ body {
 }
 
 /* =========================
-   HEADER
+   CANVAS
+========================= */
+#atomCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* =========================
+   HEADER
 ========================= */
 header {
   background: #1e1e1e;
   padding: 1rem 5%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   width: 100%;
   position: fixed;
@@ -35,7 +50,6 @@ header {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
 }
 
-/* Logo */
 .logo-container {
   display: flex;
   align-items: center;
@@ -71,7 +85,11 @@ header {
   color: #1fb6ff;
 }
 
-/* Navigation */
+/* This rule pushes the navigation bar to the right */
+.nav {
+  margin-left: auto;
+}
+
 .nav ul {
   list-style: none;
   display: flex;
@@ -91,7 +109,6 @@ header {
   color: #ffd54f;
 }
 
-/* Profile Image */
 .profile-item img {
   width: 32px;
   height: 32px;
@@ -105,7 +122,6 @@ header {
   transform: scale(1.1);
 }
 
-/* Login / Logout Buttons */
 .auth-btn {
   padding: 6px 12px;
   background: #1fb6ff;
@@ -119,19 +135,41 @@ header {
 }
 
 /* =========================
-   HERO SECTION
+   HERO SECTION
 ========================= */
 .hero {
-  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   overflow: hidden;
   text-align: center;
-  margin-top: 70px; /* Space for fixed header */
+  background: transparent;
+  position: relative;
+  /* <-- 1. ADDED THIS LINE */
 }
 
+.hero-content {
+  position: relative;
+  z-index: 3;
+  /* <-- 4. CHANGED THIS from 2 to 3 */
+  color: white;
+  padding: 2rem;
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #1fb6ff;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid #1fb6ff;
+  animation: blink-caret 0.75s step-end infinite;
+}
+
+/* 2. ADDED THIS ENTIRE NEW RULE */
 .hero-video {
   position: absolute;
   top: 0;
@@ -139,22 +177,23 @@ header {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(60%);
+  /* Prevents video from stretching */
   z-index: 1;
+  /* Puts it at the back */
 }
 
-.hero-content {
-  position: relative;
+/* 3. ADDED THIS NEW RULE FOR THE OVERLAY */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* 50% black overlay */
   z-index: 2;
-  color: white;
-  padding: 2rem;
-  animation: fadeIn 1.5s ease-in-out;
-}
-
-.hero-content h2 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  color: #1fb6ff;
+  /* Sits on top of the video */
 }
 
 .hero-content p {
@@ -163,6 +202,7 @@ header {
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
+  color: #ddd;
 }
 
 .hero-content button {
@@ -172,6 +212,8 @@ header {
   border-radius: 6px;
   font-size: 1rem;
   cursor: pointer;
+  color: #121212;
+  font-weight: bold;
   transition: all 0.3s ease;
 }
 
@@ -182,41 +224,210 @@ header {
 }
 
 /* =========================
-   FOOTER
+   BUTTONS
 ========================= */
-footer {
-  background: #1e1e1e;
-  text-align: center;
-  padding: 1rem;
-  color: #f0f0f0;
-  position: relative;
-  z-index: 5;
-  border-top: 2px solid #1fb6ff;
+.btn-primary,
+.btn-secondary {
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.btn-primary {
+  background: #1fb6ff;
+  color: #121212;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 15px rgba(31, 182, 255, 0.6);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 2px solid #1fb6ff;
+  color: #1fb6ff;
+  margin-top: 30px;
+}
+
+.btn-secondary:hover {
+  background: #1fb6ff;
+  color: #121212;
+  transform: translateY(-3px);
 }
 
 /* =========================
-   ANIMATIONS
+   CONTENT SECTIONS
+========================= */
+main {
+  position: relative;
+  z-index: 5;
+}
+
+.content-section {
+  padding: 80px 50px;
+  background: rgba(28, 28, 28, 0.9);
+  border-radius: 15px;
+  margin: 40px;
+  backdrop-filter: blur(5px);
+  /* For fade-in animation */
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.content-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Features */
+.features-container {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  flex-wrap: nowrap;
+  gap: 20px;
+}
+
+.feature-box {
+  max-width: 300px;
+}
+
+.feature-icon {
+  font-size: 48px;
+  margin-bottom: 15px;
+  color: #1fb6ff;
+}
+
+.feature-box h3 {
+  font-size: 22px;
+  color: #f0f0f0;
+  margin-bottom: 10px;
+}
+
+.feature-box p {
+  font-size: 16px;
+  color: #aaa;
+  line-height: 1.6;
+}
+
+/* Products */
+.products-container {
+  text-align: center;
+}
+
+.products-container h2 {
+  color: #1fb6ff;
+  font-size: 32px;
+  margin-bottom: 40px;
+}
+
+.products-grid {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: nowrap;
+  gap: 30px;
+}
+
+.product-box {
+  background: #151515;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 300px;
+}
+
+.product-box img {
+  width: 100%;
+  max-width: 220px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.product-box:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 25px rgba(31, 182, 255, 0.6);
+}
+
+.product-box h3 {
+  font-size: 1.2rem;
+  color: #f0f0f0;
+  margin-bottom: 10px;
+}
+
+.product-box p {
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+/* =========================
+   MODERN FOOTER
+========================= */
+footer {
+  text-align: center;
+  padding: 25px 0;
+  background: #1c1c1c;
+  color: #aaa;
+  border-top: 2px solid #1fb6ff;
+  margin-top: 50px;
+  font-size: 0.95rem;
+}
+
+
+
+/* =========================
+   ANIMATIONS
 ========================= */
 @keyframes fadeIn {
   from {
     opacity: 0;
     transform: translateY(15px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
+@keyframes blink-caret {
+
+  from,
+  to {
+    border-color: transparent
+  }
+
+  50% {
+    border-color: #1fb6ff;
+  }
+}
+
 /* =========================
-   RESPONSIVE DESIGN
+  RESPONSIVE DESIGN
 ========================= */
 @media (max-width: 1024px) {
-  .hero-content h2 {
+  .hero-content h1 {
     font-size: 2.5rem;
   }
+
   .hero-content p {
     font-size: 1.1rem;
+  }
+
+  .features-container,
+  .products-grid {
+    flex-wrap: wrap;
   }
 }
 
@@ -227,23 +438,36 @@ footer {
     padding: 1rem 2rem;
   }
 
+  /* This resets the margin for mobile view */
+  .nav {
+    margin-left: 0;
+  }
+
+  /* This centers the nav links on mobile */
   .nav ul {
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
+    width: 100%;
   }
 
-  .hero-content h2 {
+  .hero-content h1 {
     font-size: 2.2rem;
   }
 
   .hero-content p {
     font-size: 1rem;
+
+  }
+
+  .content-section {
+    margin: 20px;
+    padding: 60px 20px;
   }
 }
 
 @media (max-width: 480px) {
-  .hero-content h2 {
+  .hero-content h1 {
     font-size: 1.8rem;
   }
 

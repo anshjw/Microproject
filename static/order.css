@@ -1,5 +1,5 @@
 /* =========================
-   Global Reset
+    Global Reset
 ========================= */
 * {
   margin: 0;
@@ -9,21 +9,21 @@
 }
 
 /* =========================
-   Body
+    Body
 ========================= */
 body {
-  background: #121212;
-  color: #f0f0f0;
+  background: #f8f9fa; /* ✅ Changed to a slightly cleaner light gray */
+  color: #212529; /* ✅ Changed to a standard dark text color */
   min-height: 100vh;
   width: 100%;
   overflow-x: hidden;
 }
 
 /* =========================
-   Header
+    Header
 ========================= */
 header {
-  background: #1e1e1e;
+  background: #ffffff;
   padding: 1rem 5%;
   display: flex;
   justify-content: space-between;
@@ -32,7 +32,7 @@ header {
   top: 0;
   width: 100%;
   z-index: 100;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* ✅ Softened shadow */
 }
 
 /* Logo */
@@ -54,13 +54,13 @@ header {
 
 .logo-container:hover .logo-img {
   transform: scale(1.1);
-  box-shadow: 0 0 10px #1fb6ff;
+  box-shadow: 0 0 10px #007bff; /* ✅ Changed to professional blue */
 }
 
 .store-name {
   font-weight: 700;
   font-size: 22px;
-  color: #fff;
+  color: #343a40; /* ✅ Changed color */
 }
 
 .nav ul {
@@ -70,7 +70,7 @@ header {
 }
 
 .nav ul li a {
-  color: white;
+  color: #343a40; /* ✅ Changed color */
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease;
@@ -78,42 +78,43 @@ header {
 
 .nav ul li a:hover,
 .nav ul li a.active {
-  color: #1fb6ff;
+  color: #007bff; /* ✅ Changed to professional blue */
 }
 
 .auth-btn {
   padding: 6px 12px;
-  background: #1fb6ff;
+  background: #007bff; /* ✅ Changed to professional blue */
   border-radius: 6px;
   font-size: 0.9rem;
 }
 
 .auth-btn:hover {
-  background: #148fcc;
+  background: #0056b3; /* ✅ Darker professional blue */
 }
 
 /* =========================
-   Orders Section
+    Orders Section
 ========================= */
 .orders-section {
-  padding: 90px 5% 2rem 5%; /* move section closer to header */
+  padding: 120px 5% 2rem 5%; 
 }
 
 .orders-section h2 {
-  color: #1fb6ff;
+  color: #007bff; /* ✅ Changed to professional blue */
   margin-bottom: 0.5rem;
   font-size: 2rem;
 }
 
 .orders-section p {
-  color: #ccc;
+  color: #6c757d; /* ✅ Professional muted text color */
   margin-bottom: 1.5rem;
 }
 
 /* Table Wrapper */
 .orders-table-wrapper {
   overflow-x: auto;
-  border-radius: 12px;
+  border-radius: 8px; /* ✅ Slightly smaller radius */
+  box-shadow: 0 0 15px rgba(0,0,0,0.05);
 }
 
 /* Table */
@@ -126,23 +127,23 @@ header {
 .orders-table th,
 .orders-table td {
   padding: 12px 15px;
-  border: 1px solid #2a2a2a;
+  border: 1px solid #dee2e6;
   text-align: center;
   font-size: 0.95rem;
 }
 
 .orders-table th {
-  background: #1fb6ff;
-  color: #121212;
+  background: #007bff; /* ✅ Changed to professional blue */
+  color: #ffffff;
   font-weight: 600;
 }
 
 .orders-table td {
-  background: #1e1e1e;
+  background: #ffffff;
 }
 
 .orders-table tr:hover td {
-  background: #2a2a2a;
+  background: #f8f9fa;
   transition: background 0.3s ease;
 }
 
@@ -155,54 +156,170 @@ header {
   color: #fff;
 }
 
-.status.pending {
-  background: #ff9800;
-}
-
-.status.shipped {
-  background: #2196f3;
-}
-
-.status.delivered {
-  background: #4caf50;
-}
-
-.status.cancelled {
-  background: #f44336;
-}
+.status.pending { background: #ffc107; } /* ✅ Standard Warning Yellow */
+.status.shipped { background: #17a2b8; } /* ✅ Standard Info Teal */
+.status.delivered { background: #28a745; } /* ✅ Standard Success Green */
+.status.cancelled { background: #dc3545; } /* ✅ Standard Danger Red */
 
 /* Cancel Button */
 .cancel-btn {
   margin-left: 8px;
-  padding: 4px 8px;
-  font-size: 0.75rem;
+  padding: 6px 12px;
+  font-size: 0.85rem;
   border: none;
   border-radius: 6px;
-  background: #ff5722;
+  background: #dc3545; /* ✅ Standard Danger Red */
   color: #fff;
   cursor: pointer;
   transition: background 0.3s ease;
 }
 
 .cancel-btn:hover {
-  background: #e64a19;
+  background: #c82333; /* ✅ Darker Danger Red */
+}
+
+
+/* ✅ NEW: Modal Styles */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5); /* ✅ Softened overlay */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+.modal-overlay:not(.hidden) {
+    opacity: 1;
+    pointer-events: auto;
+}
+.modal-content {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    color: #333;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+.modal-overlay:not(.hidden) .modal-content {
+    transform: scale(1);
+}
+.modal-title {
+    color: #007bff; /* ✅ Changed to professional blue */
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+.modal-text {
+    color: #6c757d;
+    margin-bottom: 1rem;
+}
+.modal-order-id-span {
+    font-weight: bold;
+    color: #333;
+}
+.modal-textarea {
+    width: 100%;
+    height: 80px;
+    background: #f8f9fa;
+    border: 1px solid #ced4da; /* ✅ Professional border color */
+    border-radius: 8px;
+    padding: 0.75rem;
+    color: #333;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+.modal-textarea:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+.modal-error-text {
+    color: #dc3545; /* ✅ Standard Danger Red */
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+}
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+.modal-btn {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+.modal-btn:hover {
+    transform: translateY(-2px);
+}
+.modal-btn-secondary {
+    background: #6c757d; /* ✅ Professional secondary gray */
+    color: #fff;
+}
+.modal-btn-secondary:hover {
+    background: #5a6268;
+}
+.modal-btn-danger {
+    background: #dc3545; /* ✅ Standard Danger Red */
+    color: #fff;
+}
+.modal-btn-danger:hover {
+    background: #c82333;
+}
+
+/* ✅ NEW: Notification Toast Styles */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 600;
+    z-index: 300;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.notification:not(.hidden) {
+    opacity: 1;
+    transform: translateX(0);
+}
+.notification.success {
+    background: #28a745;
+}
+.notification.error {
+    background: #dc3545;
+}
+.hidden {
+  display: none;
 }
 
 /* =========================
-   Footer
+    Footer
 ========================= */
 footer {
-  background: #1e1e1e;
+  background: #ffffff;
   text-align: center;
   padding: 1rem 5%;
   margin-top: auto;
-  border-top: 1px solid #2a2a2a;
-  color: #aaa;
+  border-top: 1px solid #e9ecef;
+  color: #6c757d;
   font-size: 0.9rem;
 }
 
 /* =========================
-   Responsive Design
+    Responsive Design
 ========================= */
 @media (max-width: 1024px) {
   .orders-section {
@@ -241,3 +358,4 @@ footer {
     font-size: 0.85rem;
   }
 }
+

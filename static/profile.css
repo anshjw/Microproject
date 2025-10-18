@@ -58,6 +58,7 @@ nav ul li a.active {
   color: #1fb6ff;
 }
 
+/* underline effect only for navbar */
 nav ul li a::after {
   content: "";
   position: absolute;
@@ -75,7 +76,7 @@ nav ul li a.active::after {
 }
 
 /* =========================
-   Tabs
+   Tabs (Profile & Orders)
 ========================= */
 .tabs {
   display: flex;
@@ -86,19 +87,25 @@ nav ul li a.active::after {
 
 .tab-btn {
   padding: 10px 25px;
-  background: #1c1c1c;
+  background: #1fb6ff;
   border: 2px solid #1fb6ff;
   border-radius: 8px;
-  color: #1fb6ff;
+  color: black;
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 600;
+  text-decoration: none;
+  position: relative;
+}
+
+/* remove underline for profile & order buttons */
+.tabs .tab-btn::after {
+  content: none !important;
 }
 
 .tab-btn.active,
 .tab-btn:hover {
   background: #1fb6ff;
-  color: #121212;
 }
 
 /* =========================
@@ -271,69 +278,6 @@ nav ul li a.active::after {
 }
 
 /* =========================
-   Booking History
-========================= */
-.booking-history {
-  background-color: #1c1c1c;
-  border-radius: 16px;
-  padding: 30px;
-  box-shadow: 0 0 20px rgba(31, 182, 255, 0.15);
-}
-
-.booking-history h3 {
-  margin-bottom: 20px;
-  color: #1fb6ff;
-  text-align: center;
-  font-size: 1.4rem;
-}
-
-.booking-history table {
-  width: 100%;
-  border-collapse: collapse;
-  overflow-x: auto;
-}
-
-.booking-history table th,
-.booking-history table td {
-  padding: 14px 15px;
-  border: 1px solid #333;
-  text-align: center;
-  font-size: 0.95rem;
-}
-
-.booking-history table th {
-  background-color: #0f98d3;
-  color: #fff;
-  font-weight: 600;
-}
-
-.booking-history table td {
-  background: #1e1e1e;
-  color: #ddd;
-}
-
-.booking-history table td button {
-  padding: 6px 14px;
-  border: none;
-  border-radius: 6px;
-  background-color: #e53935;
-  color: #fff;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.booking-history table td button:hover {
-  background-color: #c62828;
-}
-
-#noBookingMsg {
-  text-align: center;
-  font-style: italic;
-  color: #999;
-  margin-top: 15px;
-}
-
-/* =========================
    Footer
 ========================= */
 footer {
@@ -370,8 +314,7 @@ footer {
   }
 
   .profile-card,
-  .edit-form,
-  .booking-history {
+  .edit-form {
     padding: 20px;
   }
 

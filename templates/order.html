@@ -53,7 +53,11 @@
             <td>
               <span class="status {{ order.status|lower }}">{{ order.status }}</span>
               {% if order.status == 'Pending' %}
-              <a href="{{ url_for('cancel_order', order_id=order.id) }}" class="cancel-btn">Cancel</a>
+              <!-- 
+                NOTE: The href is no longer strictly needed since JS handles it,
+                but it's good for non-JS fallbacks or right-clicking. The class is what matters.
+              -->
+              <button class="cancel-btn">Cancel</button>
               {% endif %}
             </td>
           </tr>
@@ -66,6 +70,26 @@
       </table>
     </div>
   </section>
+  
+  <!-- ✅ NEW: Modal HTML added to the bottom of the body -->
+  <div id="cancel-modal" class="modal-overlay hidden">
+      <div class="modal-content">
+          <h2 class="modal-title">Confirm Cancellation</h2>
+          <p class="modal-text">Please provide a reason for cancelling order #<span id="modal-order-id" class="modal-order-id-span"></span>.</p>
+          <textarea id="cancel-reason" class="modal-textarea" placeholder="e.g., Ordered by mistake"></textarea>
+          <p id="modal-error" class="modal-error-text hidden">A reason is required.</p>
+          <div class="modal-actions">
+              <button id="modal-close-btn" class="modal-btn modal-btn-secondary">Go Back</button>
+              <button id="modal-confirm-btn" class="modal-btn modal-btn-danger">Confirm</button>
+          </div>
+      </div>
+  </div>
+
+  <!-- ✅ NEW: Notification Toast HTML -->
+  <div id="notification" class="notification hidden">
+      <p id="notification-message"></p>
+  </div>
+
 
   <footer>
     <p>© 2025 Lab Equipment Store</p>
