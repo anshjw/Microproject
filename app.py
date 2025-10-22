@@ -1,57 +1,79 @@
-from flask import Flask, render_template, request, redirect, url_for, session,jsonify,flash
-import sqlite3
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
+import pg8000
+from pg8000 import dbapi
+import os
+from dotenv import load_dotenv
+import traceback
+
+# ---------------- Load Environment Variables ----------------
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Needed for session management
+app.secret_key = os.getenv("SECRET_KEY", "default_secret_key")
+DB_URL = os.getenv("DATABASE_URL")
 
-DB_NAME = 'scientific_instrument.db'
+# ---------------- PostgreSQL Connection (pg8000) ----------------
+def get_db_connection():
+    """
+    Parse DB_URL and return a pg8000 connection.
+    Expected DB_URL format: postgresql://user:pass@host:port/dbname
+    """
+    import urllib.parse as up
+    # allow both 'postgres' and 'postgresql' schemes
+    up.uses_netloc.append("postgres")
+    up.uses_netloc.append("postgresql")
+    url = up.urlparse(DB_URL)
+
+    user = url.username
+    password = url.password
+    host = url.hostname
+    port = url.port or 5432
+    database = url.path.lstrip("/")
+
+    # pg8000.connect accepts these keywords
+    conn = pg8000.connect(user=user, password=password, host=host, port=port, database=database)
+    return conn
 
 
 # ---------------- Initialize Database ----------------
 def init_db():
-    """Create the register table if it doesn't exist"""
+    """Create all required tables if not already existing"""
     try:
-        conn = sqlite3.connect(DB_NAME, timeout=10, check_same_thread=False)
+        conn = get_db_connection()
         cursor = conn.cursor()
+
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS register (
-                Username TEXT NOT NULL PRIMARY KEY,
+                Username TEXT PRIMARY KEY,
                 Fullname TEXT NOT NULL,
-                Email TEXT NOT NULL UNIQUE,
+                Email TEXT UNIQUE NOT NULL,
                 Phone TEXT NOT NULL,
                 Organization TEXT NOT NULL,
                 Password TEXT NOT NULL
             )
         ''')
-        
-    
-    
-    # Table for contact messages
-        cursor.execute("""
+
+        cursor.execute('''
             CREATE TABLE IF NOT EXISTS contact_messages (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                Username TEXT NOT NULL,  -- FIX: Corrected typo from "Usename" to "Username"
+                id SERIAL PRIMARY KEY,
+                Username TEXT NOT NULL,
                 Email TEXT NOT NULL,
                 message TEXT NOT NULL
             )
-        """)
-        conn = sqlite3.connect(DB_NAME, timeout=10, check_same_thread=False)
-        cursor = conn.cursor()
-        cursor.execute('''
-          CREATE TABLE   IF NOT EXISTS orders (
-          order_id INTEGER PRIMARY KEY AUTOINCREMENT,
-          Email TEXT NOT NULL,
-          Instrument_Name TEXT NOT NULL,
-          Quantity INTEGER NOT NULL,
-          Price REAL NOT NULL,
-          Order_Date TEXT NOT NULL,
-          Status TEXT NOT NULL
-);
         ''')
 
-        conn = sqlite3.connect(DB_NAME, timeout=10, check_same_thread=False)
-        cursor = conn.cursor()
-         # ✅ NEW: Table to store cancelled orders
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS orders (
+                order_id SERIAL PRIMARY KEY,
+                Email TEXT NOT NULL,
+                Instrument_Name TEXT NOT NULL,
+                Quantity INTEGER NOT NULL,
+                Price REAL NOT NULL,
+                Order_Date DATE NOT NULL DEFAULT CURRENT_DATE,
+                Status TEXT NOT NULL
+            )
+        ''')
+
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS cancelled_orders (
                 order_id INTEGER PRIMARY KEY,
@@ -59,32 +81,29 @@ def init_db():
                 Instrument_Name TEXT NOT NULL,
                 Quantity INTEGER NOT NULL,
                 Price REAL NOT NULL,
-                Order_Date TEXT NOT NULL,
+                Order_Date DATE NOT NULL,
                 Status TEXT,
                 Cancellation_Reason TEXT,
-                Cancellation_Date TEXT NOT NULL
+                Cancellation_Date DATE NOT NULL DEFAULT CURRENT_DATE
             )
         ''')
 
-
-
-
-
         conn.commit()
+        cursor.close()
         conn.close()
-        print("✅ Database initialized successfully.")
-    except sqlite3.OperationalError as e:
-        print(f"⚠ Database initialization error: {e}")
+        print("✅ PostgreSQL (pg8000) database initialized successfully.")
+    except Exception as e:
+        print("⚠ Database initialization error:", e)
+        traceback.print_exc()
 
 
-# Initialize the database when app starts
+# Initialize database when app starts
 init_db()
 
 
 # ---------------- Home Page ----------------
 @app.route('/')
 def home():
-    # Pass the session username (if it exists) to the template for conditional display
     return render_template("index.html", username=session.get('username'))
 
 
@@ -102,19 +121,34 @@ def register():
         if not Username or not Password:
             return "<h3>❌ Username and Password are required. <a href='/register'>Go Back</a></h3>"
 
+        conn = None
         try:
-            conn = sqlite3.connect(DB_NAME, timeout=10, check_same_thread=False)
-            conn.execute("PRAGMA journal_mode=WAL;")
+            conn = get_db_connection()
             cursor = conn.cursor()
             cursor.execute('''
                 INSERT INTO register (Username, Fullname, Email, Phone, Organization, Password)
-                VALUES (?, ?, ?, ?, ?, ?)
+                VALUES (%s, %s, %s, %s, %s, %s)
             ''', (Username, Fullname, Email, Phone, Organization, Password))
             conn.commit()
+            cursor.close()
             conn.close()
             return redirect(url_for('login'))
-        except sqlite3.IntegrityError:
+        except dbapi.IntegrityError:
+            # duplicate username/email or constraint violation
+            if conn:
+                try:
+                    conn.rollback()
+                except:
+                    pass
             return "<h3>❌ Username or Email already exists. <a href='/register'>Try Again</a></h3>"
+        except Exception as e:
+            if conn:
+                try:
+                    conn.rollback()
+                    conn.close()
+                except:
+                    pass
+            return f"<h3>❌ Error: {e}</h3>"
 
     return render_template("register.html")
 
@@ -126,65 +160,62 @@ def login():
         Username = request.form['Username']
         Password = request.form['Password']
 
-        conn = sqlite3.connect(DB_NAME)   # use the variable, not string "DB_NAME"
+        conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute("SELECT Email FROM register WHERE Username=? AND Password=?", (Username, Password))
+        cursor.execute("SELECT Email FROM register WHERE Username=%s AND Password=%s", (Username, Password))
         row = cursor.fetchone()
+        cursor.close()
         conn.close()
 
         if row:
-            session['username'] = Username       # consistent session key
-            session['user_email'] = row[0]      # store email
+            session['username'] = Username
+            # row[0] is Email (as fetched)
+            session['user_email'] = row[0]
             return redirect(url_for("home"))
         else:
             return "❌ Invalid username or password"
 
     return render_template("login.html")
 
+
 # ---------------- Profile Page ----------------
 @app.route('/profile')
 def profile():
-    # Check if user is logged in
     if "username" not in session:
         return redirect(url_for("login"))
 
     user_email = session.get('user_email')
     if not user_email:
-        # If email missing in session, log out
-        session.pop('username', None)
+        session.clear()
         return redirect(url_for("login"))
 
-    conn = sqlite3.connect(DB_NAME, check_same_thread=False)
+    conn = get_db_connection()
     cursor = conn.cursor()
 
-    # Fetch user details from register table
     cursor.execute("""
         SELECT Fullname, Email, Phone, Organization
         FROM register
-        WHERE Email=?
+        WHERE Email=%s
     """, (user_email,))
     user_data = cursor.fetchone()
-    
+
     if not user_data:
-        # If user not found, clear session and redirect
-        session.pop('username', None)
-        session.pop('user_email', None)
+        session.clear()
+        cursor.close()
         conn.close()
         return redirect(url_for("login"))
-    
+
     fullname, email, phone, organization = user_data
 
-    # Fetch orders/bookings for this user (lab instruments orders)
     cursor.execute("""
         SELECT order_id, Instrument_Name, Order_Date, Quantity, Status
         FROM orders
-        WHERE Email=?
+        WHERE Email=%s
     """, (user_email,))
     orders = cursor.fetchall()
-    
+    cursor.close()
     conn.close()
 
-    # Render the profile page
     return render_template("profile.html",
                            orders=orders,
                            Fullname=fullname,
@@ -193,188 +224,170 @@ def profile():
                            organization=organization)
 
 
-
 # ---------------- Logout ----------------
 @app.route('/logout')
 def logout():
-    session.pop('username', None)
-    session.pop('email', None)
+    session.clear()
     return redirect(url_for('home'))
 
 
-# ---------------- Order Placement (Corrected for your Database) ----------------
+# ---------------- Order Placement ----------------
 @app.route('/place_order', methods=['POST'])
 def place_order():
     if "username" not in session:
         return jsonify({"success": False, "message": "Not logged in"})
+
     user_email = session.get("user_email")
     data = request.get_json()
     cart_items = data.get("cart", [])
+
     if not cart_items:
         return jsonify({"success": False, "message": "Cart is empty"})
+
+    conn = None
     try:
-        conn = sqlite3.connect(DB_NAME)
+        conn = get_db_connection()
         cursor = conn.cursor()
         for item in cart_items:
-            # --- CORRECTION ---
-            # The INSERT statement now includes the 'Price' column,
-            # and the tuple of values includes 'item.get("price")'.
             cursor.execute("""
                 INSERT INTO orders (Email, Instrument_Name, Quantity, Price, Order_Date, Status)
-                VALUES (?, ?, ?, ?, DATE('now'), ?)
+                VALUES (%s, %s, %s, %s, CURRENT_DATE, %s)
             """, (
                 user_email,
                 item.get("name"),
                 item.get("quantity"),
-                item.get("price"),  # This line adds the price value
+                item.get("price"),
                 "Pending"
             ))
         conn.commit()
+        cursor.close()
         conn.close()
-        # It is good practice to return a success message in the JSON response.
-        return jsonify({"success": True, "message": "Order placed successfully."}) 
+        return jsonify({"success": True, "message": "Order placed successfully."})
     except Exception as e:
+        if conn:
+            try:
+                conn.rollback()
+                conn.close()
+            except:
+                pass
         print("Error placing order:", e)
         return jsonify({"success": False, "error": str(e)})
 
-# ---------------- View Orders Page (Corrected for your Database) ----------------
+
+# ---------------- View Orders ----------------
 @app.route('/orders')
 def orders():
     username = session.get('username')
     if not username:
         return redirect(url_for('login'))
 
-    conn = sqlite3.connect(DB_NAME)
-    conn.row_factory = sqlite3.Row
+    conn = get_db_connection()
     cursor = conn.cursor()
 
-    cursor.execute("SELECT Email FROM register WHERE Username=?", (username,))
+    cursor.execute("SELECT Email FROM register WHERE Username=%s", (username,))
     row = cursor.fetchone()
     if not row:
+        cursor.close()
         conn.close()
         return redirect(url_for('login'))
 
-    user_email = row['Email']
+    user_email = row[0]
 
-    # Removed 'Price' from the SELECT statement
     cursor.execute("""
-        SELECT order_id AS id, Instrument_Name AS product_name, Quantity AS quantity,
-               Order_Date AS date, Status AS status
+        SELECT order_id, Instrument_Name, Quantity, Order_Date, Status
         FROM orders
-        WHERE Email=?
+        WHERE Email=%s
     """, (user_email,))
     user_orders = cursor.fetchall()
+    cursor.close()
     conn.close()
 
-    # Make sure to pass 'orders' to the template, not 'order'
     return render_template("order.html", orders=user_orders, username=username)
 
 
-
-
-
-
-# ---------------- Contact Pages ----------------
+# ---------------- Contact Page ----------------
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
     if request.method == 'POST':
         username = request.form.get('Username')
         email = request.form.get('Email')
-        # CHANGE: This must now match the 'name' attribute from the HTML textarea
-        message_text = request.form.get('message') 
+        message_text = request.form.get('message')
 
         if not all([username, email, message_text]):
             flash("All fields are required.", "error")
             return redirect(url_for('contact'))
 
-        conn = sqlite3.connect(DB_NAME)
+        conn = get_db_connection()
         cursor = conn.cursor()
-        
         cursor.execute("""
             INSERT INTO contact_messages (Username, Email, message)
-            VALUES (?, ?, ?)
+            VALUES (%s, %s, %s)
         """, (username, email, message_text))
-        
         conn.commit()
+        cursor.close()
         conn.close()
-        
+
         flash("Your message has been sent successfully!", "success")
         return redirect(url_for('contact'))
 
     return render_template('contact.html', username=session.get('username'))
 
 
-# ✅ NEW & IMPROVED: Unified route for cancelling an order
+# ---------------- Cancel Order ----------------
 @app.route('/cancel_order/<int:order_id>', methods=['POST'])
 def cancel_order(order_id):
     if "username" not in session:
         return jsonify({"success": False, "message": "You must be logged in."}), 401
 
-    conn = None # Initialize conn to None
+    conn = None
     try:
         data = request.get_json()
         reason = data.get('reason', 'No reason provided.')
         if not reason:
-            return jsonify({"success": False, "message": "Cancellation reason is required!"}), 400
+            return jsonify({"success": False, "message": "Cancellation reason required"}), 400
 
         user_email = session.get('user_email')
-        conn = sqlite3.connect(DB_NAME)
-        conn.row_factory = sqlite3.Row 
+        conn = get_db_connection()
         cursor = conn.cursor()
 
-        # 1. SAFER DATE CHECK: Let SQLite compare the dates.
-        # This query finds the order AND checks if it's within 10 days.
-        # It's much more reliable than parsing strings in Python.
         cursor.execute("""
-            SELECT * FROM orders 
-            WHERE order_id = ? 
-              AND Email = ? 
-              AND Order_Date >= DATE('now', '-10 days')
+            SELECT order_id, Email, Instrument_Name, Quantity, Price, Order_Date, Status
+            FROM orders
+            WHERE order_id=%s AND Email=%s AND Order_Date >= CURRENT_DATE - INTERVAL '10 days'
         """, (order_id, user_email))
-        
         order_to_cancel = cursor.fetchone()
 
         if order_to_cancel:
-            # 2. If found, move the order to the 'cancelled_orders' table
             cursor.execute("""
                 INSERT INTO cancelled_orders (
-                    order_id, Email, Instrument_Name, Quantity, Price, 
+                    order_id, Email, Instrument_Name, Quantity, Price,
                     Order_Date, Status, Cancellation_Reason, Cancellation_Date
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, DATE('now'))
+                )
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, CURRENT_DATE)
             """, (
-                order_to_cancel['order_id'], order_to_cancel['Email'],
-                order_to_cancel['Instrument_Name'], order_to_cancel['Quantity'],
-                order_to_cancel['Price'], order_to_cancel['Order_Date'],
-                'Cancelled', reason
+                order_to_cancel[0], order_to_cancel[1], order_to_cancel[2],
+                order_to_cancel[3], order_to_cancel[4], order_to_cancel[5], 'Cancelled', reason
             ))
-            
-            # 3. Delete the order from the active 'orders' table
-            cursor.execute("DELETE FROM orders WHERE order_id = ?", (order_id,))
-            
+
+            cursor.execute("DELETE FROM orders WHERE order_id=%s", (order_id,))
             conn.commit()
-            return jsonify({"success": True, "message": f"Order #{order_id} has been cancelled."})
-        else:
-            # This 'else' block now handles both "order not found" and "order is too old to cancel"
-            return jsonify({
-                "success": False, 
-                "message": "Order not found or it is past the 10-day cancellation period."
-            }), 404
-            
-    except Exception as e:
-        # 4. BETTER ERROR LOGGING: Print the full traceback to your console
-        print("--- AN UNEXPECTED ERROR OCCURRED ---")
-        traceback.print_exc()
-        print("------------------------------------")
-        return jsonify({"success": False, "message": "An unexpected error occurred."}), 500
-    finally:
-        # 5. Ensure the database connection is always closed
-        if conn:
+            cursor.close()
             conn.close()
+            return jsonify({"success": True, "message": f"Order #{order_id} cancelled."})
+        else:
+            cursor.close()
+            conn.close()
+            return jsonify({"success": False, "message": "Order not found or too old to cancel."}), 404
 
-
-
-
-
+    except Exception:
+        traceback.print_exc()
+        if conn:
+            try:
+                conn.rollback()
+                conn.close()
+            except:
+                pass
+        return jsonify({"success": False, "message": "An unexpected error occurred."}), 500
 
 
 # ---------------- Other Pages ----------------
@@ -403,9 +416,6 @@ def cart():
     return render_template("cart.html", username=session.get('username'))
 
 
-
-
 # ---------------- Run App ----------------
 if __name__ == "__main__":
     app.run(debug=True, port=8080)
-
