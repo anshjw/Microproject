@@ -12,7 +12,8 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(135deg, #1e1e1e, #121212);
+  background: #E1F5FE;
+  color: #E1F5FE;
 }
 
 /* Login / Register / Contact Box */

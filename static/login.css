@@ -7,13 +7,12 @@
 
 body {
   font-family: 'Montserrat', sans-serif;
-  background: linear-gradient(rgba(10,10,10,0.9), rgba(10,10,10,0.9)),
-              url('lab-bg.jpg') center/cover no-repeat;
+  background: #E1F5FE;
+  color: #E1F5FE;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #f0f0f0;
 }
 
 /* Container */
