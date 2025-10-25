@@ -275,34 +275,23 @@ def place_order():
 
 
 # ---------------- View Orders ----------------
-@app.route('/orders')
+@app.route("/orders")
 def orders():
-    username = session.get('username')
-    if not username:
-        return redirect(url_for('login'))
-
-    conn = get_db_connection()
+    user_id = session.get("user_id")
+    if not user_id:
+        return redirect(url_for("login"))
     cursor = conn.cursor()
-
-    cursor.execute("SELECT Email FROM register WHERE Username=%s", (username,))
-    row = cursor.fetchone()
-    if not row:
-        cursor.close()
-        conn.close()
-        return redirect(url_for('login'))
-
-    user_email = row[0]
-
     cursor.execute("""
-        SELECT order_id, Instrument_Name, Quantity, Order_Date, Status
-        FROM orders
-        WHERE Email=%s
-    """, (user_email,))
-    user_orders = cursor.fetchall()
-    cursor.close()
-    conn.close()
+        SELECT o.id, p.name AS product_name, p.image, o.quantity, o.date, o.status
+        FROM orders o
+        JOIN products p ON o.product_id = p.id
+        WHERE o.user_id = %s
+        ORDER BY o.date DESC
+    """, (user_id,))
+    orders = cursor.fetchall()
 
-    return render_template("order.html", orders=user_orders, username=username)
+    return render_template("order.html", orders=orders)
+
 
 
 # ---------------- Contact Page ----------------

@@ -5,18 +5,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Orders - LabEquip</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='order.css') }}">
-  <script src="{{ url_for('static', filename='order.js') }}" defer></script>
 </head>
 
 <body>
-  <header class="header">
-    <div class="logo-container">
-      <img src="{{ url_for('static', filename='LE LOGO3.png') }}" alt="LabEquip Logo" class="logo-img">
-      <span class="store-name">LabEquip</span>
+  <!-- ===== HEADER ===== -->
+  <header>
+    <div class="logo">
+      <img src="{{ url_for('static', filename='LE LOGO3.png') }}" alt="LabEquip Logo">
+      <h1>LabEquip</h1>
     </div>
-    
-    <nav class="nav">
+    <nav>
       <ul>
         <li><a href="{{ url_for('home') }}">Home</a></li>
         <li><a href="{{ url_for('products') }}">Products</a></li>
@@ -28,72 +28,55 @@
     </nav>
   </header>
 
-  <section class="orders-section">
+  <!-- ===== ORDERS SECTION ===== -->
+  <section class="product-section">
     <h2>My Orders</h2>
-    <p>Track and manage all your orders here.</p>
+    <p class="sub-text">View and manage all your previous orders below.</p>
 
-    <div class="orders-table-wrapper">
-      <table class="orders-table">
-        <thead>
-          <tr>
-            <th>Order ID</th>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Date</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for order in orders %}
-          <tr>
-            <td>{{ order.id }}</td>
-            <td>{{ order.product_name }}</td>
-            <td>{{ order.quantity }}</td>
-            <td>{{ order.date }}</td>
-            <td>
-              <span class="status {{ order.status|lower }}">{{ order.status }}</span>
-              {% if order.status == 'Pending' %}
-              <!-- 
-                NOTE: The href is no longer strictly needed since JS handles it,
-                but it's good for non-JS fallbacks or right-clicking. The class is what matters.
-              -->
-              <button class="cancel-btn">Cancel</button>
-              {% endif %}
-            </td>
-          </tr>
-          {% else %}
-          <tr>
-            <td colspan="5" style="text-align:center;">No orders found.</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </section>
-  
-  <!-- ✅ NEW: Modal HTML added to the bottom of the body -->
-  <div id="cancel-modal" class="modal-overlay hidden">
-      <div class="modal-content">
-          <h2 class="modal-title">Confirm Cancellation</h2>
-          <p class="modal-text">Please provide a reason for cancelling order #<span id="modal-order-id" class="modal-order-id-span"></span>.</p>
-          <textarea id="cancel-reason" class="modal-textarea" placeholder="e.g., Ordered by mistake"></textarea>
-          <p id="modal-error" class="modal-error-text hidden">A reason is required.</p>
-          <div class="modal-actions">
-              <button id="modal-close-btn" class="modal-btn modal-btn-secondary">Go Back</button>
-              <button id="modal-confirm-btn" class="modal-btn modal-btn-danger">Confirm</button>
-          </div>
+    {% if orders %}
+    <div class="product-grid">
+      {% for order in orders %}
+      <div class="product-card">
+        <img src="{{ url_for('static', filename='product_images/' ~ order.image) }}" alt="{{ order.product_name }}" class="product-img">
+        <div class="product-info">
+          <h3>{{ order.product_name }}</h3>
+          <p>Quantity: {{ order.quantity }}</p>
+          <p>Date: {{ order.date }}</p>
+          <p>Status: 
+            <span class="status {{ order.status|lower }}">{{ order.status }}</span>
+          </p>
+
+          {% if order.status == 'Pending' %}
+          <button class="cancel-btn" data-order-id="{{ order.id }}">Cancel Order</button>
+          {% endif %}
+        </div>
       </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="no-orders">You haven't placed any orders yet.</p>
+    {% endif %}
+  </section>
+
+  <!-- ===== MODAL ===== -->
+  <div id="cancel-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h2>Confirm Cancellation</h2>
+      <p>Provide a reason for cancelling order #<span id="modal-order-id"></span>.</p>
+      <textarea id="cancel-reason" placeholder="e.g., Ordered by mistake"></textarea>
+      <p id="modal-error" class="error hidden">A reason is required.</p>
+      <div class="modal-actions">
+        <button id="modal-close-btn" class="modal-btn">Go Back</button>
+        <button id="modal-confirm-btn" class="modal-btn danger">Confirm</button>
+      </div>
+    </div>
   </div>
 
-  <!-- ✅ NEW: Notification Toast HTML -->
-  <div id="notification" class="notification hidden">
-      <p id="notification-message"></p>
-  </div>
-
-
+  <!-- ===== FOOTER ===== -->
   <footer>
-    <p>© 2025 Lab Equipment Store</p>
+    <p>© 2025 LabEquip — All Rights Reserved.</p>
   </footer>
-</body>
 
+  <script src="{{ url_for('static', filename='order.js') }}"></script>
+</body>
 </html>

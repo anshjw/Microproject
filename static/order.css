@@ -1,361 +1,172 @@
-/* =========================
-    Global Reset
-========================= */
-* {
+body {
+  background-color: #121212;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* =========================
-    Body
-========================= */
-body {
-  background: #f8f9fa; /* ✅ Changed to a slightly cleaner light gray */
-  color: #212529; /* ✅ Changed to a standard dark text color */
-  min-height: 100vh;
-  width: 100%;
-  overflow-x: hidden;
-}
-
-/* =========================
-    Header
-========================= */
 header {
-  background: #ffffff;
-  padding: 1rem 5%;
+  background-color: #1e1e1e;
+  padding: 15px 30px;
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 100;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* ✅ Softened shadow */
 }
 
-/* Logo */
-.logo-container {
+.logo {
   display: flex;
   align-items: center;
 }
 
-.logo-img {
-  width: 50px;
+.logo img {
   height: 50px;
-  object-fit: contain;
-  border-radius: 50%;
-  background: white;
   margin-right: 10px;
-  padding: 5px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.logo-container:hover .logo-img {
-  transform: scale(1.1);
-  box-shadow: 0 0 10px #007bff; /* ✅ Changed to professional blue */
-}
-
-.store-name {
-  font-weight: 700;
-  font-size: 22px;
-  color: #343a40; /* ✅ Changed color */
-}
-
-.nav ul {
+nav ul {
   list-style: none;
   display: flex;
   gap: 20px;
 }
 
-.nav ul li a {
-  color: #343a40; /* ✅ Changed color */
+nav a {
   text-decoration: none;
+  color: #fff;
   font-weight: 500;
-  transition: color 0.3s ease;
 }
 
-.nav ul li a:hover,
-.nav ul li a.active {
-  color: #007bff; /* ✅ Changed to professional blue */
+nav a:hover {
+  color: #00bcd4;
 }
 
-.auth-btn {
-  padding: 6px 12px;
-  background: #007bff; /* ✅ Changed to professional blue */
-  border-radius: 6px;
-  font-size: 0.9rem;
-}
-
-.auth-btn:hover {
-  background: #0056b3; /* ✅ Darker professional blue */
-}
-
-/* =========================
-    Orders Section
-========================= */
-.orders-section {
-  padding: 120px 5% 2rem 5%; 
-}
-
-.orders-section h2 {
-  color: #007bff; /* ✅ Changed to professional blue */
-  margin-bottom: 0.5rem;
-  font-size: 2rem;
-}
-
-.orders-section p {
-  color: #6c757d; /* ✅ Professional muted text color */
-  margin-bottom: 1.5rem;
-}
-
-/* Table Wrapper */
-.orders-table-wrapper {
-  overflow-x: auto;
-  border-radius: 8px; /* ✅ Slightly smaller radius */
-  box-shadow: 0 0 15px rgba(0,0,0,0.05);
-}
-
-/* Table */
-.orders-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 600px;
-}
-
-.orders-table th,
-.orders-table td {
-  padding: 12px 15px;
-  border: 1px solid #dee2e6;
+/* Section styling */
+.product-section {
+  padding: 40px;
   text-align: center;
-  font-size: 0.95rem;
 }
 
-.orders-table th {
-  background: #007bff; /* ✅ Changed to professional blue */
-  color: #ffffff;
-  font-weight: 600;
+.product-section h2 {
+  font-size: 2em;
+  margin-bottom: 10px;
 }
 
-.orders-table td {
-  background: #ffffff;
+.sub-text {
+  color: #bbb;
+  margin-bottom: 30px;
 }
 
-.orders-table tr:hover td {
-  background: #f8f9fa;
-  transition: background 0.3s ease;
+/* Product grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 25px;
+  justify-items: center;
 }
 
-/* Status Badges */
+.product-card {
+  background-color: #1e1e1e;
+  border-radius: 12px;
+  overflow: hidden;
+  width: 250px;
+  padding-bottom: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.product-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.product-info {
+  padding: 15px;
+}
+
+.product-info h3 {
+  margin: 10px 0;
+}
+
 .status {
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 0.85rem;
-  color: #fff;
+  font-weight: bold;
 }
 
-.status.pending { background: #ffc107; } /* ✅ Standard Warning Yellow */
-.status.shipped { background: #17a2b8; } /* ✅ Standard Info Teal */
-.status.delivered { background: #28a745; } /* ✅ Standard Success Green */
-.status.cancelled { background: #dc3545; } /* ✅ Standard Danger Red */
+.status.pending {
+  color: orange;
+}
 
-/* Cancel Button */
+.status.delivered {
+  color: lightgreen;
+}
+
+.status.cancelled {
+  color: red;
+}
+
 .cancel-btn {
-  margin-left: 8px;
-  padding: 6px 12px;
-  font-size: 0.85rem;
+  background-color: #ff5252;
   border: none;
+  padding: 8px 15px;
+  color: white;
   border-radius: 6px;
-  background: #dc3545; /* ✅ Standard Danger Red */
-  color: #fff;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: 0.3s;
 }
 
 .cancel-btn:hover {
-  background: #c82333; /* ✅ Darker Danger Red */
+  background-color: #ff0000;
 }
 
+.no-orders {
+  color: #bbb;
+  margin-top: 40px;
+  font-size: 1.2em;
+}
 
-/* ✅ NEW: Modal Styles */
+/* Footer */
+footer {
+  background-color: #1e1e1e;
+  color: #aaa;
+  text-align: center;
+  padding: 15px;
+  margin-top: 40px;
+}
+
+/* Modal */
 .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5); /* ✅ Softened overlay */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 200;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-}
-.modal-overlay:not(.hidden) {
-    opacity: 1;
-    pointer-events: auto;
-}
-.modal-content {
-    background: #ffffff;
-    padding: 2rem;
-    border-radius: 8px;
-    width: 90%;
-    max-width: 400px;
-    color: #333;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-    transform: scale(0.95);
-    transition: transform 0.3s ease;
-}
-.modal-overlay:not(.hidden) .modal-content {
-    transform: scale(1);
-}
-.modal-title {
-    color: #007bff; /* ✅ Changed to professional blue */
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-}
-.modal-text {
-    color: #6c757d;
-    margin-bottom: 1rem;
-}
-.modal-order-id-span {
-    font-weight: bold;
-    color: #333;
-}
-.modal-textarea {
-    width: 100%;
-    height: 80px;
-    background: #f8f9fa;
-    border: 1px solid #ced4da; /* ✅ Professional border color */
-    border-radius: 8px;
-    padding: 0.75rem;
-    color: #333;
-    resize: vertical;
-    outline: none;
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
-.modal-textarea:focus {
-    border-color: #80bdff;
-    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
-}
-.modal-error-text {
-    color: #dc3545; /* ✅ Standard Danger Red */
-    font-size: 0.8rem;
-    margin-top: 0.25rem;
-}
-.modal-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    margin-top: 1.5rem;
-}
-.modal-btn {
-    padding: 0.6rem 1.2rem;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-}
-.modal-btn:hover {
-    transform: translateY(-2px);
-}
-.modal-btn-secondary {
-    background: #6c757d; /* ✅ Professional secondary gray */
-    color: #fff;
-}
-.modal-btn-secondary:hover {
-    background: #5a6268;
-}
-.modal-btn-danger {
-    background: #dc3545; /* ✅ Standard Danger Red */
-    color: #fff;
-}
-.modal-btn-danger:hover {
-    background: #c82333;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
 }
 
-/* ✅ NEW: Notification Toast Styles */
-.notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 1rem 1.5rem;
-    border-radius: 8px;
-    color: #fff;
-    font-weight: 600;
-    z-index: 300;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    opacity: 0;
-    transform: translateX(100%);
-    transition: opacity 0.4s ease, transform 0.4s ease;
+.modal-content {
+  background-color: #1e1e1e;
+  padding: 25px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  color: white;
 }
-.notification:not(.hidden) {
-    opacity: 1;
-    transform: translateX(0);
+
+.modal-btn {
+  background: #333;
+  color: #fff;
+  padding: 8px 12px;
+  border: none;
+  margin: 10px 5px;
+  border-radius: 6px;
+  cursor: pointer;
 }
-.notification.success {
-    background: #28a745;
+
+.modal-btn.danger {
+  background: #ff5252;
 }
-.notification.error {
-    background: #dc3545;
-}
+
 .hidden {
   display: none;
 }
-
-/* =========================
-    Footer
-========================= */
-footer {
-  background: #ffffff;
-  text-align: center;
-  padding: 1rem 5%;
-  margin-top: auto;
-  border-top: 1px solid #e9ecef;
-  color: #6c757d;
-  font-size: 0.9rem;
-}
-
-/* =========================
-    Responsive Design
-========================= */
-@media (max-width: 1024px) {
-  .orders-section {
-    padding: 100px 3% 2rem 3%;
-  }
-}
-
-@media (max-width: 768px) {
-  header {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1rem 2rem;
-  }
-
-  .nav ul {
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-  }
-
-  .orders-section h2 {
-    font-size: 1.6rem;
-  }
-
-  .orders-section p {
-    font-size: 0.9rem;
-  }
-
-  .orders-table {
-    min-width: 100%;
-  }
-
-  .orders-table th,
-  .orders-table td {
-    padding: 10px 8px;
-    font-size: 0.85rem;
-  }
-}
-
