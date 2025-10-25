@@ -1,161 +1,174 @@
-/* Reset */
+/* ====== Reset ====== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-/* Body */
-body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #E1F5FE;
-  color: #E1F5FE;
-  padding-top: 70px; /* space for fixed header */
 }
 
-/* Header */
+/* ====== Body ====== */
+body {
+  background-color: #121212;
+  color: #f0f0f0;
+  min-height: 100vh;
+}
+
+/* ====== Header ====== */
 header {
-  background: #1c1c1c;
-  padding: 15px 40px;
+  background-color: #1e1e1e;
+  color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1000;
-  border-bottom: 2px solid #1fb6ff;
+  padding: 15px 40px;
+  border-bottom: 1px solid #333;
 }
 
 header .logo {
-  font-size: 1.8rem;
+  font-size: 1.5em;
   font-weight: bold;
-  color: #1fb6ff;
+  color: #00bcd4;
 }
 
-header nav a {
+header nav {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+}
+
+header nav li a {
   color: #f0f0f0;
   text-decoration: none;
-  margin-left: 25px;
   font-weight: 500;
-  transition: color 0.3s ease;
+  transition: 0.3s;
 }
 
-header nav a:hover,
-header nav a.active {
-  color: #1fb6ff;
+header nav li a:hover,
+header nav li a.active {
+  color: #00bcd4;
 }
 
-/* Orders Section */
+/* ====== Orders Section ====== */
 .orders-section {
-  max-width: 1100px;
-  margin: 20px auto;
-  padding: 20px;
-  background: #1e1e1e;
-  border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  padding: 40px 60px;
+  text-align: center;
 }
 
 .orders-section h2 {
-  color: #1fb6ff;
+  font-size: 2em;
   margin-bottom: 10px;
+  color: #00bcd4;
+}
+
+.orders-section p {
+  color: #ccc;
+  margin-bottom: 20px;
+}
+
+.orders-table-wrapper {
+  overflow-x: auto;
 }
 
 .orders-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 15px;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.orders-table th, .orders-table td {
-  padding: 12px;
-  text-align: center;
+.orders-table th,
+.orders-table td {
+  padding: 15px;
   border-bottom: 1px solid #333;
+  text-align: center;
 }
 
 .orders-table th {
-  color: #1fb6ff;
+  background-color: #252525;
+  color: #00bcd4;
 }
 
-.status {
-  font-weight: bold;
+.orders-table tr:hover {
+  background-color: #1a1a1a;
 }
 
-.status.cancelled {
-  color: #ff5252;
-}
-
-/* Buttons */
-button.cancel-btn {
+.cancel-btn {
   background-color: #ff5252;
-  color: #fff;
+  color: white;
   border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
+  padding: 8px 14px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: transform 0.2s, background 0.3s;
+  transition: 0.3s;
 }
 
-button.cancel-btn:hover {
-  transform: scale(1.05);
-  background-color: #e53935;
+.cancel-btn:hover {
+  background-color: #ff1744;
 }
 
-/* Modal */
+/* ====== Modal ====== */
 .modal {
   display: none;
   position: fixed;
-  z-index: 1500;
-  left: 0;
   top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.6);
   justify-content: center;
   align-items: center;
 }
 
 .modal-content {
-  background: #1e1e1e;
+  background-color: #1e1e1e;
   padding: 30px;
-  border-radius: 12px;
+  border-radius: 10px;
   width: 400px;
-  max-width: 90%;
-  text-align: center;
-  color: #f0f0f0;
-  position: relative;
+  text-align: left;
+  box-shadow: 0 0 10px rgba(0,0,0,0.8);
+}
+
+.modal-content h3 {
+  color: #00bcd4;
+  margin-bottom: 10px;
 }
 
 .modal-content textarea {
   width: 100%;
   height: 100px;
-  padding: 10px;
-  margin: 15px 0;
-  border-radius: 6px;
-  border: 1px solid #333;
-  background: #2a2a2a;
+  background: #252525;
   color: #f0f0f0;
+  border: 1px solid #333;
+  border-radius: 5px;
+  padding: 10px;
   resize: none;
 }
 
 .modal-content button {
-  padding: 10px 20px;
-  background-color: #ff5252;
-  color: #fff;
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px;
+  background-color: #00bcd4;
   border: none;
   border-radius: 6px;
+  color: white;
+  font-weight: bold;
   cursor: pointer;
+  transition: 0.3s;
 }
 
 .modal-content button:hover {
-  background-color: #e53935;
+  background-color: #0097a7;
 }
 
-/* Close Button */
 .close {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 24px;
+  float: right;
+  font-size: 22px;
+  color: #f0f0f0;
   cursor: pointer;
+}
+
+.close:hover {
+  color: #ff5252;
 }

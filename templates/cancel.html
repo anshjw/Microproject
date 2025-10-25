@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cancel Orders - LabEquip</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='cancel.css') }}">
-  <script src="{{ url_for('static', filename='cancel.js') }}" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cancelled Orders - LabEquip</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='cancel.css') }}" />
 </head>
 <body>
 
@@ -13,22 +12,23 @@
   <header>
     <div class="logo">LabEquip</div>
     <nav>
-       <li><a href="{{ url_for('home') }}">Home</a></li>
-        <li><a href="{{ url_for('products') }}">Products</a></li>
-        <li><a href="{{ url_for('orders') }}" class="active">Orders</a></li>
-        <li><a href="{{ url_for('profile') }}">Profile</a></li>
-        {% if username %}
-        <li><a class="auth-btn" href="{{ url_for('logout') }}">Logout</a></li>
-        {% else %}
-        <li><a class="auth-btn" href="{{ url_for('login') }}">Login</a></li>
-        {% endif %}
+      <li><a href="{{ url_for('home') }}">Home</a></li>
+      <li><a href="{{ url_for('products') }}">Products</a></li>
+      <li><a href="{{ url_for('orders') }}">Orders</a></li>
+      <li><a href="{{ url_for('cancelled_orders') }}" class="active">Cancelled</a></li>
+      <li><a href="{{ url_for('profile') }}">Profile</a></li>
+      {% if username %}
+      <li><a class="auth-btn" href="{{ url_for('logout') }}">Logout</a></li>
+      {% else %}
+      <li><a class="auth-btn" href="{{ url_for('login') }}">Login</a></li>
+      {% endif %}
     </nav>
   </header>
 
-  <!-- Orders Section -->
+  <!-- Cancelled Orders Section -->
   <section class="orders-section">
-    <h2>My Orders</h2>
-    <p>Click cancel if you want to cancel an order and provide a reason.</p>
+    <h2>Cancelled Orders</h2>
+    <p>Here are all your previously cancelled orders.</p>
 
     <div class="orders-table-wrapper">
       <table class="orders-table">
@@ -38,29 +38,29 @@
             <th>Product</th>
             <th>Quantity</th>
             <th>Price</th>
-            <th>Date</th>
-            <th>Status & Reason</th>
-            <th>Action</th>
+            <th>Reason</th>
+            <th>Cancelled On</th>
           </tr>
         </thead>
         <tbody>
-          <!-- Orders populated by JS -->
+          {% if orders %}
+            {% for order in orders %}
+            <tr>
+              <td>{{ order[0] }}</td>
+              <td>{{ order[1] }}</td>
+              <td>{{ order[2] }}</td>
+              <td>₹{{ order[3] }}</td>
+              <td>{{ order[4] }}</td>
+              <td>{{ order[5] }}</td>
+            </tr>
+            {% endfor %}
+          {% else %}
+            <tr><td colspan="6">No cancelled orders yet.</td></tr>
+          {% endif %}
         </tbody>
       </table>
     </div>
   </section>
-
-  <!-- Cancel Modal -->
-  <div id="cancelModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h3>Cancel Order</h3>
-      <p>Please provide a reason for cancelling your order:</p>
-      <textarea id="cancelReason" placeholder="Enter reason..."></textarea>
-      <button id="confirmCancelBtn">Confirm Cancel</button>
-    </div>
-  </div>
-
 
 </body>
 </html>

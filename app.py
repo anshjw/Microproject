@@ -352,60 +352,29 @@ def contact():
 
 
 # ---------------- Cancel Order ----------------
-@app.route('/cancel_order/<int:order_id>', methods=['POST'])
-def cancel_order(order_id):
-    if "username" not in session:
-        return jsonify({"success": False, "message": "You must be logged in."}), 401
+@app.route('/cancelled_orders')
+def cancelled_orders():
+    username = session.get('username')
+    if not username:
+        return redirect(url_for('login'))
 
-    conn = None
-    try:
-        data = request.get_json()
-        reason = data.get('reason', 'No reason provided.')
-        if not reason:
-            return jsonify({"success": False, "message": "Cancellation reason required"}), 400
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT Email FROM register WHERE Username=%s", (username,))
+    user_email = cursor.fetchone()[0]
 
-        user_email = session.get('user_email')
-        conn = get_db_connection()
-        cursor = conn.cursor()
+    cursor.execute("""
+        SELECT order_id, Instrument_Name, Quantity, Price, Cancellation_Reason, Cancellation_Date
+        FROM cancelled_orders
+        WHERE Email=%s
+        ORDER BY Cancellation_Date DESC
+    """, (user_email,))
+    cancelled = cursor.fetchall()
+    cursor.close()
+    conn.close()
 
-        cursor.execute("""
-            SELECT order_id, Email, Instrument_Name, Quantity, Price, Order_Date, Status
-            FROM orders
-            WHERE order_id=%s AND Email=%s AND Order_Date >= CURRENT_DATE - INTERVAL '10 days'
-        """, (order_id, user_email))
-        order_to_cancel = cursor.fetchone()
+    return render_template("cancel.html", orders=cancelled, username=username)
 
-        if order_to_cancel:
-            cursor.execute("""
-                INSERT INTO cancelled_orders (
-                    order_id, Email, Instrument_Name, Quantity, Price,
-                    Order_Date, Status, Cancellation_Reason, Cancellation_Date
-                )
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, CURRENT_DATE)
-            """, (
-                order_to_cancel[0], order_to_cancel[1], order_to_cancel[2],
-                order_to_cancel[3], order_to_cancel[4], order_to_cancel[5], 'Cancelled', reason
-            ))
-
-            cursor.execute("DELETE FROM orders WHERE order_id=%s", (order_id,))
-            conn.commit()
-            cursor.close()
-            conn.close()
-            return jsonify({"success": True, "message": f"Order #{order_id} cancelled."})
-        else:
-            cursor.close()
-            conn.close()
-            return jsonify({"success": False, "message": "Order not found or too old to cancel."}), 404
-
-    except Exception:
-        traceback.print_exc()
-        if conn:
-            try:
-                conn.rollback()
-                conn.close()
-            except:
-                pass
-        return jsonify({"success": False, "message": "An unexpected error occurred."}), 500
 
 
 # ---------------- Other Pages ----------------

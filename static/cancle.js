@@ -1,74 +1,52 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const tbody = document.querySelector(".orders-table tbody");
+  const cancelButtons = document.querySelectorAll(".cancel-btn");
   const modal = document.getElementById("cancelModal");
   const closeModal = document.querySelector(".close");
   const confirmCancelBtn = document.getElementById("confirmCancelBtn");
   const cancelReasonInput = document.getElementById("cancelReason");
 
-  let orders = JSON.parse(localStorage.getItem("orders")) || [];
+  let currentOrderId = null;
 
-  let currentCancelIndex = null;
-
-  function renderOrders() {
-    tbody.innerHTML = "";
-    if (orders.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="7">No orders found.</td></tr>`;
-      return;
-    }
-
-    orders.forEach((order, index) => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${index + 1}</td>
-        <td>${order.name}</td>
-        <td>${order.quantity}</td>
-        <td>₹${order.price}</td>
-        <td>${order.date}</td>
-        <td>
-          <span class="status ${order.status.toLowerCase()}">${order.status}</span>
-          ${order.reason ? `<br><em style="color:#ffb74d;">Reason: ${order.reason}</em>` : ""}
-        </td>
-        <td>
-          ${order.status === "Pending" ? `<button class="cancel-btn">Cancel</button>` : "-"}
-        </td>
-      `;
-      tbody.appendChild(tr);
+  // Open modal when clicking Cancel
+  cancelButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      currentOrderId = btn.dataset.orderId;
+      modal.style.display = "flex";
+      cancelReasonInput.value = "";
     });
+  });
 
-    // Attach cancel button events
-    const cancelButtons = document.querySelectorAll(".cancel-btn");
-    cancelButtons.forEach((btn, idx) => {
-      btn.addEventListener("click", () => openCancelModal(idx));
-    });
-  }
+  // Close modal
+  closeModal.addEventListener("click", () => (modal.style.display = "none"));
+  window.addEventListener("click", (e) => {
+    if (e.target === modal) modal.style.display = "none";
+  });
 
-  function openCancelModal(index) {
-    currentCancelIndex = index;
-    cancelReasonInput.value = "";
-    modal.style.display = "flex";
-  }
-
-  confirmCancelBtn.addEventListener("click", () => {
+  // Confirm cancellation
+  confirmCancelBtn.addEventListener("click", async () => {
     const reason = cancelReasonInput.value.trim();
     if (!reason) {
       alert("Please provide a reason!");
       return;
     }
 
-    orders[currentCancelIndex].status = "Cancelled";
-    orders[currentCancelIndex].reason = reason;
-    localStorage.setItem("orders", JSON.stringify(orders));
+    try {
+      const res = await fetch(`/cancel_order/${currentOrderId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reason }),
+      });
+
+      const data = await res.json();
+      alert(data.message);
+
+      if (data.success) {
+        location.reload(); // Refresh to update order list
+      }
+    } catch (err) {
+      alert("Something went wrong while cancelling. Try again later.");
+    }
+
     modal.style.display = "none";
-    renderOrders();
   });
-
-  closeModal.addEventListener("click", () => {
-    modal.style.display = "none";
-  });
-
-  window.addEventListener("click", (e) => {
-    if (e.target === modal) modal.style.display = "none";
-  });
-
-  renderOrders();
 });
