@@ -274,9 +274,9 @@ def place_order():
         return jsonify({"success": False, "error": str(e)})
 
 
-# ---------------- View Orders ----------------
 @app.route('/orders')
 def orders():
+    # Check login
     username = session.get('username')
     if not username:
         return redirect(url_for('login'))
@@ -284,6 +284,7 @@ def orders():
     conn = get_db_connection()
     cursor = conn.cursor()
 
+    # Get user's email
     cursor.execute("SELECT Email FROM register WHERE Username=%s", (username,))
     row = cursor.fetchone()
     if not row:
@@ -293,16 +294,33 @@ def orders():
 
     user_email = row[0]
 
+    # 🧩 Fetch all user orders
+    # NOTE: If you later have a products table, you can join it here to get image paths.
     cursor.execute("""
         SELECT order_id, Instrument_Name, Quantity, Order_Date, Status
         FROM orders
         WHERE Email=%s
+        ORDER BY Order_Date DESC
     """, (user_email,))
-    user_orders = cursor.fetchall()
+    raw_orders = cursor.fetchall()
     cursor.close()
     conn.close()
 
-    return render_template("order.html", orders=user_orders, username=username)
+    # 🧩 Convert rows into dictionaries for easy Jinja access
+    orders = []
+    for o in raw_orders:
+        orders.append({
+            "id": o[0],
+            "product_name": o[1],
+            "quantity": o[2],
+            "date": o[3],
+            "status": o[4],
+            # Placeholder image if you don’t yet store product images
+            "image": "default_product.jpg"
+        })
+
+    # 🧩 Render updated order.html
+    return render_template("orders.html", orders=orders, username=username)
 
 
 # ---------------- Contact Page ----------------
