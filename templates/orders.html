@@ -33,44 +33,46 @@
     <h2>My Orders</h2>
     <p class="sub-text">View and manage all your previous orders below.</p>
 
-    {% if orders %}
-    <div class="product-grid">
-      {% for order in orders %}
-      <div class="product-card">
-        <img src="{{ url_for('static', filename='product_images/' ~ order.image) }}" alt="{{ order.product_name }}" class="product-img">
-        <div class="product-info">
-          <h3>{{ order.product_name }}</h3>
-          <p>Quantity: {{ order.quantity }}</p>
-          <p>Date: {{ order.date }}</p>
-          <p>Status: 
-            <span class="status {{ order.status|lower }}">{{ order.status }}</span>
-          </p>
-
-          {% if order.status == 'Pending' %}
-          <button class="cancel-btn" data-order-id="{{ order.id }}">Cancel Order</button>
+    <tbody>
+  {% if orders %}
+    {% for order in orders %}
+      <tr>
+        <td>{{ order[0] }}</td> <!-- order_id -->
+        <td>{{ order[1] }}</td> <!-- Instrument_Name -->
+        <td>{{ order[2] }}</td> <!-- Quantity -->
+        <td>₹{{ order[3] }}</td> <!-- Price -->
+        <td>{{ order[4] }}</td> <!-- Order_Date -->
+        <td>
+          <span class="status">{{ order[5] }}</span>
+        </td>
+        <td>
+          {% if order[5] == 'Pending' %}
+            <button class="cancel-btn" data-order-id="{{ order[0] }}">Cancel</button>
+          {% else %}
+            -
           {% endif %}
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-    {% else %}
-    <p class="no-orders">You haven't placed any orders yet.</p>
-    {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  {% else %}
+    <tr><td colspan="7">No orders found.</td></tr>
+  {% endif %}
+</tbody>
+
   </section>
 
-  <!-- ===== MODAL ===== -->
-  <div id="cancel-modal" class="modal-overlay hidden">
+  <!-- Cancel Modal -->
+  <div id="cancelModal" class="modal">
     <div class="modal-content">
-      <h2>Confirm Cancellation</h2>
-      <p>Provide a reason for cancelling order #<span id="modal-order-id"></span>.</p>
-      <textarea id="cancel-reason" placeholder="e.g., Ordered by mistake"></textarea>
-      <p id="modal-error" class="error hidden">A reason is required.</p>
-      <div class="modal-actions">
-        <button id="modal-close-btn" class="modal-btn">Go Back</button>
-        <button id="modal-confirm-btn" class="modal-btn danger">Confirm</button>
-      </div>
+      <span class="close">&times;</span>
+      <h3>Cancel Order</h3>
+      <p>Please provide a reason for cancelling your order:</p>
+      <textarea id="cancelReason" placeholder="Enter reason..."></textarea>
+      <button id="confirmCancelBtn">Confirm Cancel</button>
     </div>
   </div>
+
+  
 
   <!-- ===== FOOTER ===== -->
   <footer>
@@ -78,5 +80,6 @@
   </footer>
 
   <script src="{{ url_for('static', filename='order.js') }}"></script>
+  <script src="{{ url_for('static', filename='cancel.js') }}" defer></script>
 </body>
 </html>
