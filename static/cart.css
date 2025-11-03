@@ -204,7 +204,7 @@ nav ul li a.active::after {
 }
 
 .summary .clear-cart:hover {
-  background:  red;
+  background: red;
 }
 
 .summary .buy-now {
@@ -273,4 +273,63 @@ footer {
   nav.active ul {
     display: flex;
   }
+}
+
+/* =========================
+   ✅ New: Arrange Buttons Side by Side
+========================= */
+/* Make all summary buttons uniform */
+.summary-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;   /* ✅ ensures vertical alignment */
+  gap: 15px;             /* space between buttons */
+  flex-wrap: nowrap;     /* keeps them in one line */
+  margin-top: 15px;
+}
+
+/* Ensure all buttons and links align uniformly */
+.summary-buttons a,
+.summary-buttons button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 180px;           /* ✅ same width for all */
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+/* Button colors */
+.summary-buttons .goto-cart {
+  background: #ff5722;
+}
+.summary-buttons .goto-cart:hover {
+  background: #e64a19;
+}
+
+.summary-buttons .clear-cart {
+  background: #f44336;
+}
+.summary-buttons .clear-cart:hover {
+  background: #d32f2f;
+}
+
+.summary-buttons .buy-now {
+  background: #2e7d32;
+}
+.summary-buttons .buy-now:hover {
+  background: #1b5e20;
+}
+.summary-buttons a,
+.summary-buttons button {
+  margin: 0;
+  vertical-align: middle;
 }

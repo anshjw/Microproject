@@ -26,13 +26,17 @@
 
   <div class="cart-container">
     <div id="cart-items"></div>
-
     <div class="summary">
       <h2>Total: <span id="total-price">₹0</span></h2>
-      <button class="clear-cart" onclick="clearCart()">Clear Cart</button>
-      <button class="buy-now" onclick="buyNow()">Buy Now</button>
+      <div class="summary-buttons">
+        <a href="{{ url_for('products') }}" class="goto-cart">More Products</a>
+        <a href="{{ url_for('chemicals') }}" class="goto-cart">More Chemicals</a>
+        <button class="clear-cart" onclick="clearCart()">Clear Cart</button>
+        <button class="buy-now" onclick="buyNow()">Buy Now</button>
+      </div>
     </div>
   </div>
+
 
   <script>
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
