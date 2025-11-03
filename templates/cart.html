@@ -118,7 +118,7 @@
 
       if (!isLoggedIn) {
         // Redirect to login page and come back to cart after login
-        window.location.href = "{{ url_for('login', next='cart') }}";
+        window.location.href = "{{ url_for('login', next=url_for('cart')) }}";
         return;
       }
 

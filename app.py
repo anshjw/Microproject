@@ -4,6 +4,7 @@ from pg8000 import dbapi
 import os
 from dotenv import load_dotenv
 import traceback
+from urllib.parse import urlparse, urljoin
 
 # ---------------- Load Environment Variables ----------------
 load_dotenv()
@@ -153,6 +154,11 @@ def register():
     return render_template("register.html")
 
 
+def is_safe_url(target):
+    ref_url = urlparse(request.host_url)
+    test_url = urlparse(urljoin(request.host_url, target))
+    return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
+
 # ---------------- Login Page ----------------
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -173,10 +179,9 @@ def login():
             
             # ✅ Handle redirection to previous page (cart)
             next_page = request.args.get('next')
-            if next_page == 'cart':
-                return redirect(url_for('cart'))
-            else:
-                return redirect(url_for('home'))
+            if next_page and is_safe_url(next_page):
+                return redirect(next_page)
+            return redirect(url_for('home'))
         else:
             flash("Invalid credentials", "danger")
             return render_template("login.html")
