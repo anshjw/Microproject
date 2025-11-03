@@ -157,23 +157,29 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        Username = request.form['Username']
-        Password = request.form['Password']
+        username = request.form['username']
+        password = request.form['password']
 
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute("SELECT Email FROM register WHERE Username=%s AND Password=%s", (Username, Password))
-        row = cursor.fetchone()
+        cursor.execute("SELECT * FROM register WHERE Username=%s AND Password=%s", (username, password))
+        user = cursor.fetchone()
         cursor.close()
         conn.close()
 
-        if row:
-            session['username'] = Username
-            # row[0] is Email (as fetched)
-            session['user_email'] = row[0]
-            return redirect(url_for("home"))
+        if user:
+            session['username'] = username
+            session['user_email'] = user[2]  # assuming 2nd column is email
+            
+            # ✅ Handle redirection to previous page (cart)
+            next_page = request.args.get('next')
+            if next_page == 'cart':
+                return redirect(url_for('cart'))
+            else:
+                return redirect(url_for('home'))
         else:
-            return "❌ Invalid username or password"
+            flash("Invalid credentials", "danger")
+            return render_template("login.html")
 
     return render_template("login.html")
 
