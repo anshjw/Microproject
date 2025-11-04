@@ -160,42 +160,38 @@ def is_safe_url(target):
     return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
 
 # ---------------- Login Page ----------------
-from urllib.parse import urlparse, urljoin
-
-def is_safe_url(target):
-    ref_url = urlparse(request.host_url)
-    test_url = urlparse(urljoin(request.host_url, target))
-    return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
-
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+        Username = request.form['Username']
+        Password = request.form['Password']
 
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM register WHERE Username=%s AND Password=%s", (username, password))
-        user = cursor.fetchone()
+        
+        # --- MODIFICATION ---
+        # Fetch the Email AND their admin status
+        cursor.execute("SELECT Email, is_admin FROM register WHERE Username=%s AND Password=%s", (Username, Password))
+        row = cursor.fetchone()
+        # --- END MODIFICATION ---
+        
         cursor.close()
         conn.close()
 
-        if user:
-            # ✅ Store username and correct email from your register table
-            session['username'] = user[0]  # Username is column 1
-            session['user_email'] = user[2]  # Email is column 3 (0-based index → index 2)
-
-            # ✅ Handle redirect after login (for example, if user came from /cart)
-            next_page = request.args.get('next')
-            if next_page and is_safe_url(next_page):
-                return redirect(next_page)
+        if row:
+            session['username'] = Username
+            session['user_email'] = row[0]  # Email
+            session['is_admin'] = row[1]  # True or False
             
-            return redirect(url_for('home'))
+            # --- MODIFICATION ---
+            # If they are an admin, send them to the admin page
+            if session['is_admin']:
+                return redirect(url_for('admin_dashboard'))
+            # --- END MODIFICATION ---
 
+            return redirect(url_for("home"))
         else:
-            flash("Invalid credentials", "danger")
-            return render_template("login.html")
+            return "❌ Invalid username or password"
 
     return render_template("login.html")
 
