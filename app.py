@@ -160,6 +160,14 @@ def is_safe_url(target):
     return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
 
 # ---------------- Login Page ----------------
+from urllib.parse import urlparse, urljoin
+
+def is_safe_url(target):
+    ref_url = urlparse(request.host_url)
+    test_url = urlparse(urljoin(request.host_url, target))
+    return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -174,19 +182,23 @@ def login():
         conn.close()
 
         if user:
-            session['username'] = username
-            session['user_email'] = user[2]  # assuming 2nd column is email
-            
-            # ✅ Handle redirection to previous page (cart)
+            # ✅ Store username and correct email from your register table
+            session['username'] = user[0]  # Username is column 1
+            session['user_email'] = user[2]  # Email is column 3 (0-based index → index 2)
+
+            # ✅ Handle redirect after login (for example, if user came from /cart)
             next_page = request.args.get('next')
             if next_page and is_safe_url(next_page):
                 return redirect(next_page)
+            
             return redirect(url_for('home'))
+
         else:
             flash("Invalid credentials", "danger")
             return render_template("login.html")
 
     return render_template("login.html")
+
 
 
 # ---------------- Profile Page ----------------
