@@ -158,12 +158,13 @@ def register():
 def is_safe_url(target):
     ref_url = urlparse(request.host_url)
     test_url = urlparse(urljoin(request.host_url, target))
-    return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
+    return (
+        test_url.scheme in ("http", "https") and
+        ref_url.netloc == test_url.netloc
+    )
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    next_page = request.args.get('next')  # capture before POST
-
     if request.method == 'POST':
         Username = request.form['Username']
         Password = request.form['Password']
@@ -178,12 +179,19 @@ def login():
         if row:
             session['username'] = Username
             session['user_email'] = row[0]
+
+            # 🧭 Check if there’s a "next" parameter (like /cart)
+            next_page = request.args.get('next')
             if next_page and is_safe_url(next_page):
                 return redirect(next_page)
-            return redirect(url_for("home"))
+            
+            # Default fallback
+            return redirect(url_for('home'))
         else:
-            return "❌ Invalid username or password"
+            flash("❌ Invalid username or password", "danger")
+            return render_template("login.html")
 
+    # GET request
     return render_template("login.html")
 
 
