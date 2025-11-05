@@ -4,7 +4,7 @@ from pg8000 import dbapi
 import os
 from dotenv import load_dotenv
 import traceback
-from urllib.parse import urlparse, urljoin
+from urllib.parse import urlencode, urlparse, urljoin
 
 # ---------------- Load Environment Variables ----------------
 load_dotenv()
@@ -163,8 +163,11 @@ def is_safe_url(target):
         ref_url.netloc == test_url.netloc
     )
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    next_page = request.args.get('next') or request.form.get('next')  # ✅ capture it both ways
+
     if request.method == 'POST':
         Username = request.form['Username']
         Password = request.form['Password']
@@ -180,20 +183,13 @@ def login():
             session['username'] = Username
             session['user_email'] = row[0]
 
-            # 🧭 Check if there’s a "next" parameter (like /cart)
-            next_page = request.args.get('next')
             if next_page and is_safe_url(next_page):
                 return redirect(next_page)
-            
-            # Default fallback
             return redirect(url_for('home'))
         else:
             flash("❌ Invalid username or password", "danger")
-            return render_template("login.html")
 
-    # GET request
-    return render_template("login.html")
-
+    return render_template("login.html", next=next_page)
 
 
 
@@ -435,6 +431,17 @@ def cancel_order(order_id):
         return jsonify({"success": False, "message": str(e)}), 500
 
 
+@app.route('/buy_now')
+def buy_now():
+    # If user is not logged in → redirect to login with next=/cart
+    if 'username' not in session:
+        next_url = url_for('cart')
+        query = urlencode({'next': next_url})
+        return redirect(f"{url_for('login')}?{query}")
+
+    # If logged in → proceed to place order or finalize page
+
+    return redirect(url_for('place_order_page'))  # change to your actual checkout route
 
 # ---------------- Other Pages ----------------
 @app.route('/main')
