@@ -105,46 +105,47 @@
     }
 
     // ==========================================================
-    // == UPDATED FUNCTION WITH LOGIN REDIRECT HANDLING ==
+    // == UPDATED FUNCTION WITH LOGIN REDIRECT + SERVER RESPONSE ==
     // ==========================================================
-    function buyNow() {
+    async function buyNow() {
       if (cart.length === 0) {
         alert("Your cart is empty!");
         return;
       }
 
-      // Check if user is logged in using Flask session
-      const isLoggedIn = {{ 'true' if session.get('username') else 'false' }};
-
-      if (!isLoggedIn) {
-        // Redirect to login page and come back to cart after login
-        window.location.href = "{{ url_for('login', next=url_for('cart')) }}";
-        return;
-      }
-
-      // Send cart data to Flask backend
-      fetch("{{ url_for('place_order') }}", {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ cart: cart })
-      })
-      .then(response => response.json())
-      .then(data => {
-          if (data.success) {
-              clearCart(); 
-              alert("✅ Thank you! Your order has been placed successfully.");
-              window.location.href = "{{ url_for('orders') }}";
-          } else {
-              alert(`❌ Error: ${data.message || data.error}`);
-          }
-      })
-      .catch(error => {
-          console.error('Error placing order:', error);
-          alert('❌ A network error occurred. Please check your connection and try again.');
-      });
+    // Check if user is logged in using Flask session
+    const isLoggedIn = {{ 'true' if session.get('username') else 'false' }};
+    
+    if (!isLoggedIn) {
+      // Redirect to login page and return to cart after login
+      window.location.href = "{{ url_for('login', next=url_for('cart')) }}";
+      return;
     }
+    
+    try {
+      const response = await fetch("{{ url_for('place_order') }}", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ cart })
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        clearCart();
+        alert("✅ Thank you! Your order has been placed successfully.");
+        window.location.href = "{{ url_for('orders') }}";
+      } else if (data.redirect) {
+        // In case backend sends redirect (user not logged in)
+        window.location.href = data.redirect;
+      } else {
+        alert(`❌ Error: ${data.message || data.error}`);
+      }
+    } catch (error) {
+      console.error("Error placing order:", error);
+      alert("❌ A network error occurred. Please check your connection and try again.");
+    }
+  }
 
   </script>
 

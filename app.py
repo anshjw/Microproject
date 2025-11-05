@@ -155,8 +155,15 @@ def register():
 
 
 # ---------------- Login Page ----------------
+def is_safe_url(target):
+    ref_url = urlparse(request.host_url)
+    test_url = urlparse(urljoin(request.host_url, target))
+    return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    next_page = request.args.get('next')  # capture before POST
+
     if request.method == 'POST':
         Username = request.form['Username']
         Password = request.form['Password']
@@ -171,17 +178,14 @@ def login():
         if row:
             session['username'] = Username
             session['user_email'] = row[0]
-
-            # 🧭 Redirect back to 'next' page if present (e.g. /cart)
-            next_page = request.args.get('next')
-            if next_page == 'cart':
-                return redirect(url_for('cart'))
+            if next_page and is_safe_url(next_page):
+                return redirect(next_page)
             return redirect(url_for("home"))
         else:
             return "❌ Invalid username or password"
 
-    # if GET request
     return render_template("login.html")
+
 
 
 
@@ -242,7 +246,12 @@ def logout():
 @app.route('/place_order', methods=['POST'])
 def place_order():
     if "username" not in session:
-        return jsonify({"success": False, "message": "Not logged in"})
+        # Redirect to login with next=/cart so that after login user returns here
+        return jsonify({
+            "success": False,
+            "redirect": url_for('login', next='/cart'),
+            "message": "You must log in before placing an order."
+        })
 
     user_email = session.get("user_email")
     data = request.get_json()
@@ -280,7 +289,8 @@ def place_order():
         print("Error placing order:", e)
         return jsonify({"success": False, "error": str(e)})
 
-
+    
+# ---------------- Orders Page ----------------
 @app.route('/orders')
 def orders():
     # Check login
@@ -441,12 +451,7 @@ def services():
 
 @app.route('/cart')
 def cart():
-    if "username" not in session:
-        # redirect to login with 'next' parameter (original destination)
-        return redirect(url_for('login', next='cart'))
     return render_template("cart.html", username=session.get('username'))
-
-
 
 # ---------------- Run App ----------------
 if __name__ == "__main__":
