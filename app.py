@@ -10,6 +10,7 @@ from urllib.parse import urlencode, urlparse, urljoin
 load_dotenv()
 
 app = Flask(__name__)
+app.config['SESSION_PERMANENT'] = False
 app.secret_key = os.getenv("SECRET_KEY", "default_secret_key")
 DB_URL = os.getenv("DATABASE_URL")
 
@@ -163,10 +164,9 @@ def is_safe_url(target):
         ref_url.netloc == test_url.netloc
     )
 
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    next_page = request.args.get('next') or request.form.get('next')  # ✅ capture it both ways
+    next_page = request.args.get('next') or request.form.get('next')
 
     if request.method == 'POST':
         Username = request.form['Username']
@@ -179,24 +179,27 @@ def login():
         cursor.close()
         conn.close()
 
-        # ✅ Admin Logic — set session first, then redirect
-        if Username.lower() == 'admin':
-            session['username'] = 'admin'
-            session['user_email'] = 'admin@labstore.com'  # dummy email, required by other routes
+        # ✅ Set session for everyone including admin first
+        session['username'] = Username
+
+        # ✅ Admin login logic (don’t skip session)
+        if Username.lower() == 'admin' and Password == 'admin':  # optional: check password
+            session['user_email'] = "admin@system.local"  # dummy email for admin
             return redirect(url_for('orders'))
 
-        
         if row:
-            session['username'] = Username
             session['user_email'] = row[0]
 
+            # ✅ Redirect safely
             if next_page and is_safe_url(next_page):
                 return redirect(next_page)
             return redirect(url_for('home'))
+
         else:
             flash("❌ Invalid username or password", "danger")
 
     return render_template("login.html", next=next_page)
+
 
 
 # ---------------- Profile Page ----------------
