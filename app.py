@@ -10,8 +10,9 @@ from urllib.parse import urlencode, urlparse, urljoin
 load_dotenv()
 
 app = Flask(__name__)
-app.config['SESSION_PERMANENT'] = False
 app.secret_key = os.getenv("SECRET_KEY", "default_secret_key")
+app.config['SESSION_PERMANENT'] = False
+app.config['SESSION_TYPE'] = "filesystem"
 DB_URL = os.getenv("DATABASE_URL")
 
 # ---------------- PostgreSQL Connection (pg8000) ----------------
@@ -166,7 +167,10 @@ def is_safe_url(target):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    next_page = request.args.get('next') or request.form.get('next')
+    # ✅ Get 'next' param safely (avoid '/None' issue)
+    next_page = request.args.get('next')
+    if next_page in [None, '', 'None']:  
+        next_page = None
 
     if request.method == 'POST':
         Username = request.form['Username']
@@ -179,26 +183,27 @@ def login():
         cursor.close()
         conn.close()
 
-        # ✅ Set session for everyone including admin first
-        session['username'] = Username
-
-        # ✅ Admin login logic (don’t skip session)
-        if Username.lower() == 'admin' and Password == 'admin':  # optional: check password
-            session['user_email'] = "admin@system.local"  # dummy email for admin
+        # ✅ ADMIN LOGIN LOGIC
+        if Username.lower() == 'admin' and Password == 'admin':  # change password later
+            session['username'] = 'admin'
+            flash("✅ Logged in as Admin", "success")
             return redirect(url_for('orders'))
 
+        # ✅ NORMAL USER LOGIN
         if row:
+            session['username'] = Username
             session['user_email'] = row[0]
 
-            # ✅ Redirect safely
+            # Redirect to next page or home
             if next_page and is_safe_url(next_page):
                 return redirect(next_page)
-            return redirect(url_for('home'))
-
+            else:
+                return redirect(url_for('home'))
         else:
             flash("❌ Invalid username or password", "danger")
 
     return render_template("login.html", next=next_page)
+
 
 
 
@@ -249,10 +254,23 @@ def profile():
 
 
 # ---------------- Logout ----------------
+# ---------------- Logout ----------------
 @app.route('/logout')
 def logout():
+    username = session.get('username')
+
+    # Clear all session data
     session.clear()
+
+    # If admin was logged in → redirect to login directly
+    if username and username.lower() == 'admin':
+        flash("✅ Admin logged out successfully.", "info")
+        return redirect(url_for('login'))
+
+    # Normal user logout → back to home
+    flash("✅ You have been logged out.", "info")
     return redirect(url_for('home'))
+
 
 
 # ---------------- Order Placement ----------------
@@ -262,7 +280,7 @@ def place_order():
         # Redirect to login with next=/cart so that after login user returns here
         return jsonify({
             "success": False,
-            "redirect": url_for('login', next='/cart'),
+            "redirect": url_for('login', next=url_for('cart')),
             "message": "You must log in before placing an order."
         })
 
