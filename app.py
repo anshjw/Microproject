@@ -179,9 +179,12 @@ def login():
         cursor.close()
         conn.close()
 
-        # ✅ Admin Logic — redirect to orders page if admin logs in
+        # ✅ Admin Logic — set session first, then redirect
         if Username.lower() == 'admin':
+            session['username'] = 'admin'
+            session['user_email'] = 'admin@labstore.com'  # dummy email, required by other routes
             return redirect(url_for('orders'))
+
         
         if row:
             session['username'] = Username
