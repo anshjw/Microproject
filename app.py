@@ -459,6 +459,9 @@ def services():
 
 @app.route('/cart')
 def cart():
+    if "username" not in session:
+        # full URL of current page
+        return redirect(url_for('login', next=request.path))
     return render_template("cart.html", username=session.get('username'))
 
 # ---------------- Run App ----------------
