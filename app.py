@@ -179,6 +179,10 @@ def login():
         cursor.close()
         conn.close()
 
+        # ✅ Admin Logic — redirect to orders page if admin logs in
+        if Username.lower() == 'admin':
+            return redirect(url_for('orders'))
+        
         if row:
             session['username'] = Username
             session['user_email'] = row[0]
@@ -190,8 +194,6 @@ def login():
             flash("❌ Invalid username or password", "danger")
 
     return render_template("login.html", next=next_page)
-
-
 
 
 # ---------------- Profile Page ----------------
