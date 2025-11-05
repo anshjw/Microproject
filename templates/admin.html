@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google" content="notranslate">
+  <title>Lab Equipment Store - Home</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='animation.js') }}" defer></script>
+</head>
+
+<body>
+  <canvas id="atomCanvas"></canvas>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo-container">
+      <img src="{{ url_for('static', filename='LE LOGO3.png') }}" alt="LabEquip Logo" class="logo-img">
+      <span class="store-name">LabEquip</span>
+    </div>
+
+    <nav class="nav">
+      <ul>
+        <li><a href="{{ url_for('home') }}" class="active">Home</a></li>
+        <li><a href="{{ url_for('products') }}">Products</a></li>
+        <li><a href="{{ url_for('chemicals') }}">Chemicals</a></li>
+        <li><a href="{{ url_for('services') }}">Services</a></li>
+        <li><a href="{{ url_for('orders') }}">Orders</a></li>
+        <li><a href="{{ url_for('contacts') }}">Contact</a></li>
+
+        <!-- Profile / Login / Logout -->
+        <li class="profile-item">
+          <a id="profileLink" href="{{ url_for('profile') }}">
+            <img src="{{ url_for('static', filename='profilelogo.png') }}" alt="Profile" />
+          </a>
+        </li>
+
+        {% if username %}
+        <li><a class="auth-btn" href="{{ url_for('logout') }}">Logout</a></li>
+        {% else %}
+        <li><a class="auth-btn" id="loginLink" href="{{ url_for('login') }}">Login</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <video autoplay muted loop playsinline class="hero-video">
+        <source src="static/lab.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <div class="hero-content">
+        <h1 id="typing-heading"></h1>
+        <p>Providing high-quality instruments, glassware, and certified chemicals to labs worldwide.</p>
+        <a href="{{ url_for('products') }}"><button>Shop Now</button></a>
+      </div>
+    </section>
+
+
+    <section class="products-container content-section">
+            <h2>Featured Products</h2>
+            <div class="products-grid">
+                <div class="product-box">
+                    <img src="static\imag\Physical.jpg" alt="Digital Microscope">
+                    <h3>Physical Instruments</h3>
+                    <p>High-resolution imaging instruments designed for detailed cellular analysis..</p>
+                  </div>
+                <div class="product-box">
+                    <img src="static\imag\Chemistry.jpg" alt="Glassware Set">
+                    <h3>Chemical instruments</h3>
+                    <p>High-quality chemical instruments, featuring durable, heat-resistant glassware designed for accurate and reliable lab work.</p>
+                  </div>
+                <div class="product-box">
+                    <img src="static\imag\Medical.jpg" alt="Centrifuge Machine">
+                    <h3>Medical instruments</h3>
+                    <p>Compact and efficient devices built for quick and accurate sample separation in a medical lab.</p>
+                  </div>
+              </div>
+            <a href="{{ url_for('products') }}" class="btn-secondary">View All Products</a>
+          </section>
+      
+      <section class="products-container content-section">
+            <h2>Featured Chemicals</h2>
+            <div class="products-grid">
+                <div class="product-box">
+                    <img src="static\imag\Organic.jpg" alt="Digital Microscope">
+                    <h3>Organic Chemicals</h3>
+                    <p> High-purity organic compounds for research and synthesis.</p>
+                  </div>
+                <div class="product-box">
+                    <img src="static\imag\Inorganic.jpg" alt="Glassware Set">
+                    <h3>Inorganic Chemicals</h3>
+                    <p>A wide range of acids, bases, and salts for your lab needs.</p>
+                  </div>
+                <div class="product-box">
+                    <img src="static\imag\Bio Chemical.jpg" alt="Centrifuge Machine">
+                    <h3>Biochemicals</h3>
+                    <p>Enzymes, reagents, and buffers for life science research.</p>
+                  </div>
+              </div>
+            <a href="{{ url_for('products') }}" class="btn-secondary">View All Products</a>
+          </section>
+
+            <section class="features-container content-section">
+            <div class="feature-box">
+                <div class="feature-icon">🔬</div>
+                <h3>Precision Instruments</h3>
+                <p>Calibrated for accuracy to ensure reliable results every time.</p>
+              </div>
+            <div class="feature-box">
+                <div class="feature-icon">📦</div>
+                <h3>Fast & Secure Shipping</h3>
+                <p>Carefully packaged and promptly delivered to your facility.</p>
+              </div>
+            <div class="feature-box">
+                <div class="feature-icon">✅</div>
+                <h3>Quality Certified</h3>
+                <p>All products meet rigorous industry standards for safety and quality.</p>
+              </div>
+          </section>
+
+
+    <!-- Footer -->
+    <footer>
+      <p>© 2025 Lab Equipment Store | Precision. Reliability. Innovation.</p>
+    </footer>
+
+</body>
+
+</html>

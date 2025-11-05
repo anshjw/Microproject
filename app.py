@@ -179,6 +179,11 @@ def login():
         cursor.close()
         conn.close()
 
+        # ✅ Admin Logic — redirect to orders page if admin logs in
+        if Username.lower() == 'admin':
+            return redirect(url_for('orders'))
+
+
         if row:
             session['username'] = Username
             session['user_email'] = row[0]
@@ -315,14 +320,22 @@ def orders():
 
     user_email = row[0]
 
-    # 🧩 Fetch all user orders
-    # NOTE: If you later have a products table, you can join it here to get image paths.
-    cursor.execute("""
-        SELECT order_id, Instrument_Name, Quantity, Order_Date, Status
-        FROM orders
-        WHERE Email=%s
-        ORDER BY Order_Date DESC
-    """, (user_email,))
+    # 🧩 ADMIN LOGIC — admin sees all orders
+    if username.lower() == 'admin':
+        cursor.execute("""
+            SELECT order_id, Instrument_Name, Quantity, Order_Date, Status, Email
+            FROM orders
+            ORDER BY Order_Date DESC
+        """)
+    else:
+        # 🧩 Fetch only user's orders
+        cursor.execute("""
+            SELECT order_id, Instrument_Name, Quantity, Order_Date, Status
+            FROM orders
+            WHERE Email=%s
+            ORDER BY Order_Date DESC
+        """, (user_email,))
+
     raw_orders = cursor.fetchall()
     cursor.close()
     conn.close()
@@ -330,19 +343,28 @@ def orders():
     # 🧩 Convert rows into dictionaries for easy Jinja access
     orders = []
     for o in raw_orders:
-        orders.append({
-            "id": o[0],
-            "product_name": o[1],
-            "quantity": o[2],
-            "date": o[3],
-            "status": o[4],
-            # Placeholder image if you don’t yet store product images
-            "image": "default_product.jpg"
-        })
+        if username.lower() == 'admin':
+            orders.append({
+                "id": o[0],
+                "product_name": o[1],
+                "quantity": o[2],
+                "date": o[3],
+                "status": o[4],
+                "email": o[5],
+                "image": "default_product.jpg"
+            })
+        else:
+            orders.append({
+                "id": o[0],
+                "product_name": o[1],
+                "quantity": o[2],
+                "date": o[3],
+                "status": o[4],
+                "image": "default_product.jpg"
+            })
 
     # 🧩 Render updated order.html
     return render_template("orders.html", orders=orders, username=username)
-
 
 # ---------------- Contact Page ----------------
 @app.route('/contact', methods=['GET', 'POST'])

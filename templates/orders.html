@@ -31,6 +31,9 @@
   <!-- ===== ORDERS SECTION ===== -->
   <section class="product-section">
     <h2>My Orders</h2>
+    {% if username.lower() == 'admin' %}
+    <h3 class="admin-panel-title">All Orders (Admin View)</h3>
+    {% endif %}
     <p class="sub-text">View and manage all your previous orders below.</p>
 
     {% if orders %}
@@ -38,6 +41,9 @@
       {% for order in orders %}
       <div class="product-card">
         <div class="product-info">
+          {% if username.lower() == 'admin' %}
+          <p><strong>User Email:</strong> {{ order.email }}</p>
+          {% endif %}
           <h3>{{ order.product_name }}</h3>
           <p>Quantity: {{ order.quantity }}</p>
           <p>Date: {{ order.date }}</p>
