@@ -163,38 +163,33 @@ def is_safe_url(target):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        Username = request.form['Username']
-        Password = request.form['Password']
+        username = request.form['username']
+        password = request.form['password']
 
         conn = get_db_connection()
         cursor = conn.cursor()
-        
-        # --- MODIFICATION ---
-        # Fetch the Email AND their admin status
-        cursor.execute("SELECT Email, is_admin FROM register WHERE Username=%s AND Password=%s", (Username, Password))
-        row = cursor.fetchone()
-        # --- END MODIFICATION ---
-        
+        cursor.execute("SELECT * FROM register WHERE Username=%s AND Password=%s", (username, password))
+        user = cursor.fetchone()
         cursor.close()
         conn.close()
 
-        if row:
-            session['username'] = Username
-            session['user_email'] = row[0]  # Email
-            session['is_admin'] = row[1]  # True or False
-            
-            # --- MODIFICATION ---
-            # If they are an admin, send them to the admin page
-            if session['is_admin']:
-                return redirect(url_for('admin_dashboard'))
-            # --- END MODIFICATION ---
+        if user:
+            # ✅ Store username and correct email from your register table
+            session['username'] = user[0]  # Username is column 1
+            session['user_email'] = user[2]  # Email is column 3 (0-based index → index 2)
 
-            return redirect(url_for("home"))
+            # ✅ Handle redirect after login (for example, if user came from /cart)
+            next_page = request.args.get('next')
+            if next_page and is_safe_url(next_page):
+                return redirect(next_page)
+            
+            return redirect(url_for('home'))
+
         else:
-            return "❌ Invalid username or password"
+            flash("Invalid credentials", "danger")
+            return render_template("login.html")
 
     return render_template("login.html")
-
 
 
 # ---------------- Profile Page ----------------
