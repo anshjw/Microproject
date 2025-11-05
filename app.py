@@ -170,13 +170,19 @@ def login():
 
         if row:
             session['username'] = Username
-            # row[0] is Email (as fetched)
             session['user_email'] = row[0]
+
+            # 🧭 Redirect back to 'next' page if present (e.g. /cart)
+            next_page = request.args.get('next')
+            if next_page == 'cart':
+                return redirect(url_for('cart'))
             return redirect(url_for("home"))
         else:
             return "❌ Invalid username or password"
 
+    # if GET request
     return render_template("login.html")
+
 
 
 # ---------------- Profile Page ----------------
@@ -435,7 +441,11 @@ def services():
 
 @app.route('/cart')
 def cart():
+    if "username" not in session:
+        # redirect to login with 'next' parameter (original destination)
+        return redirect(url_for('login', next='cart'))
     return render_template("cart.html", username=session.get('username'))
+
 
 
 # ---------------- Run App ----------------
