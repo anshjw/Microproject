@@ -154,40 +154,27 @@ def register():
     return render_template("register.html")
 
 
-def is_safe_url(target):
-    ref_url = urlparse(request.host_url)
-    test_url = urlparse(urljoin(request.host_url, target))
-    return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
-
 # ---------------- Login Page ----------------
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+        Username = request.form['Username']
+        Password = request.form['Password']
 
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM register WHERE Username=%s AND Password=%s", (username, password))
-        user = cursor.fetchone()
+        cursor.execute("SELECT Email FROM register WHERE Username=%s AND Password=%s", (Username, Password))
+        row = cursor.fetchone()
         cursor.close()
         conn.close()
 
-        if user:
-            # ✅ Store username and correct email from your register table
-            session['username'] = user[0]  # Username is column 1
-            session['user_email'] = user[2]  # Email is column 3 (0-based index → index 2)
-
-            # ✅ Handle redirect after login (for example, if user came from /cart)
-            next_page = request.args.get('next')
-            if next_page and is_safe_url(next_page):
-                return redirect(next_page)
-            
-            return redirect(url_for('home'))
-
+        if row:
+            session['username'] = Username
+            # row[0] is Email (as fetched)
+            session['user_email'] = row[0]
+            return redirect(url_for("home"))
         else:
-            flash("Invalid credentials", "danger")
-            return render_template("login.html")
+            return "❌ Invalid username or password"
 
     return render_template("login.html")
 
