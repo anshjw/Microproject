@@ -481,3 +481,33 @@ footer {
     font-size: 0.9rem;
   }
 }
+
+  /* 🌟 Style for Approve button */
+  .approve-btn {
+    background-color: #FFD700; /* Yellow */
+    color: #333;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+  .approve-btn:hover {
+    background-color: #e6c200;
+  }
+
+  /* 🌟 Green color for Dispatched status */
+  .status.dispatched {
+    color: #22c55e; /* Green */
+    font-weight: 600;
+  }
+
+  /* Optional small styling for Pending/Cancelled */
+  .status.pending {
+    color: #f59e0b; /* Orange/Yellow */
+  }
+  .status.cancelled {
+    color: #dc2626; /* Red */
+  }
+
