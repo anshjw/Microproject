@@ -253,7 +253,7 @@ def profile():
                            organization=organization)
 
 
-# ---------------- Logout ----------------
+
 # ---------------- Logout ----------------
 @app.route('/logout')
 def logout():
@@ -433,11 +433,14 @@ def cancel_order(order_id):
         conn = get_db_connection()
         cursor = conn.cursor()
 
-        # Get user email from username
+        # 🧩 Get user email from username
         cursor.execute("SELECT Email FROM register WHERE Username=%s", (username,))
-        user_email = cursor.fetchone()[0]
+        user_email = cursor.fetchone()
+        if not user_email:
+            return jsonify({"success": False, "message": "User not found"}), 404
+        user_email = user_email[0]
 
-        # Check if order exists
+        # 🧩 Fetch order to cancel
         cursor.execute("""
             SELECT order_id, Email, Instrument_Name, Quantity, Price, Order_Date, Status
             FROM orders
@@ -445,26 +448,28 @@ def cancel_order(order_id):
         """, (order_id, user_email))
         order_to_cancel = cursor.fetchone()
 
-        if order_to_cancel:
-            cursor.execute("""
-                INSERT INTO cancelled_orders (
-                    order_id, Email, Instrument_Name, Quantity, Price, 
-                    Order_Date, Status, Cancellation_Reason, Cancellation_Date
-                )
-                VALUES (%s, %s, %s, %s, %s, %s, 'Cancelled', %s, CURRENT_DATE)
-            """, (
-                order_to_cancel[0], order_to_cancel[1], order_to_cancel[2],
-                order_to_cancel[3], order_to_cancel[4], order_to_cancel[5], reason
-            ))
-
-            cursor.execute("DELETE FROM orders WHERE order_id=%s", (order_id,))
-            conn.commit()
-
-            cursor.close()
-            conn.close()
-            return jsonify({"success": True, "message": f"Order #{order_id} cancelled."})
-        else:
+        if not order_to_cancel:
             return jsonify({"success": False, "message": "Order not found."}), 404
+
+        # 🧩 Move to cancelled_orders
+        cursor.execute("""
+            INSERT INTO cancelled_orders (
+                order_id, Email, Instrument_Name, Quantity, Price, 
+                Order_Date, Status, Cancellation_Reason, Cancellation_Date
+            )
+            VALUES (%s, %s, %s, %s, %s, %s, 'Cancelled', %s, CURRENT_DATE)
+        """, (
+            order_to_cancel[0], order_to_cancel[1], order_to_cancel[2],
+            order_to_cancel[3], order_to_cancel[4], order_to_cancel[5], reason
+        ))
+
+        # 🧩 Delete from active orders
+        cursor.execute("DELETE FROM orders WHERE order_id=%s", (order_id,))
+        conn.commit()
+
+        cursor.close()
+        conn.close()
+        return jsonify({"success": True, "message": f"Order #{order_id} cancelled successfully."})
 
     except Exception as e:
         import traceback
@@ -473,6 +478,7 @@ def cancel_order(order_id):
             conn.rollback()
             conn.close()
         return jsonify({"success": False, "message": str(e)}), 500
+
 
 
 @app.route('/buy_now')
