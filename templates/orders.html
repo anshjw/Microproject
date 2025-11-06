@@ -52,8 +52,11 @@
           </p>
 
           {% if order.status == 'Pending' %}
+          {% if username.lower() == 'admin' %}
+          <button class="approve-btn" data-order-id="{{ order.id }}">Approve</button>
+          {% else %}
           <button class="cancel-btn" data-order-id="{{ order.id }}">Cancel Order</button>
-
+          {% endif %}
           {% endif %}
         </div>
       </div>
@@ -77,6 +80,33 @@
       </div>
     </div>
   </div>
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const approveButtons = document.querySelectorAll(".approve-btn");
+
+    approveButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const orderId = btn.dataset.orderId;
+        if (confirm(`Mark Order #${orderId} as Dispatched?`)) {
+          fetch(`/approve_order/${orderId}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" }
+          })
+          .then(res => res.json())
+          .then(data => {
+            alert(data.message);
+            if (data.success) location.reload();
+          })
+          .catch(err => {
+            console.error(err);
+            alert("Error approving order.");
+          });
+        }
+      });
+    });
+  });
+</script>
+
 
   <!-- ===== FOOTER ===== -->
   <footer>

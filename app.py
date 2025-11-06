@@ -478,6 +478,41 @@ def cancel_order(order_id):
             conn.rollback()
             conn.close()
         return jsonify({"success": False, "message": str(e)}), 500
+    
+    # 🟢 Admin Approve Order Route
+@app.route('/approve_order/<int:order_id>', methods=['POST'])
+def approve_order(order_id):
+    # Ensure admin access
+    username = session.get('username')
+    if not username or username.lower() != 'admin':
+        return jsonify({"success": False, "message": "Unauthorized access"}), 403
+
+    conn = None
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # ✅ Update the order status
+        cursor.execute("""
+            UPDATE orders 
+            SET Status = 'Dispatched'
+            WHERE order_id = %s
+        """, (order_id,))
+        conn.commit()
+
+        cursor.close()
+        conn.close()
+
+        return jsonify({"success": True, "message": f"Order #{order_id} marked as Dispatched."})
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        if conn:
+            conn.rollback()
+            conn.close()
+        return jsonify({"success": False, "message": str(e)}), 500
+
 
 
 
