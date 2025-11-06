@@ -168,7 +168,7 @@ def is_safe_url(target):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     # ✅ Get 'next' param safely (avoid '/None' issue)
-    next_page = request.args.get('next')
+    next_page = request.args.get('next') or request.form.get('next')
     if next_page in [None, '', 'None']:  
         next_page = None
 
