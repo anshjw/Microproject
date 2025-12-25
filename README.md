@@ -93,3 +93,127 @@ Client (Browser)
 │ └── cancelled_orders
 │
 └── Render Cloud Hosting
+
+
+---
+
+## 🗃️ Database Schema
+
+### `register`
+| Field | Description |
+|------|------------|
+| Username | Primary Key |
+| Fullname | User name |
+| Email | Unique email |
+| Phone | Contact number |
+| Organization | Institution |
+| Password | Encrypted password |
+
+### `orders`
+| Field | Description |
+|------|------------|
+| order_id | Primary Key |
+| Email | User Email |
+| Instrument_Name | Product name |
+| Quantity | Ordered quantity |
+| Price | Price |
+| Order_Date | Auto-generated |
+| Status | Pending / Dispatched |
+
+### `cancelled_orders`
+| Field | Description |
+|------|------------|
+| order_id | Primary Key |
+| Email | User Email |
+| Cancellation_Reason | User-provided reason |
+| Cancellation_Date | Auto-generated |
+
+---
+
+## 🔐 Security Implementation
+
+- Flask Session-based authentication
+- Safe redirect handling using `next` parameter validation
+- Role-based access control (User / Admin)
+- No sensitive data stored on frontend
+- Contact messages sent directly to admin email
+
+---
+
+## 📧 Contact System (Privacy-Focused)
+
+- Contact form sends messages directly to admin email
+- No contact data stored in database
+- Ensures user privacy and direct communication
+
+**Admin Email:**  
+📩 `ishajaiswal377@gmail.com`
+
+---
+
+## ☁️ Deployment
+
+- **Backend:** Flask (Python)
+- **Database:** PostgreSQL (Render)
+- **Hosting:** Render Cloud
+- **Environment Variables:**
+  - `DATABASE_URL`
+  - `SECRET_KEY`
+  - Email SMTP credentials
+
+---
+
+## 🧪 Tech Stack
+
+| Layer | Technology |
+|------|-----------|
+| Frontend | HTML, CSS, JavaScript |
+| Backend | Python (Flask) |
+| Database | PostgreSQL |
+| Hosting | Render |
+| Authentication | Flask Sessions |
+| Email | SMTP |
+
+---
+
+## 🧠 Innovation & Commercial Value
+
+- Automates real-world lab procurement workflows
+- Role-based order lifecycle management
+- Cancellation with reason tracking
+- Admin approval pipeline
+- Scalable design suitable for SaaS conversion
+
+Potential customers:
+- Research Laboratories
+- Educational Institutions
+- Chemical Suppliers
+- Medical Equipment Vendors
+
+---
+
+## 🏁 Future Enhancements
+
+- Online Payment Gateway
+- Inventory Management
+- Vendor Dashboard
+- Analytics & Reporting
+- Mobile Application
+- Multi-Admin Roles
+
+---
+
+## 👨‍💻 Developer
+
+**Ansh Jaiswal**  
+B.Tech (2nd Year)  
+Full-Stack Developer  
+
+Developed as a **real-world microproject** with **commercial and patent intent**.
+
+---
+
+## 📜 License
+
+This project is protected under intellectual property rights.  
+Unauthorized copying, redistribution, or commercial use is prohibited.
