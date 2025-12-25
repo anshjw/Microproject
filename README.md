@@ -1,219 +1,150 @@
 # 🧪 Scientific Lab Equipment Ordering & Management System (Microproject)
 
 ## 📌 Overview
+The **Scientific Lab Equipment Ordering & Management System** is a real-world, production-ready web application that digitizes and automates the complete workflow of **laboratory equipment ordering, order tracking, cancellation, and admin approval**.
 
-The **Scientific Lab Equipment Ordering & Management System** is a real-world, production-ready web application designed to digitize and automate the complete workflow of **laboratory equipment procurement, order management, and administrative control**.
-
-This project addresses practical problems faced by laboratories, research institutes, and educational organizations where manual ordering and tracking cause inefficiency, errors, and delays.
-
-> ⚠️ **Patent Applied**  
-> This system is part of an original workflow-based solution intended for commercialization.  
-> A patent application has already been filed with the Government.
+This project is designed for **commercial use**, solves real procurement problems in labs and institutions, and has a **patent application already filed** with the Government.
 
 ---
 
-## 🎯 Problem Statement
+## 🎯 Problem Solved
+Traditional lab procurement suffers from:
+- Manual order handling
+- No centralized tracking
+- No cancellation/approval workflow
+- Poor user–admin communication
+- No role-based access
 
-Traditional lab procurement systems suffer from:
-
-- Manual order handling  
-- No centralized order tracking  
-- Lack of cancellation and approval workflows  
-- Poor communication between users and vendors  
-- No role-based access (user vs admin)  
-- Inefficient customer support handling  
-
-This project solves these issues using a **secure, role-based, workflow-driven digital platform**.
+This system provides a **secure, workflow-driven, role-based digital solution**.
 
 ---
 
-## 🚀 Key Features
+## 🚀 Core Features
 
-### 👤 User Features
-- User Registration & Secure Login
-- Browse Products and Chemicals
-- Cart Management (stored in browser localStorage)
-- Place Orders (login required)
-- View Order History
-- Cancel Orders with Reason
-- Contact Admin via Email (no database storage)
+### 👤 User
+- Register & Login
+- Browse products and chemicals
+- Cart system (works before login using `localStorage`)
+- Buy Now → login required → auto-redirect back to cart
+- Place orders
+- View order history & status
+- Cancel orders with reason
+- Contact admin directly via email (no DB storage)
 
-### 🛠️ Admin Features
-- Secure Admin Login
-- View All Orders from All Users
-- Approve Orders
-- Change Order Status:
-  - `Pending → Dispatched`
-- Monitor Cancellations
-- Centralized Administrative Control
+### 🛠️ Admin
+- Secure admin login
+- View **all users’ orders**
+- Approve orders
+- Update status: **Pending → Dispatched**
+- Monitor cancellations
+- Centralized order control
 
 ---
 
-## 🔄 Complete Workflow
+## 🔄 Workflow Summary
 
-### User Workflow
-1. User visits the website  
-2. Browses products and adds items to cart (without login)  
-3. Clicks **Buy Now**  
-4. If not logged in → redirected to Login  
-5. After login → redirected back to Cart  
-6. Order placed and stored in database  
-7. User can:
-   - View order status
-   - Cancel order with a reason  
+### User Flow
+1. Browse products → add to cart (no login needed)
+2. Click **Buy Now**
+3. Redirected to login if not authenticated
+4. After login → redirected back to cart
+5. Order placed → stored in database
+6. User can track or cancel order
 
-### Admin Workflow
-1. Admin logs in  
-2. Views all orders  
-3. Approves orders  
-4. Order status updates to **Dispatched**  
-5. Users see updated status instantly  
+### Admin Flow
+1. Admin logs in
+2. Views all orders
+3. Approves orders
+4. Status updates to **Dispatched**
+5. Users see updated status instantly
 
 ---
 
 ## 🧱 System Architecture
-Client (Browser)
-│
-├── HTML / CSS / JavaScript
-│ ├── Cart (localStorage)
-│ ├── Orders Page
-│ └── Admin Panel
-│
-├── Flask Backend (Python)
-│ ├── Authentication
-│ ├── Session Management
-│ ├── Order APIs
-│ ├── Cancel APIs
-│ ├── Admin Approval APIs
-│ └── Contact Email Service
-│
-├── PostgreSQL Database (Render)
-│ ├── register
-│ ├── orders
-│ └── cancelled_orders
-│
-└── Render Cloud Hosting
-
+- **Frontend:** HTML, CSS, JavaScript
+- **Backend:** Python (Flask)
+- **Database:** PostgreSQL (Render)
+- **Hosting:** Render Cloud
+- **Auth:** Flask Sessions
+- **Email:** SMTP (Contact form → Admin email)
 
 ---
 
-## 🗃️ Database Schema
-
-### `register`
-| Field | Description |
-|------|------------|
-| Username | Primary Key |
-| Fullname | User name |
-| Email | Unique email |
-| Phone | Contact number |
-| Organization | Institution |
-| Password | Encrypted password |
-
-### `orders`
-| Field | Description |
-|------|------------|
-| order_id | Primary Key |
-| Email | User Email |
-| Instrument_Name | Product name |
-| Quantity | Ordered quantity |
-| Price | Price |
-| Order_Date | Auto-generated |
-| Status | Pending / Dispatched |
-
-### `cancelled_orders`
-| Field | Description |
-|------|------------|
-| order_id | Primary Key |
-| Email | User Email |
-| Cancellation_Reason | User-provided reason |
-| Cancellation_Date | Auto-generated |
+## 🗃️ Database Tables
+- `register` – user details  
+- `orders` – active orders (Pending / Dispatched)  
+- `cancelled_orders` – cancelled orders with reason  
 
 ---
 
-## 🔐 Security Implementation
-
-- Flask Session-based authentication
-- Safe redirect handling using `next` parameter validation
-- Role-based access control (User / Admin)
-- No sensitive data stored on frontend
+## 🔐 Security
+- Session-based authentication
+- Safe redirect handling using `next`
+- Role-based access (User / Admin)
+- No sensitive frontend storage
 - Contact messages sent directly to admin email
 
 ---
 
-## 📧 Contact System (Privacy-Focused)
-
-- Contact form sends messages directly to admin email
-- No contact data stored in database
-- Ensures user privacy and direct communication
-
-**Admin Email:**  
-📩 `ishajaiswal377@gmail.com`
+## 📧 Contact System
+- Messages sent **directly to admin email**
+- No contact data stored in database  
+📩 **Admin Email:** `ishajaiswal377@gmail.com`
 
 ---
 
 ## ☁️ Deployment
-
-- **Backend:** Flask (Python)
-- **Database:** PostgreSQL (Render)
-- **Hosting:** Render Cloud
-- **Environment Variables:**
+- Backend: Flask (Python)
+- Database: PostgreSQL (Render)
+- Hosting: Render
+- Env variables:
   - `DATABASE_URL`
   - `SECRET_KEY`
-  - Email SMTP credentials
+  - SMTP credentials
 
 ---
 
 ## 🧪 Tech Stack
-
 | Layer | Technology |
 |------|-----------|
 | Frontend | HTML, CSS, JavaScript |
-| Backend | Python (Flask) |
+| Backend | Flask (Python) |
 | Database | PostgreSQL |
 | Hosting | Render |
-| Authentication | Flask Sessions |
-| Email | SMTP |
+| Auth | Flask Sessions |
 
 ---
 
-## 🧠 Innovation & Commercial Value
+## 🧠 Innovation & Value
+- Real-world procurement automation
+- Complete order lifecycle management
+- Admin approval workflow
+- Scalable for SaaS & enterprise use
 
-- Automates real-world lab procurement workflows
-- Role-based order lifecycle management
-- Cancellation with reason tracking
-- Admin approval pipeline
-- Scalable design suitable for SaaS conversion
-
-Potential customers:
-- Research Laboratories
-- Educational Institutions
-- Chemical Suppliers
-- Medical Equipment Vendors
+Target users:
+- Research labs
+- Educational institutions
+- Medical & chemical vendors
 
 ---
 
-## 🏁 Future Enhancements
-
-- Online Payment Gateway
-- Inventory Management
-- Vendor Dashboard
-- Analytics & Reporting
-- Mobile Application
-- Multi-Admin Roles
+## 🏁 Future Scope
+- Online payments
+- Inventory management
+- Analytics dashboard
+- Mobile app
+- Multi-admin roles
 
 ---
 
 ## 👨‍💻 Developer
-
 **Ansh Jaiswal**  
-B.Tech (2nd Year)  
-Full-Stack Developer  
+B.Tech (2nd Year) – Full-Stack Developer  
 
-Developed as a **real-world microproject** with **commercial and patent intent**.
+Built as a **real-world microproject** with **commercial and patent intent**.
 
 ---
 
 ## 📜 License
-
 This project is protected under intellectual property rights.  
-Unauthorized copying, redistribution, or commercial use is prohibited.
+Unauthorized use or redistribution is prohibited.
