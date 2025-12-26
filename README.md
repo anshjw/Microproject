@@ -84,12 +84,6 @@ This system provides a **secure, workflow-driven, role-based digital solution**.
 - No sensitive frontend storage
 - Contact messages sent directly to admin email
 
----
-
-## 📧 Contact System
-- Messages sent **directly to admin email**
-- No contact data stored in database  
-📩 **Admin Email:** `ishajaiswal377@gmail.com`
 
 ---
 
