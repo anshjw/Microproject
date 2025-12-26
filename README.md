@@ -66,7 +66,6 @@ This system provides a **secure, workflow-driven, role-based digital solution**.
 - **Database:** PostgreSQL (Render)
 - **Hosting:** Render Cloud
 - **Auth:** Flask Sessions
-- **Email:** SMTP (Contact form → Admin email)
 
 ---
 
