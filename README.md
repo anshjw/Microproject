@@ -29,7 +29,7 @@ This system provides a **secure, workflow-driven, role-based digital solution**.
 - Place orders
 - View order history & status
 - Cancel orders with reason
-- Contact admin directly via email (no DB storage)
+
 
 ### 🛠️ Admin
 - Secure admin login
