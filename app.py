@@ -121,6 +121,10 @@ def register():
         Organization = request.form.get('Organization')
         Password = request.form.get('Password')
 
+        # 🔒 BLOCK ADMIN REGISTRATION 
+        if Username and Username.lower() == 'admin':
+            return "<h3>❌ This username is reserved.</h3>"
+
         if not Username or not Password:
             return "<h3>❌ Username and Password are required. <a href='/register'>Go Back</a></h3>"
 
@@ -205,8 +209,6 @@ def login():
     return render_template("login.html", next=next_page)
 
 
-
-
 # ---------------- Profile Page ----------------
 @app.route('/profile')
 def profile():
@@ -265,7 +267,7 @@ def logout():
     # If admin was logged in → redirect to login directly
     if username and username.lower() == 'admin':
         flash("✅ Admin logged out successfully.", "info")
-        return redirect(url_for('login'))
+        return redirect(url_for('home'))
 
     # Normal user logout → back to home
     flash("✅ You have been logged out.", "info")
@@ -551,10 +553,9 @@ def services():
 
 @app.route('/cart')
 def cart():
-    if "username" not in session:
-        # full URL of current page
-        return redirect(url_for('login', next=request.path))
+    # Cart visible to everyone (guest or logged-in)
     return render_template("cart.html", username=session.get('username'))
+
 
 # ---------------- Run App ----------------
 if __name__ == "__main__":
