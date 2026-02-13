@@ -132,7 +132,7 @@ Target users:
 
 ## 👨‍💻 Developer
 **Ansh Jaiswal**  
-B.Tech (2nd Year) – Full-Stack Developer  
+B.Tech CSE(DS) (2nd Year) – Full-Stack Developer  
 
 Built as a **real-world microproject** with **commercial and patent intent**.
 
