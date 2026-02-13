@@ -547,6 +547,10 @@ def contacts():
 def products():
     return render_template("products.html", username=session.get('username'))
 
+@app.route('civil')
+def civil():
+    return render_template("civil.html", username=session.get('username'))
+
 @app.route('/services')
 def services():
     return render_template("services.html", username=session.get('username'))

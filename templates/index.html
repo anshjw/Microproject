@@ -26,6 +26,7 @@
         <li><a href="{{ url_for('home') }}" class="active">Home</a></li>
         <li><a href="{{ url_for('products') }}">Products</a></li>
         <li><a href="{{ url_for('chemicals') }}">Chemicals</a></li>
+        <li><a href="{{ url_for('civil') }}">Civil</a></li>
         <li><a href="{{ url_for('services') }}">Services</a></li>
         <li><a href="{{ url_for('orders') }}">Orders</a></li>
         <li><a href="{{ url_for('contacts') }}">Contact</a></li>
@@ -61,66 +62,67 @@
 
 
     <section class="products-container content-section">
-            <h2>Featured Products</h2>
-            <div class="products-grid">
-                <div class="product-box">
-                    <img src="static\imag\Physical.jpg" alt="Digital Microscope">
-                    <h3>Physical Instruments</h3>
-                    <p>High-resolution imaging instruments designed for detailed cellular analysis..</p>
-                  </div>
-                <div class="product-box">
-                    <img src="static\imag\Chemistry.jpg" alt="Glassware Set">
-                    <h3>Chemical instruments</h3>
-                    <p>High-quality chemical instruments, featuring durable, heat-resistant glassware designed for accurate and reliable lab work.</p>
-                  </div>
-                <div class="product-box">
-                    <img src="static\imag\Medical.jpg" alt="Centrifuge Machine">
-                    <h3>Medical instruments</h3>
-                    <p>Compact and efficient devices built for quick and accurate sample separation in a medical lab.</p>
-                  </div>
-              </div>
-            <a href="{{ url_for('products') }}" class="btn-secondary">View All Products</a>
-          </section>
-      
-      <section class="products-container content-section">
-            <h2>Featured Chemicals</h2>
-            <div class="products-grid">
-                <div class="product-box">
-                    <img src="static\imag\Organic.jpg" alt="Digital Microscope">
-                    <h3>Organic Chemicals</h3>
-                    <p> High-purity organic compounds for research and synthesis.</p>
-                  </div>
-                <div class="product-box">
-                    <img src="static\imag\Inorganic.jpg" alt="Glassware Set">
-                    <h3>Inorganic Chemicals</h3>
-                    <p>A wide range of acids, bases, and salts for your lab needs.</p>
-                  </div>
-                <div class="product-box">
-                    <img src="static\imag\Bio Chemical.jpg" alt="Centrifuge Machine">
-                    <h3>Biochemicals</h3>
-                    <p>Enzymes, reagents, and buffers for life science research.</p>
-                  </div>
-              </div>
-            <a href="{{ url_for('products') }}" class="btn-secondary">View All Products</a>
-          </section>
+      <h2>Featured Products</h2>
+      <div class="products-grid">
+        <div class="product-box">
+          <img src="static\imag\Physical.jpg" alt="Digital Microscope">
+          <h3>Physical Instruments</h3>
+          <p>High-resolution imaging instruments designed for detailed cellular analysis..</p>
+        </div>
+        <div class="product-box">
+          <img src="static\imag\Chemistry.jpg" alt="Glassware Set">
+          <h3>Chemical instruments</h3>
+          <p>High-quality chemical instruments, featuring durable, heat-resistant glassware designed for accurate and
+            reliable lab work.</p>
+        </div>
+        <div class="product-box">
+          <img src="static\imag\Medical.jpg" alt="Centrifuge Machine">
+          <h3>Medical instruments</h3>
+          <p>Compact and efficient devices built for quick and accurate sample separation in a medical lab.</p>
+        </div>
+      </div>
+      <a href="{{ url_for('products') }}" class="btn-secondary">View All Products</a>
+    </section>
 
-            <section class="features-container content-section">
-            <div class="feature-box">
-                <div class="feature-icon">🔬</div>
-                <h3>Precision Instruments</h3>
-                <p>Calibrated for accuracy to ensure reliable results every time.</p>
-              </div>
-            <div class="feature-box">
-                <div class="feature-icon">📦</div>
-                <h3>Fast & Secure Shipping</h3>
-                <p>Carefully packaged and promptly delivered to your facility.</p>
-              </div>
-            <div class="feature-box">
-                <div class="feature-icon">✅</div>
-                <h3>Quality Certified</h3>
-                <p>All products meet rigorous industry standards for safety and quality.</p>
-              </div>
-          </section>
+    <section class="products-container content-section">
+      <h2>Featured Chemicals</h2>
+      <div class="products-grid">
+        <div class="product-box">
+          <img src="static\imag\Organic.jpg" alt="Digital Microscope">
+          <h3>Organic Chemicals</h3>
+          <p> High-purity organic compounds for research and synthesis.</p>
+        </div>
+        <div class="product-box">
+          <img src="static\imag\Inorganic.jpg" alt="Glassware Set">
+          <h3>Inorganic Chemicals</h3>
+          <p>A wide range of acids, bases, and salts for your lab needs.</p>
+        </div>
+        <div class="product-box">
+          <img src="static\imag\Bio Chemical.jpg" alt="Centrifuge Machine">
+          <h3>Biochemicals</h3>
+          <p>Enzymes, reagents, and buffers for life science research.</p>
+        </div>
+      </div>
+      <a href="{{ url_for('products') }}" class="btn-secondary">View All Products</a>
+    </section>
+
+    <section class="features-container content-section">
+      <div class="feature-box">
+        <div class="feature-icon">🔬</div>
+        <h3>Precision Instruments</h3>
+        <p>Calibrated for accuracy to ensure reliable results every time.</p>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon">📦</div>
+        <h3>Fast & Secure Shipping</h3>
+        <p>Carefully packaged and promptly delivered to your facility.</p>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon">✅</div>
+        <h3>Quality Certified</h3>
+        <p>All products meet rigorous industry standards for safety and quality.</p>
+      </div>
+    </section>
 
 
     <!-- Footer -->
