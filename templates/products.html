@@ -13,7 +13,10 @@
   <!-- Header -->
   <header>
    <nav>
-  <div class="logo">LabEquip</div>
+    <div class="logo-container">
+      <img src="{{ url_for('static', filename='LE LOGO3.png') }}" alt="LabEquip Logo" class="logo-img">
+      <span class="store-name">LabEquip</span>
+    </div>
   <ul>
     <li><a href="{{ url_for('home') }}">Home</a></li>
     <li><a href="{{ url_for('products') }}" class="active">Products</a></li>

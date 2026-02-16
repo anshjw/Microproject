@@ -12,17 +12,17 @@
    Body
 ========================= */
 body {
-  background: #E1F5FE;
-  color: #E1F5FE;
+  background: #beeaff;
+  color: #beeaff;
   line-height: 1.6;
-  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* =========================
-   Navbar
+   Navbar (Unified with Profile Page)
 ========================= */
 nav {
-  background: #1c1c1c;
+  background: #5c5c5c;
   padding: 15px 40px;
   display: flex;
   justify-content: space-between;
@@ -30,7 +30,42 @@ nav {
   position: sticky;
   top: 0;
   z-index: 1000;
-  border-bottom: 2px solid #1fb6ff;
+  border-bottom: 2px solid #beeaff;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.logo-img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: white;
+  margin-right: 12px;
+  padding: 6px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.logo-container:hover .logo-img {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px #1fb6ff;
+}
+
+.store-name {
+  font-weight: 700;
+  font-size: 22px;
+  color: white;
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
+
+.logo-container:hover .store-name {
+  color: #1fb6ff;
 }
 
 nav .logo {
@@ -42,7 +77,8 @@ nav .logo {
 nav ul {
   list-style: none;
   display: flex;
-  gap: 25px;
+  align-items: center;
+  gap: 20px;
 }
 
 nav ul li a {
@@ -55,12 +91,12 @@ nav ul li a {
 
 nav ul li a:hover,
 nav ul li a.active {
-  color: #1fb6ff;
+  color: #22c55e;
 }
 
 nav ul li a::after {
   content: "";
-  position: absolute;
+  position:relative;
   bottom: -4px;
   left: 0;
   width: 0%;
@@ -103,7 +139,7 @@ nav ul li a.active::after {
    Service Box
 ========================= */
 .service-box {
-  background: #1c1c1c;
+  background: #5c5c5c;
   padding: 25px 20px;
   border-radius: 12px;
   box-shadow: 0 0 15px rgba(31,182,255,0.15);
@@ -132,11 +168,12 @@ nav ul li a.active::after {
 ========================= */
 footer {
   text-align: center;
+  position:sticky;
   padding: 25px 0;
-  background: #1c1c1c;
-  color: #aaa;
+  background: #5c5c5c;
+  color: #1c1c1c;
   border-top: 2px solid #1fb6ff;
-  margin-top: 50px;
+  margin-top: 406px;
   font-size: 0.95rem;
 }
 
@@ -156,7 +193,7 @@ footer {
 
   nav ul {
     flex-direction: column;
-    background: #1c1c1c;
+    background: #5c5c5c;
     position: absolute;
     top: 60px;
     right: 0;

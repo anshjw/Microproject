@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
-import pg8000
-from pg8000 import dbapi
+# import pg8000
+# from pg8000 import dbapi
 import os
 from dotenv import load_dotenv
 import traceback
@@ -547,7 +547,7 @@ def contacts():
 def products():
     return render_template("products.html", username=session.get('username'))
 
-@app.route('civil')
+@app.route('/civil')
 def civil():
     return render_template("civil.html", username=session.get('username'))
 
