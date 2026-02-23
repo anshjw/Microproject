@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cancelled Orders - LabEquip</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='cancel.css') }}" />
 </head>
+
 <body>
 
   <!-- Header -->
@@ -44,23 +46,26 @@
         </thead>
         <tbody>
           {% if orders %}
-            {% for order in orders %}
-            <tr>
-              <td>{{ order[0] }}</td>
-              <td>{{ order[1] }}</td>
-              <td>{{ order[2] }}</td>
-              <td>₹{{ order[3] }}</td>
-              <td>{{ order[4] }}</td>
-              <td>{{ order[5] }}</td>
-            </tr>
-            {% endfor %}
+          {% for order in orders %}
+          <tr>
+            <td>{{ order[0] }}</td>
+            <td>{{ order[1] }}</td>
+            <td>{{ order[2] }}</td>
+            <td>₹{{ order[3] }}</td>
+            <td>{{ order[4] }}</td>
+            <td>{{ order[5] }}</td>
+          </tr>
+          {% endfor %}
           {% else %}
-            <tr><td colspan="6">No cancelled orders yet.</td></tr>
+          <tr>
+            <td colspan="6">No cancelled orders yet.</td>
+          </tr>
           {% endif %}
         </tbody>
       </table>
     </div>
   </section>
-<script src="{{ url_for('static', filename='cancel.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='cancel.js') }}" defer></script>
 </body>
+
 </html>

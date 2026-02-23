@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,17 +13,17 @@
 
   <header>
     <nav>
-    <div class="logo">LabEquip</div>
-    <ul>
-      <li><a href="{{ url_for('home') }}">Home</a></li>
-      <li><a href="{{ url_for('products') }}">Products</a></li>
-      <li><a href="{{ url_for('chemicals') }}">Chemicals</a></li>
-      <li><a href="{{ url_for('civil') }}">Civil</a></li>
-      <li><a href="{{ url_for('services') }}">Services</a></li>
-      <li><a href="{{ url_for('contacts') }}">Contact</a></li>
-      <li><a href="{{ url_for('profile') }}">Profile</a></li>
-    </ul>
-  </nav>
+      <div class="logo">LabEquip</div>
+      <ul>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('products') }}">Products</a></li>
+        <li><a href="{{ url_for('chemicals') }}">Chemicals</a></li>
+        <li><a href="{{ url_for('civil') }}">Civil</a></li>
+        <li><a href="{{ url_for('services') }}">Services</a></li>
+        <li><a href="{{ url_for('contacts') }}">Contact</a></li>
+        <li><a href="{{ url_for('profile') }}">Profile</a></li>
+      </ul>
+    </nav>
   </header>
 
   <div class="cart-container">
@@ -114,24 +115,25 @@
         return;
       }
 
-    // Check if user is logged in using Flask session
-    const isLoggedIn = {{ 'true' if session.get('username') else 'false' }};
-    
+      // Check if user is logged in using Flask session
+      const isLoggedIn = {{ 'true' if session.get('username') else 'false'
+    }};
+
     if (!isLoggedIn) {
       // Redirect to login page and return to cart after login
       window.location.href = "{{ url_for('login', next=url_for('cart')) }}";
       return;
     }
-    
+
     try {
       const response = await fetch("{{ url_for('place_order') }}", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ cart })
+        body: JSON.stringify({ cart })
       });
-      
+
       const data = await response.json();
-      
+
       if (data.success) {
         clearCart();
         alert("✅ Thank you! Your order has been placed successfully.");
@@ -151,4 +153,5 @@
   </script>
 
 </body>
+
 </html>

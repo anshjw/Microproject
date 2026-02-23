@@ -1,9 +1,114 @@
-/* General Styles */
-body {
+/* =========================
+   Global Reset
+========================= */
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f0f0f0;
-  color: #beeaff;
+}
+
+/* =========================
+   Body
+========================= */
+body {
+  background: #beeaff;
+  color: #1fb6ff;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+main{
+  background: #1fb6ff;
+}
+
+nav {
+  background: #5c5c5c;
+  padding: 15px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 2px solid #beeaff;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.logo-img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: white;
+  margin-right: 12px;
+  padding: 6px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.logo-container:hover .logo-img {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px #1fb6ff;
+}
+
+.store-name {
+  font-weight: 700;
+  font-size: 22px;
+  color: white;
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
+
+.logo-container:hover .store-name {
+  color: #1fb6ff;
+}
+
+nav .logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1fb6ff;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+nav ul li a {
+  color: #f0f0f0;
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  color: #22c55e;
+}
+
+nav ul li a::after {
+  content: "";
+  position:relative;
+  bottom: -4px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: #1fb6ff;
+  transition: width 0.3s;
+}
+
+nav ul li a:hover::after,
+nav ul li a.active::after {
+  width: 100%;
 }
 
 /* Centered Wrapper */
@@ -38,12 +143,12 @@ body {
   align-items: center;
   font-size: 22px;
   font-weight: bold;
-  color: #beeaff;
+  color: #fff;
 }
 
 .login-header h2 {
   margin-bottom: 5px;
-  color: #fff;
+  color: #1fb6ff;
 }
 
 .login-header p {
@@ -105,6 +210,17 @@ body {
 
 .register-link a:hover {
   text-decoration: underline;
+}
+
+footer {
+  text-align: center;
+  position:sticky;
+  padding: 25px 0;
+  background: #5c5c5c;
+  color: #1c1c1c;
+  border-top: 2px solid #1fb6ff;
+  margin-top: 0px;
+  font-size: 0.95rem;
 }
 
 /* Fade-in Animation */

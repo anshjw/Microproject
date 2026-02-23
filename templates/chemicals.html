@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,28 +8,32 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='products.css') }}">
   <script src="{{ url_for('static', filename='script.js') }}" defer></script>
 </head>
+
 <body>
   <!-- Header -->
   <header>
-  <nav>
-  <div class="logo">LabEquip</div>
-  <ul>
-    <li><a href="{{ url_for('home') }}">Home</a></li>
-    <li><a href="{{ url_for('products') }}">Products</a></li>
-    <li><a href="{{ url_for('chemicals') }}" class="active">Chemicals</a></li>
-    <li><a href="{{ url_for('civil') }}">Civil</a></li>
-    <li><a href="{{ url_for('services') }}">Services</a></li>
-    <li><a href="{{ url_for('contacts') }}">Contact</a></li>
-    <li><a href="{{ url_for('cart') }}">🛒 Cart (<span id="cart-count">0</span>)</a></li>
-  </ul>
-</nav>
+    <nav>
+      <div class="logo-container">
+        <img src="{{ url_for('static', filename='LE LOGO3.png') }}" alt="LabEquip Logo" class="logo-img">
+        <span class="store-name">LabEquip</span>
+      </div>
+      <ul>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('products') }}">Products</a></li>
+        <li><a href="{{ url_for('chemicals') }}" class="active">Chemicals</a></li>
+        <li><a href="{{ url_for('civil') }}">Civil</a></li>
+        <li><a href="{{ url_for('services') }}">Services</a></li>
+        <li><a href="{{ url_for('contacts') }}">Contact</a></li>
+        <li><a href="{{ url_for('cart') }}">🛒 Cart (<span id="cart-count">0</span>)</a></li>
+      </ul>
+    </nav>
 
     <script>
-    let loggedUser = JSON.parse(localStorage.getItem("loggedInUser"));
-    if (loggedUser) {
-      // Replace navbar content with "Welcome" + Logout
-      const nav = document.querySelector("nav");
-      nav.innerHTML = `
+      let loggedUser = JSON.parse(localStorage.getItem("loggedInUser"));
+      if (loggedUser) {
+        // Replace navbar content with "Welcome" + Logout
+        const nav = document.querySelector("nav");
+        nav.innerHTML = `
       <a href="index.html">Home</a>
       <a href="flowers.html">Flowers</a>
       <a href="seeds.html">Seeds</a>
@@ -38,7 +43,7 @@
       <a href="cart.html" id="cart-icon">🛒 Cart (<span id="cart-count">0</span>)</a>
       <a href="logout.html">Logout</a>
     `;
-    }
+      }
     </script>
   </header>
 
@@ -56,11 +61,12 @@
         <button onclick="addToCart('Ethanol chemical bottle',200,'static/imag/Ethanol.jpg',this)">Add to Cart</button>
       </div>
       <div class="product-box">
-        <img src="static/imag/Benzol getrocknet.jpg" alt="benezene chemical bottle"> 
+        <img src="static/imag/Benzol getrocknet.jpg" alt="benezene chemical bottle">
         <h3>Benzene (C6H6)</h3>
         <p>Hydrocarbon used in organic synthesis experiments.</p>
         <p>₹250</p>
-        <button onclick="addToCart('benezene chemical bottle',250,'static/imag/Benzol getrocknet.jpg',this)">Add to Cart</button>
+        <button onclick="addToCart('benezene chemical bottle',250,'static/imag/Benzol getrocknet.jpg',this)">Add to
+          Cart</button>
       </div>
       <div class="product-box">
         <img src="static/imag/Acetone.jpg" alt="acetone chemical bottle">
@@ -77,25 +83,27 @@
     <h2>Inorganic Chemicals</h2>
     <div class="products-grid">
       <div class="product-box">
-        <img src="static/imag/sodium chloride.jpg" alt="Sodium chloride"> 
+        <img src="static/imag/sodium chloride.jpg" alt="Sodium chloride">
         <h3>Sodium Chloride (NaCl)</h3>
         <p>Common salt used in reactions and solutions.</p>
         <p>₹150</p>
         <button onclick="addToCart('Sodium chloride',150,'static/imag/sodium chloride.jpg',this)">Add to Cart</button>
       </div>
       <div class="product-box">
-        <img src="static/imag/Hydrocholric acid.jpg" alt="Hydrochloric Acid"> 
+        <img src="static/imag/Hydrocholric acid.jpg" alt="Hydrochloric Acid">
         <h3>Hydrochloric Acid (HCl)</h3>
         <p>Strong acid for lab experiments and titrations.</p>
         <p>₹250</p>
-        <button onclick="addToCart('Hydrochloric Acid',250,'static/imag/Hydrocholric acid.jpg',this)">Add to Cart</button>
+        <button onclick="addToCart('Hydrochloric Acid',250,'static/imag/Hydrocholric acid.jpg',this)">Add to
+          Cart</button>
       </div>
       <div class="product-box">
         <img src="static/imag/potassium hydroxide.jpg" alt="Potassium Hydroxide">
         <h3>Potassium Hydroxide (KOH)</h3>
         <p>Strong base used in chemical synthesis.</p>
         <p>₹250</p>
-        <button onclick="addToCart('Potassium Hydroxide',200,'static/imag/potassium hydroxide.jpg',this)">Add to Cart</button>
+        <button onclick="addToCart('Potassium Hydroxide',200,'static/imag/potassium hydroxide.jpg',this)">Add to
+          Cart</button>
       </div>
     </div>
     <br>
@@ -123,7 +131,8 @@
         <h3>Potassium Permanganate (KMnO4)</h3>
         <p>Oxidizing agent for analytical procedures.</p>
         <p>₹300</p>
-        <button onclick="addToCart('Potassium Permanganate',300,'static/imag/potassium parmagnet.jpg',this)">Add to Cart</button>
+        <button onclick="addToCart('Potassium Permanganate',300,'static/imag/potassium parmagnet.jpg',this)">Add to
+          Cart</button>
       </div>
     </div>
     <br>
@@ -146,7 +155,7 @@
         <p>₹200</p>
         <button onclick="addToCart('Methylene Blue',200,'static/imag/Metylene blue.jpg',this)">Add to Cart</button>
       </div>
-      <div class="product-box" >
+      <div class="product-box">
         <img src="static/imag/chloroform.jpg" alt="Chloroform">
         <h3>Chloroform (CHCl3)</h3>
         <p>Organic solvent used in extraction processes.</p>
@@ -223,4 +232,5 @@
     <p>© 2025 Lab Equipment Store | Precision. Reliability. Innovation.</p>
   </footer>
 </body>
+
 </html>

@@ -1,32 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact - SciLab Store</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='contact.css') }}">
 </head>
+
 <body>
-  <div class="login-wrapper">
-    <div class="login-box">
-      <div class="login-header">
-        <div class="logo">LE</div>
-        <h2>Contact Us</h2>
-        <p>We’d love to hear from you</p>
+  <header>
+    <nav>
+      <div class="logo-container">
+        <img src="{{ url_for('static', filename='LE LOGO3.png') }}" alt="LabEquip Logo" class="logo-img">
+        <span class="store-name">LabEquip</span>
       </div>
-      <form>
-        <div class="form-group">
-          <input type="Username" placeholder="Username" required>
+      <ul>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('products') }}">Products</a></li>
+        <li><a href="{{ url_for('chemicals') }}">Chemicals</a></li>
+        <li><a href="{{ url_for('civil') }}">Civil</a></li>
+        <li><a href="{{ url_for('services') }}">Services</a></li>
+        <li><a href="{{ url_for('contacts') }}" class="active">Contact</a></li>
+        <li><a href="{{ url_for('cart') }}">🛒 Cart (<span id="cart-count">0</span>)</a></li>
+      </ul>
+    </nav>
+
+    <script>
+      let loggedUser = JSON.parse(localStorage.getItem("loggedInUser"));
+      if (loggedUser) {
+        // Replace navbar content with "Welcome" + Logout
+        const nav = document.querySelector("nav");
+        nav.innerHTML = `
+      <a href="index.html">Home</a>
+      <a href="flowers.html">Flowers</a>
+      <a href="seeds.html">Seeds</a>
+      <a href="fertilizers.html">Fertilizers</a>
+      <a href="artificial.html">Artificial Plants</a>
+      <span class="welcome-user">Welcome, ${loggedUser.fname}!</span>
+      <a href="cart.html" id="cart-icon">🛒 Cart (<span id="cart-count">0</span>)</a>
+      <a href="logout.html">Logout</a>
+    `;
+      }
+    </script>
+  </header>
+  <main>
+    <div class="login-wrapper">
+      <div class="login-box">
+        <div class="login-header">
+          <div class="logo">LE</div>
+          <h2>Contact Us</h2>
+          <p>We’d love to hear from you</p>
         </div>
-        <div class="form-group">
-          <input type="Email" placeholder="Email" required>
-        </div>
-        <div class="form-group">
-          <textarea type="Your_message"placeholder="Your message" rows="4" style="resize:none; width:100%; padding:12px; border-radius:8px; background:#2a2a2a; color:#f0f0f0; border:1px solid #333;"></textarea>
-        </div>
-        <button type="submit" class="login-btn">Send Message</button>
-      </form>
+        <form>
+          <div class="form-group">
+            <input type="Username" placeholder="Username" required>
+          </div>
+          <div class="form-group">
+            <input type="Email" placeholder="Email" required>
+          </div>
+          <div class="form-group">
+            <textarea type="Your_message" placeholder="Your message" rows="4"
+              style="resize:none; width:100%; padding:12px; border-radius:8px; background:#f0f0f0; color:#f0f0f0; border:1px solid #111;"></textarea>
+          </div>
+          <button type="submit" class="login-btn">Send Message</button>
+        </form>
+      </div>
     </div>
-  </div>
+  </main>
+  <footer>
+    <p>© 2025 Lab Equipment Store | Precision. Reliability. Innovation.</p>
+  </footer>
 </body>
+
 </html>

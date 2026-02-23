@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,23 +8,24 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='services.css') }}">
   <script src="{{ url_for('static', filename='script.js') }}" defer></script>
 </head>
+
 <body>
   <header>
     <nav>
       <div class="logo-container">
-      <img src="{{ url_for('static', filename='LE LOGO3.png') }}" alt="LabEquip Logo" class="logo-img">
-      <span class="store-name">LabEquip</span>
-    </div>
-    <ul>
-      <li><a href="{{ url_for('home') }}">Home</a></li>
-      <li><a href="{{ url_for('products') }}">Products</a></li>
-      <li><a href="{{ url_for('chemicals') }}">Chemicals</a></li>
-      <li><a href="{{ url_for('civil') }}">Civil</a></li>
-      <li><a href="{{ url_for('services') }}" class="active">Services</a></li>
-      <li><a href="{{ url_for('contacts') }}">Contact</a></li>
-      <li><a href="{{ url_for('profile') }}">Profile</a></li>
-    </ul>
-  </nav>
+        <img src="{{ url_for('static', filename='LE LOGO3.png') }}" alt="LabEquip Logo" class="logo-img">
+        <span class="store-name">LabEquip</span>
+      </div>
+      <ul>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('products') }}">Products</a></li>
+        <li><a href="{{ url_for('chemicals') }}">Chemicals</a></li>
+        <li><a href="{{ url_for('civil') }}">Civil</a></li>
+        <li><a href="{{ url_for('services') }}" class="active">Services</a></li>
+        <li><a href="{{ url_for('contacts') }}">Contact</a></li>
+        <li><a href="{{ url_for('profile') }}">Profile</a></li>
+      </ul>
+    </nav>
   </header>
 
   <main class="services-container">
@@ -60,4 +62,5 @@
     <p>© 2025 Lab Equipment Store | Precision. Reliability. Innovation.</p>
   </footer>
 </body>
+
 </html>
