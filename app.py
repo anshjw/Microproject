@@ -541,7 +541,16 @@ def chemicals():
 
 @app.route('/contacts')
 def contacts():
-    return render_template("contact.html", username=session.get('username'))
+    username = request.form.get('Username')
+    email = request.form.get('Email')
+    message_text = request.form.get('message')
+
+    if not all([username, email, message_text]):
+        return redirect(url_for('home'))
+
+    # Email sending logic here
+
+    return redirect(url_for('home'))
 
 @app.route('/products')
 def products():
