@@ -7,6 +7,8 @@ This project is designed for **commercial use**, solves real procurement problem
 
 ---
 
+![Work](static/imag/microproject.png)
+
 ## 🎯 Problem Solved
 Traditional lab procurement suffers from:
 - Manual order handling
@@ -140,4 +142,5 @@ Built as a **real-world microproject** with **commercial and patent intent**.
 
 ## 📜 License
 This project is protected under intellectual property rights.  
-Unauthorized use or redistribution is prohibited.
+ALong with the government approval copyright and patent with the year of 2026.  
+Unauthorized use or redistribution is prohibited, if done then the strict Action will be taken.
