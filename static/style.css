@@ -136,6 +136,61 @@ header {
 }
 
 /* =========================
+   NAVBAR DROPDOWN FIX
+========================= */
+
+.dropdown {
+  position: relative;
+}
+
+/* dropdown container */
+.dropdown-menu {
+  position: absolute;
+  top: 35px;
+  left: 0;
+  background: #5c5c5c;
+  border-radius: 6px;
+  min-width: 180px;
+  padding: 8px 0;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+
+  /* IMPORTANT FIX */
+  display: flex;
+  flex-direction: column;
+
+  /* hide menu */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.25s ease;
+  z-index: 999;
+}
+
+/* dropdown items */
+.dropdown-menu li {
+  list-style: none;
+}
+
+.dropdown-menu li a {
+  display: block;
+  padding: 10px 16px;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.dropdown-menu li a:hover {
+  color: #5c5c5c;
+}
+
+/* show dropdown */
+.dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* =========================
    HERO SECTION
 ========================= */
 .hero {

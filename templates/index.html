@@ -24,9 +24,14 @@
     <nav class="nav">
       <ul>
         <li><a href="{{ url_for('home') }}" class="active">Home</a></li>
-        <li><a href="{{ url_for('products') }}">Products</a></li>
-        <li><a href="{{ url_for('chemicals') }}">Chemicals</a></li>
-        <li><a href="{{ url_for('civil') }}">Civil</a></li>
+        <li class="dropdown">
+          <a href="#">Products</a>
+          <ul class="dropdown-menu">
+            <li><a href="{{ url_for('products') }}">Physical Lab</a></li>
+            <li><a href="{{ url_for('chemicals') }}">Chemicals</a></li>
+            <li><a href="{{ url_for('civil') }}">Civil Instruments</a></li>
+          </ul>
+        </li>
         <li><a href="{{ url_for('services') }}">Services</a></li>
         <li><a href="{{ url_for('orders') }}">Orders</a></li>
         <li><a href="{{ url_for('cart') }}">🛒 Cart (<span id="cart-count">0</span>)</a></li>
@@ -240,4 +245,5 @@
     </script>
 
 </body>
+
 </html>
