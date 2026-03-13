@@ -19,6 +19,18 @@ body {
 }
 
 /* =========================
+   CANVAS
+========================= */
+#atomCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* =========================
    Navbar (Unified with Profile Page)
 ========================= */
 nav {
@@ -175,6 +187,33 @@ footer {
   border-top: 2px solid #1fb6ff;
   margin-top: 406px;
   font-size: 0.95rem;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes blink-caret {
+
+  from,
+  to {
+    border-color: transparent
+  }
+
+  50% {
+    border-color: #1fb6ff;
+  }
 }
 
 /* =========================

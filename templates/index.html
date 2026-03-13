@@ -29,6 +29,7 @@
         <li><a href="{{ url_for('civil') }}">Civil</a></li>
         <li><a href="{{ url_for('services') }}">Services</a></li>
         <li><a href="{{ url_for('orders') }}">Orders</a></li>
+        <li><a href="{{ url_for('cart') }}">🛒 Cart (<span id="cart-count">0</span>)</a></li>
         <li><a href="#" onclick="openContactModal()">Contact</a></li>
 
         <!-- Profile / Login / Logout -->
@@ -137,7 +138,7 @@
       <div class="contact-modal">
         <span class="close-btn" onclick="closeContactModal()">✖</span>
         <h2>Contact Us</h2>
-        <p>We’d love to hear from you</p>
+        <p>We'd love to hear from you</p>
 
         <form method="POST" action="{{ url_for('contact') }}">
           <input type="text" name="Username" placeholder="Username" required>

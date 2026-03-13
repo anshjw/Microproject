@@ -19,10 +19,22 @@ body {
 }
 
 /* =========================
+   CANVAS
+========================= */
+#atomCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* =========================
    Navbar
 ========================= */
 nav {
-  background: #1c1c1c;
+  background: #5c5c5c;
   padding: 15px 40px;
   display: flex;
   justify-content: space-between;
@@ -30,7 +42,42 @@ nav {
   position: sticky;
   top: 0;
   z-index: 1000;
-  border-bottom: 2px solid #1fb6ff;
+  border-bottom: 2px solid #beeaff;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.logo-img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: white;
+  margin-right: 12px;
+  padding: 6px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.logo-container:hover .logo-img {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px #1fb6ff;
+}
+
+.store-name {
+  font-weight: 700;
+  font-size: 22px;
+  color: white;
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
+
+.logo-container:hover .store-name {
+  color: #1fb6ff;
 }
 
 nav .logo {
@@ -42,7 +89,8 @@ nav .logo {
 nav ul {
   list-style: none;
   display: flex;
-  gap: 25px;
+  align-items: center;
+  gap: 20px;
 }
 
 nav ul li a {
@@ -55,12 +103,12 @@ nav ul li a {
 
 nav ul li a:hover,
 nav ul li a.active {
-  color: #1fb6ff;
+  color: #22c55e;
 }
 
 nav ul li a::after {
   content: "";
-  position: absolute;
+  position:relative;
   bottom: -4px;
   left: 0;
   width: 0%;
@@ -237,6 +285,33 @@ footer {
   color: #aaa;
   border-top: 2px solid #1fb6ff;
   font-size: 0.95rem;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes blink-caret {
+
+  from,
+  to {
+    border-color: transparent
+  }
+
+  50% {
+    border-color: #1fb6ff;
+  }
 }
 
 /* =========================

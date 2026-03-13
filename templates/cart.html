@@ -7,10 +7,11 @@
   <title>🛒 My Cart - Scientific Lab</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='cart.css') }}">
   <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='animation.js') }}" defer></script>
 </head>
 
 <body onload="renderCart()">
-
+  <canvas id="atomCanvas"></canvas>
   <header>
     <nav>
       <div class="logo">LabEquip</div>
@@ -21,6 +22,7 @@
         <li><a href="{{ url_for('civil') }}">Civil</a></li>
         <li><a href="{{ url_for('services') }}">Services</a></li>
         <li><a href="{{ url_for('contacts') }}">Contact</a></li>
+        <li><a href="{{ url_for('cart') }}" class="active">🛒 Cart (<span id="cart-count">0</span>)</a></li>
         <li><a href="{{ url_for('profile') }}">Profile</a></li>
       </ul>
     </nav>
@@ -33,6 +35,7 @@
       <div class="summary-buttons">
         <a href="{{ url_for('products') }}" class="goto-cart">More Products</a>
         <a href="{{ url_for('chemicals') }}" class="goto-cart">More Chemicals</a>
+        <a href="{{ url_for('civil') }}" class="goto-cart">More Civil Instruments</a>
         <button class="clear-cart" onclick="clearCart()">Clear Cart</button>
         <a href="{{ url_for('buy_now') }}" class="buy-now" onclick="buyNow()">Buy Now</a>
       </div>
