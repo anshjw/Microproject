@@ -133,6 +133,7 @@ nav ul li a.active::after {
 /* dropdown container */
 .dropdown-menu {
   position: absolute;
+  background: #5c5c5c;
   top: 35px;
   left: 0;
   border-radius: 6px;
@@ -166,7 +167,7 @@ nav ul li a.active::after {
 }
 
 .dropdown-menu li a:hover {
-  color: #5c5c5c;
+  color: #22c55e;
 }
 
 /* show dropdown */
