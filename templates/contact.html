@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Contact - LabEquip</title>
   <style>
     body {
       margin: 0;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0, 0, 0, 0.6);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -20,13 +21,20 @@
       padding: 30px;
       border-radius: 12px;
       position: relative;
-      box-shadow: 0 0 30px rgba(0,0,0,0.5);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
       animation: popup 0.3s ease;
     }
 
     @keyframes popup {
-      from { transform: scale(0.8); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
     }
 
     .close-btn {
@@ -55,7 +63,8 @@
       background: #fff;
     }
 
-    input, textarea {
+    input,
+    textarea {
       width: 100%;
       padding: 10px;
       border-radius: 8px;
@@ -82,33 +91,34 @@
 
 <body>
 
-<div class="contact-modal">
-  <span class="close-btn" onclick="closeModal()">✖</span>
-  <h2>Contact Us</h2>
-  <p>We’d love to hear from you</p>
+  <div class="contact-modal">
+    <span class="close-btn" onclick="closeModal()">✖</span>
+    <h2>Contact Us</h2>
+    <p>We'd love to hear from you</p>
 
-  <form method="POST" action="{{ url_for('contacts') }}">
-    <div class="form-group">
-      <input type="text" name="Username" placeholder="Username" required>
-    </div>
+    <form method="POST" action="{{ url_for('contacts') }}">
+      <div class="form-group">
+        <input type="text" name="Username" placeholder="Username" required>
+      </div>
 
-    <div class="form-group">
-      <input type="email" name="Email" placeholder="Email" required>
-    </div>
+      <div class="form-group">
+        <input type="email" name="Email" placeholder="Email" required>
+      </div>
 
-    <div class="form-group">
-      <textarea name="message" placeholder="Your message" rows="4" required></textarea>
-    </div>
+      <div class="form-group">
+        <textarea name="message" placeholder="Your message" rows="4" required></textarea>
+      </div>
 
-    <button type="submit">Send Message</button>
-  </form>
-</div>
+      <button type="submit">Send Message</button>
+    </form>
+  </div>
 
-<script>
-  function closeModal() {
-    window.history.back(); 
-  }
-</script>
+  <script>
+    function closeModal() {
+      window.history.back();
+    }
+  </script>
 
 </body>
+
 </html>

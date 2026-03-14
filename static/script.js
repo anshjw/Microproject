@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
- let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 
 
@@ -139,41 +139,41 @@ updateCartCount();
 
 function addToCart(name, price, image, btn) {
 
-let card = btn.closest(".product-card, .product-box");
+  let card = btn.closest(".product-card, .product-box");
 
 
 
 
 
-let existing = cart.find(item => item.name === name);
+  let existing = cart.find(item => item.name === name);
 
-if (existing) {
+  if (existing) {
 
-existing.quantity += 1; // default to +1 every click
+    existing.quantity += 1; // default to +1 every click
 
-} else {
+  } else {
 
-cart.push({ name, price, image, quantity: 1 });
+    cart.push({ name, price, image, quantity: 1 });
 
-}
-
-
-
-
-
-localStorage.setItem("cart", JSON.stringify(cart));
-
-updateCartCount();
+  }
 
 
 
 
 
-let gotoCart = card.querySelector(".goto-cart");
+  localStorage.setItem("cart", JSON.stringify(cart));
 
-if (gotoCart) gotoCart.style.display = "block";
+  updateCartCount();
 
- 
+
+
+
+
+  let gotoCart = card.querySelector(".goto-cart");
+
+  if (gotoCart) gotoCart.style.display = "block";
+
+
 
   // ✅ Show confirmation message
 

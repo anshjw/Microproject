@@ -86,12 +86,6 @@
       // updateCartCount(); 
     }
 
-    /* You can remove updateCartCount if you don't have a cart count element
-    function updateCartCount() {
-      document.getElementById("cart-count").textContent = cart.reduce((sum, i) => sum + i.quantity, 0);
-    }
-    */
-
     function changeQty(index, delta) {
       cart[index].quantity += delta;
       if (cart[index].quantity <= 0) cart.splice(index, 1);

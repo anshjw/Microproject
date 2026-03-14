@@ -108,7 +108,7 @@ nav ul li a.active {
 
 nav ul li a::after {
   content: "";
-  position:relative;
+  position: relative;
   bottom: -4px;
   left: 0;
   width: 0%;
@@ -144,14 +144,14 @@ nav ul li a.active::after {
   background: #1c1c1c;
   padding: 15px 20px;
   border-radius: 12px;
-  box-shadow: 0 0 15px rgba(31,182,255,0.15);
+  box-shadow: 0 0 15px rgba(31, 182, 255, 0.15);
   margin-bottom: 15px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .cart-item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 0 25px rgba(31,182,255,0.25);
+  box-shadow: 0 0 25px rgba(31, 182, 255, 0.25);
 }
 
 .cart-item img {
@@ -226,7 +226,7 @@ nav ul li a.active::after {
   padding: 20px 25px;
   border-radius: 12px;
   text-align: center;
-  box-shadow: 0 0 15px rgba(31,182,255,0.15);
+  box-shadow: 0 0 15px rgba(31, 182, 255, 0.15);
 }
 
 .summary h2 {
@@ -357,9 +357,12 @@ footer {
 .summary-buttons {
   display: flex;
   justify-content: center;
-  align-items: center;   /* ✅ ensures vertical alignment */
-  gap: 15px;             /* space between buttons */
-  flex-wrap: nowrap;     /* keeps them in one line */
+  align-items: center;
+  /* ✅ ensures vertical alignment */
+  gap: 15px;
+  /* space between buttons */
+  flex-wrap: nowrap;
+  /* keeps them in one line */
   margin-top: 15px;
 }
 
@@ -370,7 +373,8 @@ footer {
   align-items: center;
   justify-content: center;
   height: 50px;
-  width: 180px;           /* ✅ same width for all */
+  width: 180px;
+  /* ✅ same width for all */
   font-size: 16px;
   font-weight: 600;
   border-radius: 8px;
@@ -386,6 +390,7 @@ footer {
 .summary-buttons .goto-cart {
   background: #ff5722;
 }
+
 .summary-buttons .goto-cart:hover {
   background: #e64a19;
 }
@@ -393,6 +398,7 @@ footer {
 .summary-buttons .clear-cart {
   background: #f44336;
 }
+
 .summary-buttons .clear-cart:hover {
   background: #d32f2f;
 }
@@ -400,9 +406,11 @@ footer {
 .summary-buttons .buy-now {
   background: #2e7d32;
 }
+
 .summary-buttons .buy-now:hover {
   background: #1b5e20;
 }
+
 .summary-buttons a,
 .summary-buttons button {
   margin: 0;

@@ -151,7 +151,7 @@ header {
   border-radius: 6px;
   min-width: 180px;
   padding: 8px 0;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
 
   /* IMPORTANT FIX */
   display: flex;
@@ -534,32 +534,37 @@ footer {
   }
 }
 
-  /* 🌟 Style for Approve button */
-  .approve-btn {
-    background-color: #FFD700; /* Yellow */
-    color: #333;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.3s ease;
-  }
-  .approve-btn:hover {
-    background-color: #e6c200;
-  }
+/* 🌟 Style for Approve button */
+.approve-btn {
+  background-color: #FFD700;
+  /* Yellow */
+  color: #333;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
 
-  /* 🌟 Green color for Dispatched status */
-  .status.dispatched {
-    color: #22c55e; /* Green */
-    font-weight: 600;
-  }
+.approve-btn:hover {
+  background-color: #e6c200;
+}
 
-  /* Optional small styling for Pending/Cancelled */
-  .status.pending {
-    color: #f59e0b; /* Orange/Yellow */
-  }
-  .status.cancelled {
-    color: #dc2626; /* Red */
-  }
+/* 🌟 Green color for Dispatched status */
+.status.dispatched {
+  color: #22c55e;
+  /* Green */
+  font-weight: 600;
+}
 
+/* Optional small styling for Pending/Cancelled */
+.status.pending {
+  color: #f59e0b;
+  /* Orange/Yellow */
+}
+
+.status.cancelled {
+  color: #dc2626;
+  /* Red */
+}

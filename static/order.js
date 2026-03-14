@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
             showModal(orderId);
         });
     });
-    
+
     // Close modal when "Go Back" is clicked or when clicking the overlay
     closeBtn.addEventListener('click', hideModal);
     cancelModal.addEventListener('click', (e) => {
