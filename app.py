@@ -109,7 +109,6 @@ init_db()
 def home():
     return render_template("index.html", username=session.get('username'))
 
-
 # ---------------- Register Page ----------------
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -159,7 +158,6 @@ def register():
 
     return render_template("register.html")
 
-
 # ---------------- Login Page ----------------
 def is_safe_url(target):
     ref_url = urlparse(request.host_url)
@@ -208,7 +206,6 @@ def login():
 
     return render_template("login.html", next=next_page)
 
-
 # ---------------- Profile Page ----------------
 @app.route('/profile')
 def profile():
@@ -255,7 +252,6 @@ def profile():
                            organization=organization)
 
 
-
 # ---------------- Logout ----------------
 @app.route('/logout')
 def logout():
@@ -272,7 +268,6 @@ def logout():
     # Normal user logout → back to home
     flash("✅ You have been logged out.", "info")
     return redirect(url_for('home'))
-
 
 
 # ---------------- Order Placement ----------------
@@ -322,7 +317,6 @@ def place_order():
         print("Error placing order:", e)
         return jsonify({"success": False, "error": str(e)})
 
-    
 # ---------------- Orders Page ----------------
 @app.route('/orders')
 def orders():
@@ -416,7 +410,6 @@ def contact():
         return redirect(url_for('contact'))
 
     return render_template('contact.html', username=session.get('username'))
-
 
 # ---------------- Cancel Order ----------------
 @app.route('/cancel_order/<int:order_id>', methods=['POST'])
@@ -514,9 +507,6 @@ def approve_order(order_id):
             conn.rollback()
             conn.close()
         return jsonify({"success": False, "message": str(e)}), 500
-
-
-
 
 @app.route('/buy_now')
 def buy_now():
