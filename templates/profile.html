@@ -15,75 +15,79 @@
   <!-- Navbar -->
   <header class="header">
 
-    <div class="logo-container">
-      <img src="{{ url_for('static', filename='LE LOGO3.png') }}" alt="LabEquip Logo" class="logo-img">
-      <span class="store-name">LabEquip</span>
-    </div>
-
-    <nav class="nav">
+    <nav>
+      <div class="logo-container">
+        <img src="{{ url_for('static', filename='LE LOGO3.png') }}" alt="LabEquip Logo" class="logo-img">
+        <span class="store-name">LabEquip</span>
+      </div>
       <ul>
         <li><a href="{{ url_for('home') }}">Home</a></li>
-        <li><a href="{{ url_for('products') }}">Products</a></li>
+        <li class="dropdown">
+          <a href="#" class="active">Products</a>
+          <ul class="dropdown-menu">
+            <li><a href="{{ url_for('products') }}">Physical Lab</a></li>
+            <li><a href="{{ url_for('chemicals') }}">Chemicals</a></li>
+            <li><a href="{{ url_for('civil') }}">Civil Instruments</a></li>
+          </ul>
+        </li>
         <li><a href="{{ url_for('services') }}">Services</a></li>
-        <li><a href="{{ url_for('chemicals') }}">Chemicals</a></li>
-        <li><a href="{{ url_for('civil') }}">Civil</a></li>
         <li><a href="{{ url_for('contacts') }}">Contact</a></li>
-        <li><a href="{{ url_for('profile') }}" class="active">Profile</a></li>
+        <li><a href="{{ url_for('cart') }}">🛒 Cart (<span id="cart-count">0</span>)</a></li>
       </ul>
     </nav>
   </header>
 
-    <section class="profile-container">
+  <section class="profile-container">
 
-      <!-- Tabs -->
-      <div class="tabs">
-        <a class="tab-btn active" href="{{ url_for('profile') }}">Profile</a>
-        <a class="tab-btn" href="{{ url_for('orders') }}">My Orders</a>
-      </div>
+    <!-- Tabs -->
+    <div class="tabs">
+      <a class="tab-btn active" href="{{ url_for('profile') }}">Profile</a>
+      <a class="tab-btn" href="{{ url_for('orders') }}">My Orders</a>
+    </div>
 
-      <!-- Profile Tab -->
-      <div class="tab-content active" id="profileTab">
-        <div class="profile-card">
-          <div class="profile-pic-wrapper">
-            <img src="static/profilelogo.png" alt="Profile Picture" id="profilePic" class="profile-pic">
-            <input type="file" id="profileUpload" accept="image/*">
-          </div>
-
-          <h2 id="name">{{ Fullname }}</h2>
-          <p><strong>Email:</strong> <span id="email">{{ email }}</span></p>
-          <p><strong>Phone:</strong> <span id="phone">{{ phone }}</span></p>
-          <p><strong>Organization:</strong> <span id="organization">{{ organization }}</span></p>
-
-          <button id="editBtn" class="edit-btn">Edit Profile</button>
+    <!-- Profile Tab -->
+    <div class="tab-content active" id="profileTab">
+      <div class="profile-card">
+        <div class="profile-pic-wrapper">
+          <img src="static/profilelogo.png" alt="Profile Picture" id="profilePic" class="profile-pic">
+          <input type="file" id="profileUpload" accept="image/*">
         </div>
 
-        <!-- Edit Profile Form -->
-        <div id="editForm" class="edit-form">
-          <h3>Edit Profile</h3>
-          <label for="editName">Full Name</label>
-          <input type="text" id="editName" value="{{ Fullname }}">
+        <h2 id="name">{{ Fullname }}</h2>
+        <p><strong>Email:</strong> <span id="email">{{ email }}</span></p>
+        <p><strong>Phone:</strong> <span id="phone">{{ phone }}</span></p>
+        <p><strong>Organization:</strong> <span id="organization">{{ organization }}</span></p>
 
-          <label for="editEmail">Email</label>
-          <input type="email" id="editEmail" value="{{ email }}">
-
-          <label for="editPhone">Phone</label>
-          <input type="text" id="editPhone" value="{{ phone }}">
-
-          <label for="editOrg">Organization</label>
-          <input type="text" id="editOrg" value="{{ organization }}">
-
-          <div class="form-buttons">
-            <button id="saveBtn" class="save-btn">Save</button>
-            <button id="cancelBtn" class="cancel-btn">Cancel</button>
-          </div>
-        </div>
+        <button id="editBtn" class="edit-btn">Edit Profile</button>
       </div>
 
-    </section>
+      <!-- Edit Profile Form -->
+      <div id="editForm" class="edit-form">
+        <h3>Edit Profile</h3>
+        <label for="editName">Full Name</label>
+        <input type="text" id="editName" value="{{ Fullname }}">
 
-    <footer>
-      <p>&copy; 2025 LabInstrument. All Rights Reserved.</p>
-    </footer>
+        <label for="editEmail">Email</label>
+        <input type="email" id="editEmail" value="{{ email }}">
+
+        <label for="editPhone">Phone</label>
+        <input type="text" id="editPhone" value="{{ phone }}">
+
+        <label for="editOrg">Organization</label>
+        <input type="text" id="editOrg" value="{{ organization }}">
+
+        <div class="form-buttons">
+          <button id="saveBtn" class="save-btn">Save</button>
+          <button id="cancelBtn" class="cancel-btn">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <footer>
+    <p>&copy; 2025 LabInstrument. All Rights Reserved.</p>
+  </footer>
 </body>
 
 </html>

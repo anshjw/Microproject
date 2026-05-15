@@ -177,7 +177,7 @@ header {
    Profile Card
 ========================= */
 .profile-card {
-  background-color: #1c1c1c;
+  background-color: #5c5c5c;
   border-radius: 16px;
   padding: 40px 30px;
   box-shadow: 0 0 20px rgba(31, 182, 255, 0.15);
@@ -336,7 +336,7 @@ header {
 footer {
   text-align: center;
   padding: 25px 0;
-  background: #1c1c1c;
+  background: #5c5c5c;
   color: #aaa;
   border-top: 2px solid #1fb6ff;
   margin-top: 50px;
