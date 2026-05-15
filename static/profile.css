@@ -19,60 +19,113 @@ body {
 }
 
 /* =========================
-   Navbar
+   HEADER / NAVBAR
 ========================= */
-nav {
-  background: #1c1c1c;
-  padding: 15px 40px;
+
+header {
+  background: #5c5c5c;
+  color: #E1F5FE;
+  padding: 1rem 5%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  position: sticky;
+  width: 100%;
+  position: fixed;
   top: 0;
   z-index: 1000;
-  border-bottom: 2px solid #1fb6ff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
 }
 
-nav .logo {
-  font-size: 1.8rem;
+.logo-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.logo-img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: white;
+  margin-right: 12px;
+  padding: 6px;
+}
+
+.store-name {
   font-weight: 700;
-  color: #1fb6ff;
+  font-size: 22px;
+  color: white;
 }
 
-nav ul {
+.nav {
+  margin-left: auto;
+}
+
+.nav ul {
   list-style: none;
   display: flex;
-  gap: 25px;
+  align-items: center;
+  gap: 20px;
 }
 
-nav ul li a {
-  color: #f0f0f0;
+.nav ul li {
+  position: relative;
+}
+
+.nav ul li a {
+  color: white;
   text-decoration: none;
   font-weight: 500;
-  position: relative;
   transition: color 0.3s ease;
 }
 
-nav ul li a:hover,
-nav ul li a.active {
-  color: #1fb6ff;
+.nav ul li a:hover,
+.nav ul li a.active {
+  color: #22c55e;
 }
 
-/* underline effect only for navbar */
-nav ul li a::after {
-  content: "";
+/* =========================
+   DROPDOWN
+========================= */
+
+.dropdown-menu {
   position: absolute;
-  bottom: -4px;
+  top: 35px;
   left: 0;
-  width: 0%;
-  height: 2px;
-  background: #1fb6ff;
-  transition: width 0.3s;
+  background: #5c5c5c;
+  border-radius: 6px;
+  min-width: 180px;
+  padding: 8px 0;
+  display: flex;
+  flex-direction: column;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.25s ease;
+  z-index: 999;
 }
 
-nav ul li a:hover::after,
-nav ul li a.active::after {
+.dropdown-menu li {
+  list-style: none;
   width: 100%;
+}
+
+.dropdown-menu li a {
+  display: block;
+  padding: 10px 16px;
+  color: white;
+}
+
+.dropdown-menu li a:hover {
+  background: #1fb6ff;
+  color: #5c5c5c;
+}
+
+.dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 /* =========================
@@ -228,7 +281,7 @@ nav ul li a.active::after {
 .edit-form input {
   width: 100%;
   padding: 12px;
-  border: 1px solid #333;
+  border: 1px solid #5c5c5c;
   border-radius: 8px;
   font-size: 0.95rem;
   background: #2a2a2a;
