@@ -56,9 +56,10 @@ This system provides a **secure, workflow-driven, role-based digital solution**.
 ### Admin Flow
 1. Admin logs in
 2. Views all orders
-3. Approves orders
-4. Status updates to **Dispatched**
+3. Approves orders of users
+4. Can updates status to **Dispatched**
 5. Users see updated status instantly
+6. Can cancel the orders
 
 ---
 
